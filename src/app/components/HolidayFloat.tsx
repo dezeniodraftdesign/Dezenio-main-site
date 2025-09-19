@@ -1,0 +1,105 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+const REF_URL =
+  process.env.NEXT_PUBLIC_REF_URL || "https://dezeniodraftdesign.com/referrals";
+
+const KEY = "hideHolidayCTA_until";
+const SNOOZE_MS = 24 * 60 * 60 * 1000;
+
+export default function HolidayFloat() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const until = Number(localStorage.getItem(KEY) || "0");
+    setOpen(Date.now() > until);
+  }, []);
+
+  if (!open) return null;
+
+  const snooze = () => {
+    localStorage.setItem(KEY, String(Date.now() + SNOOZE_MS));
+    setOpen(false);
+  };
+
+  // Keep it clear of the BottomBand
+  const bottomOffset = `calc(var(--bottom-band-height, 64px) + 22px)`;
+
+  return (
+    <aside
+      className="fixed right-6 z-[60] max-w-[96vw] text-white"
+      style={{ bottom: bottomOffset }}
+      aria-live="polite"
+    >
+      {/* CARD */}
+      <div className="overflow-hidden rounded-2xl bg-black/60 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl">
+        <div className="flex w-[720px] max-w-[96vw] items-stretch gap-4 p-5 sm:gap-6 sm:p-6">
+          {/* LEFT: QR + Email */}
+          <div className="flex w-[108px] shrink-0 flex-col items-center">
+            <div className="rounded-lg bg-white p-2 ring-1 ring-black/10">
+              <img
+                src={`/api/qr?data=${encodeURIComponent(REF_URL)}`}
+                alt="Referral QR"
+                width={84}
+                height={84}
+                loading="lazy"
+                decoding="async"
+                className="block"
+              />
+            </div>
+
+            <a
+              href="mailto:info@dezeniodraftdesign.com?subject=Holiday%20Project"
+              className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/25 px-3 py-2 text-xs font-semibold text-white hover:bg-white/10 sm:text-sm"
+            >
+              Email Us
+            </a>
+          </div>
+
+          {/* RIGHT: Copy + buttons */}
+          <div className="min-w-0 flex-1">
+            {/* Bigger label so it pops and pushes buttons down */}
+            <p className="text-base sm:text-lg font-semibold uppercase tracking-wide text-emerald-300/95">
+              Holiday Rush Is On
+            </p>
+
+            <h3 className="mt-1 text-base font-semibold sm:text-lg">
+              Booking fast for Thanksgiving &amp; Christmas.
+            </h3>
+            <p className="mt-1 text-xs text-white/80 sm:text-sm">
+              Ask about referral rewards and priority scheduling.
+            </p>
+
+            {/* Buttons sit a bit lower for alignment with the Email pill */}
+            <div className="mt-6 sm:mt-7 flex flex-wrap items-center gap-2 sm:gap-3">
+              <a
+                href="tel:16154742004"
+                className="inline-flex flex-1 items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90 min-w-[220px]"
+              >
+                Call (615) 474-2004
+              </a>
+
+              <Link
+                href="/referrals"
+                className="inline-flex items-center justify-center rounded-full border border-emerald-400/50 px-4 py-2 text-sm font-semibold text-emerald-200 hover:bg-emerald-400/10"
+              >
+                Referral Rewards
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Dismiss */}
+        <button
+          onClick={snooze}
+          className="block w-full border-t border-white/10 px-4 py-2.5 text-center text-[11px] text-white/65 hover:text-white/85"
+        >
+          Dismiss (snoozes)
+        </button>
+      </div>
+    </aside>
+  );
+}

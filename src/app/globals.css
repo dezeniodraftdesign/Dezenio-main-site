@@ -1,26 +1,69 @@
+/* Tailwind v4 */
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --header: 96px;
+  --bottom-band-height: 52px; /* fallback; live value set inline by BottomBand */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
+/* Base */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Smooth in-page scrolling + fixed-header offset */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header, 96px);
+}
+
+/* Use on any hash-target section */
+.section-anchor {
+  /* land a hair higher so the title hugs the top under the header */
+  scroll-margin-top: calc(var(--header, 96px) - 48px);
+}
+
+/* --- NEW: invisible spacer AFTER every section with .section-anchor --- */
+/* This prevents the next section from peeking into view when you jump */
+.section-anchor::after {
+  content: "";
+  display: block;
+  height: clamp(180px, 18vh, 280px);
+}
+/* EXTRA spacer for About */
+.section-anchor.isolate-md::after {
+  height: clamp(140px, 14vh, 220px);
+}
+
+/* EXTRA spacer when needed (use on sections that need more separation) */
+.section-anchor.isolate-lg::after {
+  height: clamp(160px, 16vh, 260px);
+}
+/* NEW: extra-heavy buffer (use for sections that still peek) */
+.section-anchor.isolate-xl::after {
+  height: clamp(220px, 22vh, 360px);
+}
+
+/* OPTIONAL: if Contact still shows the footer peeking, use this */
+.section-anchor.isolate-xxl::after {
+  height: clamp(260px, 26vh, 420px);
 }
