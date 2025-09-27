@@ -179,7 +179,7 @@ export default function HomeClient() {
             <div className="mt-6 space-y-3 text-white/90">
               <p>(615) 474-2004</p>
               <p>info@dezeniodraftdesign.com</p>
-              <p>Mailing: 4235 Hillsboro Pike, Ste 300, Nashville, TN 37215</p>
+              <p>Nashville, Tennessee</p>
             </div>
             <button
               onClick={() => setQuoteOpen(true)}
