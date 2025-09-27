@@ -18,7 +18,7 @@ export default function Footer() {
             <br />
             info@dezeniodraftdesign.com
             <br />
-            4235 Hillsboro Pike, Ste 300, Nashville, TN 37215
+            Nashville, Tennessee
           </p>
         </div>
 
