@@ -1,4 +1,3 @@
-// src/app/components/MobileMenuFab.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -21,7 +20,6 @@ export default function MobileMenuFab() {
         onClick={() => setOpen(true)}
         className="md:hidden fixed left-4 bottom-20 z-[70] inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/70 text-white shadow-xl ring-1 ring-white/10 backdrop-blur"
       >
-        {/* Proper 3-line hamburger (needs content on before/after) */}
         <span
           className="relative block h-0.5 w-6 bg-white
           before:absolute before:-top-2 before:block before:h-0.5 before:w-6 before:bg-white before:content-['']
@@ -77,7 +75,9 @@ export default function MobileMenuFab() {
               </li>
               <li>
                 <a
-                  href="#cabinets"
+                  href="https://dezeniocabinetry.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
                   className="block px-1 py-3"
                 >
