@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-const CABINET_URL =
-  process.env.NEXT_PUBLIC_CABINET_URL || "https://dezeniocabinetry.com";
-
-const REF_URL =
-  process.env.NEXT_PUBLIC_REF_URL || "https://dezeniodraftdesign.com/referrals";
+// Hardcode the production URLs so mobile can’t ever land on localhost
+const CABINET_URL = "https://dezeniocabinetry.com";
+const REF_URL = "https://dezeniodraftdesign.com/referrals";
 
 export default function MobileMenuFab() {
   const [open, setOpen] = useState(false);
@@ -79,6 +77,8 @@ export default function MobileMenuFab() {
                   Contact
                 </a>
               </li>
+
+              {/* Cabinetry → external, always production */}
               <li>
                 <a
                   href={CABINET_URL}
@@ -90,9 +90,11 @@ export default function MobileMenuFab() {
                   Cabinetry
                 </a>
               </li>
+
+              {/* Referral Rewards → external, always production */}
               <li>
                 <a
-                  href={REF_URL} // absolute so it never tries localhost
+                  href={REF_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
