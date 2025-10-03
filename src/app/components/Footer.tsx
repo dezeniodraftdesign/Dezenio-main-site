@@ -52,8 +52,8 @@ export default function Footer() {
                 Cabinetry
               </a>
             </li>
-            {/* force absolute prod URL */}
             <li>
+              {/* force absolute prod URL */}
               <a href={REF_URL_PROD} className="hover:text-white">
                 Referral Rewards
               </a>

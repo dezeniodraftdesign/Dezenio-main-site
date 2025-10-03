@@ -4,7 +4,6 @@ import Image from "next/image";
 
 const CABINET_URL =
   process.env.NEXT_PUBLIC_CABINET_URL || "https://dezeniocabinetry.com";
-
 const REF_URL_PROD = "https://dezeniodraftdesign.com/referrals";
 
 export default function Header({ onQuote }: { onQuote: () => void }) {
