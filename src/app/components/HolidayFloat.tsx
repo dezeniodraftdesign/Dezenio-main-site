@@ -40,7 +40,7 @@ export default function HolidayFloat() {
             {/* slightly larger QR on mobile */}
             <div className="rounded-md bg-white p-1 ring-1 ring-black/10">
               <img
-                src={`/api/qr?data=${encodeURIComponent(REF_URL)}`}
+                src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=2`}
                 alt="Referral QR"
                 width={56}
                 height={56}
@@ -85,7 +85,7 @@ export default function HolidayFloat() {
         </div>
       </aside>
 
-      {/* ---------- DESKTOP/TABLET: unchanged ---------- */}
+      {/* ---------- DESKTOP/TABLET ---------- */}
       <aside
         className="hidden md:block fixed right-6 z-[60] max-w-[96vw] text-white"
         style={{ bottom: bottomOffset }}
@@ -97,7 +97,7 @@ export default function HolidayFloat() {
             <div className="flex w-[108px] shrink-0 flex-col items-center">
               <div className="rounded-lg bg-white p-2 ring-1 ring-black/10">
                 <img
-                  src={`/api/qr?data=${encodeURIComponent(REF_URL)}`}
+                  src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=2`}
                   alt="Referral QR"
                   width={84}
                   height={84}
