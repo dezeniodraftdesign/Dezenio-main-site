@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 
 const CABINET_URL =
   process.env.NEXT_PUBLIC_CABINET_URL || "https://dezeniocabinetry.com";
+
+const REF_URL_PROD = "https://dezeniodraftdesign.com/referrals";
 
 export default function Header({ onQuote }: { onQuote: () => void }) {
   return (
@@ -61,10 +62,10 @@ export default function Header({ onQuote }: { onQuote: () => void }) {
           Cabinetry
         </a>
 
-        {/* go to the /referrals page (no custom events) */}
-        <Link href="/referrals" className="hover:text-white">
+        {/* force absolute prod URL */}
+        <a href={REF_URL_PROD} className="hover:text-white">
           Referral Rewards
-        </Link>
+        </a>
       </nav>
     </header>
   );

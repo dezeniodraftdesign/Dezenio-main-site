@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+const REF_URL_PROD = "https://dezeniodraftdesign.com/referrals";
 
 export default function Footer() {
   return (
@@ -50,10 +52,11 @@ export default function Footer() {
                 Cabinetry
               </a>
             </li>
+            {/* force absolute prod URL */}
             <li>
-              <Link href="/referrals" className="hover:text-white">
+              <a href={REF_URL_PROD} className="hover:text-white">
                 Referral Rewards
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
