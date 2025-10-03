@@ -2,6 +2,12 @@
 
 import { useEffect, useState } from "react";
 
+const CABINET_URL =
+  process.env.NEXT_PUBLIC_CABINET_URL || "https://dezeniocabinetry.com";
+
+const REF_URL =
+  process.env.NEXT_PUBLIC_REF_URL || "https://dezeniodraftdesign.com/referrals";
+
 export default function MobileMenuFab() {
   const [open, setOpen] = useState(false);
 
@@ -75,7 +81,7 @@ export default function MobileMenuFab() {
               </li>
               <li>
                 <a
-                  href="https://dezeniocabinetry.com"
+                  href={CABINET_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
@@ -86,7 +92,9 @@ export default function MobileMenuFab() {
               </li>
               <li>
                 <a
-                  href="/referrals"
+                  href={REF_URL} // absolute so it never tries localhost
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
                   className="block px-1 py-3"
                 >

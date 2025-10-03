@@ -40,7 +40,7 @@ export default function HolidayFloat() {
             {/* slightly larger QR on mobile */}
             <div className="rounded-md bg-white p-1 ring-1 ring-black/10">
               <img
-                src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=2`}
+                src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=3`}
                 alt="Referral QR"
                 width={56}
                 height={56}
@@ -97,7 +97,7 @@ export default function HolidayFloat() {
             <div className="flex w-[108px] shrink-0 flex-col items-center">
               <div className="rounded-lg bg-white p-2 ring-1 ring-black/10">
                 <img
-                  src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=2`}
+                  src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=3`}
                   alt="Referral QR"
                   width={84}
                   height={84}

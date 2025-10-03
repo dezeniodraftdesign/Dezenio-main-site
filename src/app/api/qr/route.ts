@@ -5,17 +5,23 @@ import * as QRCode from "qrcode";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const PROD_REF = "https://dezeniodraftdesign.com/referrals";
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
 
-    // Data to encode — query string wins, then env, then default
-    const data =
-      searchParams.get("data") ??
-      process.env.NEXT_PUBLIC_REF_URL ??
-      "https://dezeniodraftdesign.com/referrals";
+    // Build the raw target URL
+    const raw =
+      searchParams.get("data") ?? process.env.NEXT_PUBLIC_REF_URL ?? PROD_REF;
 
-    // Optional: allow size override e.g. /api/qr?data=...&size=320
+    // HARD GUARD: never allow localhost in QR (force prod)
+    const data = raw.replace(
+      /^https?:\/\/localhost(?::\d+)?(\/.*)?$/i,
+      (_, path = "/referrals") => `https://dezeniodraftdesign.com${path}`
+    );
+
+    // Optional: size override /api/qr?data=...&size=320
     const size = Math.max(
       96,
       Math.min(640, Number(searchParams.get("size") || 320))
@@ -27,11 +33,11 @@ export async function GET(req: NextRequest) {
       color: { dark: "#000000", light: "#ffffff" },
     });
 
-    // Cache policy: no-store in dev, modest cache in prod
+    // Cache: no-store in dev, 1 day in prod
     const isDev = process.env.NODE_ENV !== "production";
     const headers: Record<string, string> = {
       "content-type": "image/png",
-      "cache-control": isDev ? "no-store" : "public, max-age=86400, immutable", // 1 day instead of 1 year
+      "cache-control": isDev ? "no-store" : "public, max-age=86400, immutable",
     };
 
     return new Response(png as unknown as BodyInit, { headers });
