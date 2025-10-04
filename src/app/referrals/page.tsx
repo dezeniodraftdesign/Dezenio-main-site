@@ -1,13 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const REF_URL =
-  process.env.NEXT_PUBLIC_REF_URL || "https://dezeniodraftdesign.com/referrals";
+const REF_URL_PROD = "https://dezeniodraftdesign.com/referrals";
+const PROD_HOSTS = new Set([
+  "dezeniodraftdesign.com",
+  "www.dezeniodraftdesign.com",
+]);
 
 export default function Page() {
   const router = useRouter();
+
+  useEffect(() => {
+    // If someone opened /referrals on a non-prod host (localhost/preview), bounce to prod.
+    if (
+      typeof window !== "undefined" &&
+      !PROD_HOSTS.has(window.location.hostname)
+    ) {
+      window.location.replace(REF_URL_PROD);
+    }
+  }, []);
 
   return (
     <main
@@ -28,7 +42,7 @@ export default function Page() {
           ✕ Close
         </button>
 
-        <div className="mx-auto max-w-3xl rounded-3xl border border-white/15 bg-white/10 p-8 text-white shadow-2xl backdrop-blur-md">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-white/15 bg.white/10 p-8 text-white shadow-2xl backdrop-blur-md">
           <h1 className="text-3xl font-semibold">Referral Rewards</h1>
           <p className="mt-2 text-white/80">
             Share us with a neighbor or friend. When they book a qualifying
@@ -64,7 +78,7 @@ export default function Page() {
                 </li>
               </ul>
 
-              <p className="mt-4 text-xs text白/60">
+              <p className="mt-4 text-xs text-white/60">
                 *Exact reward value depends on project scope. Priority
                 scheduling means your project (and the referral) is placed into
                 the next available slot, ahead of general inquiries.
@@ -73,19 +87,22 @@ export default function Page() {
 
             <div className="rounded-xl bg-white p-4 text-center">
               <img
-                src={`/api/qr?data=${encodeURIComponent(REF_URL)}`}
+                src={`/api/qr?data=${encodeURIComponent(REF_URL_PROD)}&v=3`}
                 alt="Referral QR"
                 width={256}
                 height={256}
                 className="mx-auto block"
               />
               <p className="mt-2 text-xs text-black/70">
-                Scan or share: <span className="underline">{REF_URL}</span>
+                Scan or share:{" "}
+                <a href={REF_URL_PROD} className="underline">
+                  {REF_URL_PROD}
+                </a>
               </p>
               <div className="mt-4 grid gap-2">
                 <a
                   href="tel:16154742004"
-                  className="rounded-full bg-black px-4 py-2 text-sm font-semibold text-white"
+                  className="rounded-full bg-black px-4 py-2 text-sm font-semibold text.white"
                 >
                   Call (615) 474-2004
                 </a>

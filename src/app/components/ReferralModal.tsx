@@ -4,11 +4,10 @@
 type Props = {
   open: boolean;
   onClose: () => void;
-  onStartProject: () => void; // will open QuoteModal
+  onStartProject: () => void; // opens QuoteModal
 };
 
-const REF_URL =
-  process.env.NEXT_PUBLIC_REF_URL || "https://dezeniodraftdesign.com/referrals";
+const REF_URL_PROD = "https://dezeniodraftdesign.com/referrals";
 
 export default function ReferralModal({
   open,
@@ -16,6 +15,11 @@ export default function ReferralModal({
   onStartProject,
 }: Props) {
   if (!open) return null;
+
+  const gotoReferrals = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    window.location.href = REF_URL_PROD; // hard force production
+  };
 
   return (
     <div className="fixed inset-0 z-[80] grid place-items-center bg-black/65 backdrop-blur-sm">
@@ -79,7 +83,7 @@ export default function ReferralModal({
 
           <div className="rounded-xl bg-white p-4 text-center text-black ring-1 ring-black/10">
             <img
-              src={`/api/qr?data=${encodeURIComponent(REF_URL)}`}
+              src={`/api/qr?data=${encodeURIComponent(REF_URL_PROD)}&v=3`}
               alt="Referral QR"
               width={360}
               height={360}
@@ -89,8 +93,12 @@ export default function ReferralModal({
             />
             <p className="mt-2 text-xs">
               Scan or share:{" "}
-              <a href={REF_URL} className="underline">
-                {REF_URL}
+              <a
+                href={REF_URL_PROD}
+                onClick={gotoReferrals}
+                className="underline"
+              >
+                {REF_URL_PROD}
               </a>
             </p>
 
@@ -110,7 +118,7 @@ export default function ReferralModal({
               <button
                 onClick={() => {
                   onClose();
-                  onStartProject(); // open QuoteModal
+                  onStartProject();
                 }}
                 className="block w-full rounded-full border border-emerald-500/40 px-4 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-50"
               >
