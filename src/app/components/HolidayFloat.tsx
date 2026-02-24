@@ -1,35 +1,147 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
-const REF_URL =
-  process.env.NEXT_PUBLIC_REF_URL || "https://dezeniodraftdesign.com/referrals";
-
+const PROD_HOST = "dezeniodraftdesign.com";
 const KEY = "hideHolidayCTA_until";
 const SNOOZE_MS = 24 * 60 * 60 * 1000;
+const QR_V = 9;
+
+type PromoId = "referrals" | "cabinetry" | "remodel";
+
+type Promo = {
+  id: PromoId;
+  title: string;
+  sub: string;
+  href: string; // relative ok
+  qrPath: string; // relative; /api/qr normalizes to prod
+  cta: string;
+};
+
+const PROMOS: Record<PromoId, Promo> = {
+  cabinetry: {
+    id: "cabinetry",
+    title: "Cabinetry Packages",
+    sub: "Kith • Mouser • ProCraft — design, ordering, and install support.",
+    href: "/?quote=1",
+    qrPath: "/?quote=1",
+    cta: "Get a Quote",
+  },
+  remodel: {
+    id: "remodel",
+    title: "Booking Kitchen & Bath",
+    sub: "Design + docs + remodel support in Nashville & Middle TN. Limited slots.",
+    href: "/?quote=1",
+    qrPath: "/?quote=1",
+    cta: "Start a Project",
+  },
+  referrals: {
+    id: "referrals",
+    title: "Referral Rewards",
+    sub: "Refer a friend. Earn rewards when they book. Tap or scan to submit.",
+    href: "/referrals",
+    qrPath: "/referrals",
+    cta: "Referrals Page",
+  },
+};
+
+// ✅ match your EXISTING homepage ids
+const CHAPTERS: { selector: string; promoId: PromoId }[] = [
+  { selector: "#services", promoId: "cabinetry" },
+  { selector: "#about", promoId: "remodel" },
+  { selector: "#contact", promoId: "referrals" },
+];
+
+const DEFAULT_PROMO: PromoId = "cabinetry";
+
+function prodUrl(path: string) {
+  return `https://${PROD_HOST}${path.startsWith("/") ? path : `/${path}`}`;
+}
 
 export default function HolidayFloat() {
+  // ✅ hooks FIRST (always called)
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [activePromoId, setActivePromoId] = useState<PromoId>(DEFAULT_PROMO);
+  const activeRef = useRef<PromoId>(DEFAULT_PROMO);
+
+  // keep ref in sync (no conditional)
+  activeRef.current = activePromoId;
+
+  // compute hides AFTER hooks
+  const shouldHideOnRoute = pathname === "/referrals";
 
   useEffect(() => {
     const until = Number(localStorage.getItem(KEY) || "0");
     setOpen(Date.now() > until);
   }, []);
 
-  if (!open) return null;
-
   const snooze = () => {
     localStorage.setItem(KEY, String(Date.now() + SNOOZE_MS));
     setOpen(false);
   };
 
-  // Keep clear of BottomBand on all breakpoints
+  useEffect(() => {
+    if (!open) return;
+    if (shouldHideOnRoute) return;
+
+    const targets: { el: Element; promoId: PromoId }[] = [];
+    for (const ch of CHAPTERS) {
+      const el = document.querySelector(ch.selector);
+      if (el) targets.push({ el, promoId: ch.promoId });
+    }
+    if (targets.length === 0) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        let best: { promoId: PromoId; ratio: number } | null = null;
+
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const found = targets.find((t) => t.el === e.target);
+          if (!found) continue;
+
+          const ratio = e.intersectionRatio;
+          if (!best || ratio > best.ratio)
+            best = { promoId: found.promoId, ratio };
+        }
+
+        if (!best) return;
+
+        if (activeRef.current !== best.promoId) {
+          setActivePromoId(best.promoId);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-35% 0px -45% 0px",
+        threshold: [0.15, 0.25, 0.35, 0.5, 0.65],
+      },
+    );
+
+    targets.forEach((t) => obs.observe(t.el));
+    return () => obs.disconnect();
+  }, [open, shouldHideOnRoute]);
+
+  const promo = useMemo(
+    () => PROMOS[activePromoId] ?? PROMOS[DEFAULT_PROMO],
+    [activePromoId],
+  );
+  const qrPath = promo.qrPath.startsWith("/")
+    ? promo.qrPath
+    : `/${promo.qrPath}`;
+
+  // ✅ final returns AFTER hooks
+  if (shouldHideOnRoute) return null;
+  if (!open) return null;
+
   const bottomOffset = `calc(var(--bottom-band-height, 64px) + 22px)`;
 
   return (
     <>
-      {/* ---------- MOBILE: compact badge ---------- */}
+      {/* MOBILE */}
       <aside
         className="md:hidden fixed right-3 z-[60] text-white"
         style={{ bottom: bottomOffset }}
@@ -37,11 +149,10 @@ export default function HolidayFloat() {
       >
         <div className="rounded-xl bg-black/80 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl">
           <div className="flex items-center gap-3 px-3 py-2.5">
-            {/* slightly larger QR on mobile */}
             <div className="rounded-md bg-white p-1 ring-1 ring-black/10">
               <img
-                src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=3`}
-                alt="Referral QR"
+                src={`/api/qr?data=${encodeURIComponent(qrPath)}&v=${QR_V}`}
+                alt="Promo QR"
                 width={56}
                 height={56}
                 className="block"
@@ -50,32 +161,21 @@ export default function HolidayFloat() {
 
             <div className="min-w-0 flex-1">
               <p className="truncate text-[11px] font-semibold uppercase tracking-wide text-emerald-300/95">
-                Holiday Rush
+                {promo.title}
               </p>
-              <p className="truncate text-xs text-white/85">
-                Booking fast for the holidays.
-              </p>
+              <p className="truncate text-xs text-white/85">{promo.sub}</p>
 
               <div className="mt-2 flex items-center gap-2">
                 <a
-                  href="tel:16154742004"
-                  className="inline-flex items-center justify-center rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-black hover:bg-white/90"
-                >
-                  Call
-                </a>
-                <a
-                  href={REF_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={promo.href}
                   className="inline-flex items-center justify-center rounded-full border border-emerald-400/50 px-2.5 py-1 text-[11px] font-semibold text-emerald-200 hover:bg-emerald-400/10"
                 >
-                  Rewards
+                  {promo.cta}
                 </a>
+
                 <button
                   onClick={snooze}
                   className="ml-auto inline-flex items-center justify-center rounded-full px-2 py-1 text-[11px] text-white/70 hover:text-white/95"
-                  aria-label="Dismiss (snoozes 24h)"
-                  title="Dismiss (snoozes 24h)"
                 >
                   Dismiss
                 </button>
@@ -85,7 +185,7 @@ export default function HolidayFloat() {
         </div>
       </aside>
 
-      {/* ---------- DESKTOP/TABLET ---------- */}
+      {/* DESKTOP */}
       <aside
         className="hidden md:block fixed right-6 z-[60] max-w-[96vw] text-white"
         style={{ bottom: bottomOffset }}
@@ -93,12 +193,11 @@ export default function HolidayFloat() {
       >
         <div className="overflow-hidden rounded-2xl bg-black/60 shadow-2xl ring-1 ring-white/10 backdrop-blur-xl">
           <div className="flex w-[720px] max-w-[96vw] items-stretch gap-4 p-5 sm:gap-6 sm:p-6">
-            {/* LEFT: QR + Email */}
             <div className="flex w-[108px] shrink-0 flex-col items-center">
               <div className="rounded-lg bg-white p-2 ring-1 ring-black/10">
                 <img
-                  src={`/api/qr?data=${encodeURIComponent(REF_URL)}&v=3`}
-                  alt="Referral QR"
+                  src={`/api/qr?data=${encodeURIComponent(qrPath)}&v=${QR_V}`}
+                  alt="Promo QR"
                   width={84}
                   height={84}
                   loading="lazy"
@@ -108,24 +207,20 @@ export default function HolidayFloat() {
               </div>
 
               <a
-                href="mailto:info@dezeniodraftdesign.com?subject=Holiday%20Project"
+                href="mailto:info@dezeniodraftdesign.com?subject=Dezenio%20Inquiry"
                 className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-white/25 px-3 py-2 text-xs font-semibold text-white hover:bg-white/10 sm:text-sm"
               >
                 Email Us
               </a>
             </div>
 
-            {/* RIGHT: Copy + buttons */}
             <div className="min-w-0 flex-1">
               <p className="text-base sm:text-lg font-semibold uppercase tracking-wide text-emerald-300/95">
-                Holiday Rush Is On
+                {promo.title}
               </p>
               <h3 className="mt-1 text-base font-semibold sm:text-lg">
-                Booking fast for Thanksgiving &amp; Christmas.
+                {promo.sub}
               </h3>
-              <p className="mt-1 text-xs text-white/80 sm:text-sm">
-                Ask about referral rewards and priority scheduling.
-              </p>
 
               <div className="mt-6 sm:mt-7 flex flex-wrap items-center gap-2 sm:gap-3">
                 <a
@@ -136,14 +231,16 @@ export default function HolidayFloat() {
                 </a>
 
                 <a
-                  href={REF_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={promo.href}
                   className="inline-flex items-center justify-center rounded-full border border-emerald-400/50 px-4 py-2 text-sm font-semibold text-emerald-200 hover:bg-emerald-400/10"
                 >
-                  Referral Rewards
+                  {promo.cta}
                 </a>
               </div>
+
+              <p className="mt-2 text-[11px] text-white/50">
+                QR target: {prodUrl(qrPath)}
+              </p>
             </div>
           </div>
 

@@ -7,6 +7,9 @@ type Props = {
   onStartProject: () => void; // opens QuoteModal
 };
 
+// ✅ Use relative path everywhere for navigation
+const REF_PATH = "/referrals";
+// ✅ Only used for display text (optional)
 const REF_URL_PROD = "https://dezeniodraftdesign.com/referrals";
 
 export default function ReferralModal({
@@ -15,11 +18,6 @@ export default function ReferralModal({
   onStartProject,
 }: Props) {
   if (!open) return null;
-
-  const gotoReferrals = (e?: React.MouseEvent) => {
-    if (e) e.preventDefault();
-    window.location.href = REF_URL_PROD; // hard force production
-  };
 
   return (
     <div className="fixed inset-0 z-[80] grid place-items-center bg-black/65 backdrop-blur-sm">
@@ -83,7 +81,8 @@ export default function ReferralModal({
 
           <div className="rounded-xl bg-white p-4 text-center text-black ring-1 ring-black/10">
             <img
-              src={`/api/qr?data=${encodeURIComponent(REF_URL_PROD)}&v=3`}
+              // ✅ Pass RELATIVE path so QR route forces production domain.
+              src={`/api/qr?data=${encodeURIComponent(REF_PATH)}&v=4`}
               alt="Referral QR"
               width={360}
               height={360}
@@ -91,13 +90,10 @@ export default function ReferralModal({
               decoding="async"
               className="mx-auto block"
             />
+
             <p className="mt-2 text-xs">
               Scan or share:{" "}
-              <a
-                href={REF_URL_PROD}
-                onClick={gotoReferrals}
-                className="underline"
-              >
+              <a href={REF_PATH} className="underline">
                 {REF_URL_PROD}
               </a>
             </p>
@@ -109,12 +105,14 @@ export default function ReferralModal({
               >
                 Call (615) 474-2004
               </a>
+
               <a
                 className="block rounded-full border border-black/15 px-4 py-2 text-sm font-semibold hover:bg-black/5"
                 href="mailto:info@dezeniodraftdesign.com?subject=Referral"
               >
                 Email Referral
               </a>
+
               <button
                 onClick={() => {
                   onClose();
