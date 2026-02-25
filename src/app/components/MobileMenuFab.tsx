@@ -18,11 +18,11 @@ export default function MobileMenuFab() {
 
   return (
     <>
-      {/* Floating button (mobile only) */}
+      {/* Floating button (mobile only) — TOP RIGHT so it doesn’t cover the logo */}
       <button
         aria-label="Open mobile menu"
         onClick={() => setOpen(true)}
-        className="md:hidden fixed left-4 bottom-20 z-[70] inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/70 text-white shadow-xl ring-1 ring-white/10 backdrop-blur"
+        className="md:hidden fixed right-4 top-4 z-[70] inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/70 text-white shadow-xl ring-1 ring-white/10 backdrop-blur"
       >
         <span
           className="relative block h-0.5 w-6 bg-white
@@ -78,7 +78,6 @@ export default function MobileMenuFab() {
                 </a>
               </li>
 
-              {/* Cabinetry → external, always production */}
               <li>
                 <a
                   href={CABINET_URL}
@@ -91,7 +90,6 @@ export default function MobileMenuFab() {
                 </a>
               </li>
 
-              {/* Referral Rewards → external, always production */}
               <li>
                 <a
                   href={REF_URL}

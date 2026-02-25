@@ -4,26 +4,25 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const PROD_HOST = "dezeniodraftdesign.com";
 const KEY = "hideHolidayCTA_until";
 const SNOOZE_MS = 24 * 60 * 60 * 1000;
-const QR_V = 9;
+const QR_V = 11;
 
-type PromoId = "referrals" | "cabinetry" | "remodel";
+type PromoId = "cabinetry" | "referrals" | "remodel";
 
 type Promo = {
   id: PromoId;
   title: string;
   sub: string;
-  href: string; // relative ok
-  qrPath: string; // relative; /api/qr normalizes to prod
+  href: string;
+  qrPath: string;
   cta: string;
 };
 
 const PROMOS: Record<PromoId, Promo> = {
   cabinetry: {
     id: "cabinetry",
-    title: "Cabinetry Packages",
+    title: "CABINETRY PACKAGES",
     sub: "Kith • Mouser • ProCraft — design, ordering, and install support.",
     href: "/?quote=1",
     qrPath: "/?quote=1",
@@ -31,119 +30,177 @@ const PROMOS: Record<PromoId, Promo> = {
   },
   remodel: {
     id: "remodel",
-    title: "Booking Kitchen & Bath",
-    sub: "Design + docs + remodel support in Nashville & Middle TN. Limited slots.",
+    title: "PROJECT INTAKE",
+    sub: "Construction docs + design support. Tap to start a project.",
     href: "/?quote=1",
     qrPath: "/?quote=1",
-    cta: "Start a Project",
+    cta: "Start",
   },
   referrals: {
     id: "referrals",
-    title: "Referral Rewards",
-    sub: "Refer a friend. Earn rewards when they book. Tap or scan to submit.",
+    title: "REFERRAL REWARDS",
+    sub: "Earn rewards when friends book. Tap or scan to submit.",
     href: "/referrals",
     qrPath: "/referrals",
-    cta: "Referrals Page",
+    cta: "Open",
   },
 };
 
-// ✅ match your EXISTING homepage ids
+// Match your homepage anchors
 const CHAPTERS: { selector: string; promoId: PromoId }[] = [
   { selector: "#services", promoId: "cabinetry" },
   { selector: "#about", promoId: "remodel" },
   { selector: "#contact", promoId: "referrals" },
 ];
 
-const DEFAULT_PROMO: PromoId = "cabinetry";
+// What promo should show at the TOP of the page
+const TOP_PROMO: PromoId = "cabinetry";
 
-function prodUrl(path: string) {
-  return `https://${PROD_HOST}${path.startsWith("/") ? path : `/${path}`}`;
-}
+// Where we “focus” in the viewport to decide which section is active
+const FOCUS_Y = 0.4; // 40% down the viewport feels natural on mobile
+const TOP_RESET_PX = 140; // if scrollY < this, force TOP_PROMO
 
 export default function HolidayFloat() {
-  // ✅ hooks FIRST (always called)
   const pathname = usePathname();
+  const hideOnThisRoute = pathname?.startsWith("/referrals") ?? false;
+
   const [open, setOpen] = useState(false);
-  const [activePromoId, setActivePromoId] = useState<PromoId>(DEFAULT_PROMO);
-  const activeRef = useRef<PromoId>(DEFAULT_PROMO);
+  const [activePromoId, setActivePromoId] = useState<PromoId>(TOP_PROMO);
 
-  // keep ref in sync (no conditional)
-  activeRef.current = activePromoId;
+  // Measure height (only needed if other UI wants to avoid it later)
+  const mobileRef = useRef<HTMLElement | null>(null);
 
-  // compute hides AFTER hooks
-  const shouldHideOnRoute = pathname === "/referrals";
-
+  // Initial open/snooze
   useEffect(() => {
-    const until = Number(localStorage.getItem(KEY) || "0");
-    setOpen(Date.now() > until);
+    try {
+      const until = Number(localStorage.getItem(KEY) || "0");
+      setOpen(Date.now() > until);
+    } catch {
+      setOpen(true);
+    }
   }, []);
 
   const snooze = () => {
-    localStorage.setItem(KEY, String(Date.now() + SNOOZE_MS));
+    try {
+      localStorage.setItem(KEY, String(Date.now() + SNOOZE_MS));
+    } catch {}
     setOpen(false);
   };
 
+  // Expose dock height for other UI if desired (safe + no-any)
   useEffect(() => {
-    if (!open) return;
-    if (shouldHideOnRoute) return;
+    const root = document.documentElement;
+    const reset = () => root.style.setProperty("--holiday-float-dock", "0px");
 
-    const targets: { el: Element; promoId: PromoId }[] = [];
-    for (const ch of CHAPTERS) {
-      const el = document.querySelector(ch.selector);
-      if (el) targets.push({ el, promoId: ch.promoId });
+    if (!open || hideOnThisRoute) {
+      reset();
+      return;
     }
-    if (targets.length === 0) return;
+    const el = mobileRef.current;
+    if (!el) {
+      reset();
+      return;
+    }
 
-    const obs = new IntersectionObserver(
-      (entries) => {
-        let best: { promoId: PromoId; ratio: number } | null = null;
+    const apply = () => {
+      const h = Math.ceil(el.getBoundingClientRect().height || 0);
+      root.style.setProperty("--holiday-float-dock", `${h + 12}px`);
+    };
 
-        for (const e of entries) {
-          if (!e.isIntersecting) continue;
-          const found = targets.find((t) => t.el === e.target);
-          if (!found) continue;
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
 
-          const ratio = e.intersectionRatio;
-          if (!best || ratio > best.ratio)
-            best = { promoId: found.promoId, ratio };
-        }
+    window.addEventListener("resize", apply);
+    window.addEventListener("orientationchange", apply);
 
-        if (!best) return;
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", apply);
+      window.removeEventListener("orientationchange", apply);
+      reset();
+    };
+  }, [open, hideOnThisRoute]);
 
-        if (activeRef.current !== best.promoId) {
-          setActivePromoId(best.promoId);
-        }
-      },
-      {
-        root: null,
-        rootMargin: "-35% 0px -45% 0px",
-        threshold: [0.15, 0.25, 0.35, 0.5, 0.65],
-      },
-    );
+  // ✅ Reliable “active promo” selection (no IntersectionObserver)
+  useEffect(() => {
+    if (!open || hideOnThisRoute) return;
 
-    targets.forEach((t) => obs.observe(t.el));
-    return () => obs.disconnect();
-  }, [open, shouldHideOnRoute]);
+    const pickPromo = () => {
+      // Always reset at the very top
+      if (window.scrollY < TOP_RESET_PX) {
+        setActivePromoId(TOP_PROMO);
+        return;
+      }
+
+      const vh = window.innerHeight || 800;
+      const focus = vh * FOCUS_Y;
+
+      // Evaluate candidates
+      let best: { id: PromoId; score: number } | null = null;
+
+      for (const ch of CHAPTERS) {
+        const el = document.querySelector(ch.selector) as HTMLElement | null;
+        if (!el) continue;
+
+        const r = el.getBoundingClientRect();
+
+        // Only consider sections that are somewhat near the viewport
+        // (prevents random jumps)
+        const visibleBand = r.bottom > vh * 0.15 && r.top < vh * 0.85;
+        if (!visibleBand) continue;
+
+        // Score: distance from our focus line (lower is better)
+        const score = Math.abs(r.top - focus);
+
+        if (!best || score < best.score) best = { id: ch.promoId, score };
+      }
+
+      if (best) setActivePromoId(best.id);
+      // If no best found, don’t change — avoids flicker
+    };
+
+    // Run immediately and on scroll/resize
+    pickPromo();
+
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(pickPromo);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    window.addEventListener("orientationchange", onScroll);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("orientationchange", onScroll);
+    };
+  }, [open, hideOnThisRoute]);
 
   const promo = useMemo(
-    () => PROMOS[activePromoId] ?? PROMOS[DEFAULT_PROMO],
+    () => PROMOS[activePromoId] ?? PROMOS[TOP_PROMO],
     [activePromoId],
   );
   const qrPath = promo.qrPath.startsWith("/")
     ? promo.qrPath
     : `/${promo.qrPath}`;
 
-  // ✅ final returns AFTER hooks
-  if (shouldHideOnRoute) return null;
-  if (!open) return null;
+  if (!open || hideOnThisRoute) return null;
 
-  const bottomOffset = `calc(var(--bottom-band-height, 64px) + 22px)`;
+  // iOS safe-area + optional bottom band var
+  const bottomOffset =
+    "calc(env(safe-area-inset-bottom) + 14px + var(--bottom-band-height, 0px))";
 
   return (
     <>
       {/* MOBILE */}
       <aside
-        className="md:hidden fixed right-3 z-[60] text-white"
+        ref={mobileRef}
+        className="md:hidden fixed left-3 right-3 z-[60] text-white"
         style={{ bottom: bottomOffset }}
         aria-live="polite"
       >
@@ -176,6 +233,7 @@ export default function HolidayFloat() {
                 <button
                   onClick={snooze}
                   className="ml-auto inline-flex items-center justify-center rounded-full px-2 py-1 text-[11px] text-white/70 hover:text-white/95"
+                  type="button"
                 >
                   Dismiss
                 </button>
@@ -237,16 +295,13 @@ export default function HolidayFloat() {
                   {promo.cta}
                 </a>
               </div>
-
-              <p className="mt-2 text-[11px] text-white/50">
-                QR target: {prodUrl(qrPath)}
-              </p>
             </div>
           </div>
 
           <button
             onClick={snooze}
             className="block w-full border-t border-white/10 px-4 py-2.5 text-center text-[11px] text-white/65 hover:text-white/85"
+            type="button"
           >
             Dismiss (snoozes)
           </button>
