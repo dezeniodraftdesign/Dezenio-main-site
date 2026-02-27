@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 
@@ -9,6 +9,14 @@ import QuoteModal from "../components/QuoteModal";
 import ScrollOffsets from "../components/ScrollOffsets";
 
 export default function ConstructionDocumentsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ConstructionDocumentsInner />
+    </Suspense>
+  );
+}
+
+function ConstructionDocumentsInner() {
   const [quoteOpen, setQuoteOpen] = useState(false);
   const search = useSearchParams();
 

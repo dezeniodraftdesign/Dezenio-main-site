@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 
@@ -10,6 +10,16 @@ import QuoteModal from "../components/QuoteModal";
 import ScrollOffsets from "../components/ScrollOffsets";
 
 export default function AboutPage() {
+  // ✅ Next.js 16 build requirement:
+  // useSearchParams() must be inside a Suspense boundary.
+  return (
+    <Suspense fallback={null}>
+      <AboutInner />
+    </Suspense>
+  );
+}
+
+function AboutInner() {
   const [quoteOpen, setQuoteOpen] = useState(false);
   const search = useSearchParams();
 

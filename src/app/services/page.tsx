@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 
@@ -10,6 +10,14 @@ import QuoteModal from "../components/QuoteModal";
 import ScrollOffsets from "../components/ScrollOffsets";
 
 export default function ServicesPage() {
+  return (
+    <Suspense fallback={null}>
+      <ServicesInner />
+    </Suspense>
+  );
+}
+
+function ServicesInner() {
   const [quoteOpen, setQuoteOpen] = useState(false);
   const search = useSearchParams();
 
