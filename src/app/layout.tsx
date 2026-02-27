@@ -1,9 +1,11 @@
 // FILE: src/app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
+
 import MobileMenuFab from "./components/MobileMenuFab";
 import HolidayFloat from "./components/HolidayFloat";
 import BottomBand from "./components/BottomBand";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dezeniodraftdesign.com"),
@@ -34,7 +36,6 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        // ✅ Use dynamic OG image route (src/app/opengraph-image.tsx)
         url: "/opengraph-image",
         width: 1200,
         height: 630,
@@ -48,7 +49,6 @@ export const metadata: Metadata = {
     title: "Dezenio Draft Design",
     description:
       "Premium design, cabinetry support, as-builts, and construction documents in Nashville, Middle Tennessee, and surrounding areas.",
-    // ✅ Same route for Twitter
     images: ["/opengraph-image"],
   },
 
@@ -66,8 +66,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-dvh bg-black text-white">
-        <MobileMenuFab />
-        {children}
+        {/* App shell: footer lands at true bottom */}
+        <div className="min-h-dvh flex flex-col">
+          <MobileMenuFab />
+
+          {/* Page content */}
+          <main className="flex-1">{children}</main>
+
+          {/* ONE footer only (global) */}
+          <Footer />
+        </div>
+
+        {/* Fixed overlays live OUTSIDE the flow */}
         <BottomBand />
         <HolidayFloat />
       </body>

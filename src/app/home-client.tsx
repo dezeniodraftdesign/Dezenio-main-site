@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+
 import QuoteModal from "./components/QuoteModal";
 import ScrollOffsets from "./components/ScrollOffsets";
 
@@ -24,40 +25,54 @@ export default function HomeClient() {
     >
       <ScrollOffsets />
 
-      {/* Static background image; replace file to change the look */}
+      {/* Static background image */}
       <div className="fixed inset-0 -z-20">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
-          alt="Background"
+          alt="Dezenio Draft Design background"
           fill
           priority
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-black/55" />
+
+        {/* ✅ LIGHTER overlay (was bg-black/55). Keep it simple. */}
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
       <Header onQuote={() => setQuoteOpen(true)} />
 
-      {/* HERO: slightly shorter so bottom isn't under the float */}
-      <section className="min-h-[86vh] px-4 pt-24 md:pt-28 text-center flex items-center">
-        <div className="mx-auto max-w-5xl -translate-y-[4vh] md:-translate-y-[6vh]">
+      {/* HERO */}
+      <section className="min-h-[88vh] px-4 pt-24 md:pt-28 flex items-center">
+        <div className="mx-auto w-full max-w-5xl text-center">
           <h1 className="text-white text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-            Premium Design.
+            Custom Kitchen Cabinets &amp; Installation
             <br />
-            Unmatched Execution.
+            in Nashville, TN
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-white/80 md:text-xl">
-            Permit-focused construction documents, site planning, and full house
-            designs — partnered with Dezenio Cabinetry. We also handle{" "}
-            <strong className="text-white">structural framing</strong>,
-            <strong className="text-white"> carpentry</strong>, and{" "}
+
+          <p className="mx-auto mt-6 max-w-3xl text-white/85 md:text-xl">
+            Authorized cabinetry access through Dezenio Cabinetry — including{" "}
+            <strong className="text-white">Kith</strong>,{" "}
+            <strong className="text-white">Mouser</strong>, and{" "}
+            <strong className="text-white">ProCraft</strong> (plus{" "}
+            <strong className="text-white">Bishop</strong> and{" "}
+            <strong className="text-white">Adornus</strong> on request). We
+            handle <strong className="text-white">design</strong>,{" "}
+            <strong className="text-white">ordering</strong>, and{" "}
+            <strong className="text-white">turnkey installation</strong> for
+            homeowners and builders across Nashville and Middle Tennessee.
+            <br className="hidden md:block" /> Hardware &amp; storage:{" "}
+            <strong className="text-white">Richelieu</strong> and{" "}
+            <strong className="text-white">Rev-A-Shelf</strong>. Need plans too?
+            We also provide{" "}
             <strong className="text-white">
-              turnkey cabinetry installation
+              permit-focused construction documents
             </strong>{" "}
-            for a buildable, end-to-end result.
+            and site planning for a clean, buildable result.
           </p>
-          <div className="mt-8 flex justify-center gap-3">
+
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
               href="#services"
               className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
@@ -68,7 +83,7 @@ export default function HomeClient() {
               onClick={() => setQuoteOpen(true)}
               className="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
             >
-              Contact Us
+              Get a Quote
             </button>
           </div>
         </div>
@@ -84,41 +99,45 @@ export default function HomeClient() {
             Our Services
           </h2>
           <p className="mx-auto mt-4 max-w-3xl text-center text-white/80">
-            We serve residential and small commercial projects with precision
-            docs and turnkey delivery.
+            Cabinetry-first delivery, with permit-ready documentation and
+            buildable planning when you need it.
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
-                title: "Construction Documents",
-                image: "/sections/plans.png",
-                blurb:
-                  "Site plans, foundations, roof & framing, elevations, 3D renderings.",
-              },
-              {
-                title: "Design & Remodeling",
-                image: "/sections/render.png",
-                blurb:
-                  "Concepts to permit-ready details. As-builts, renovations, full house design.",
-              },
-              {
                 title: "Cabinetry: Design & Install",
+                href: "/cabinetry",
                 image: "/sections/cabinetry.png",
                 blurb:
-                  "Factory-direct supply, professional design, expert installation.",
+                  "Kith, Mouser, ProCraft (plus Bishop + Adornus on request) — design support, ordering, delivery, and full installation. Hardware: Richelieu + Rev-A-Shelf.",
+              },
+              {
+                title: "Construction Documents",
+                href: "/construction-documents",
+                image: "/sections/plans.png",
+                blurb:
+                  "Permit-focused plans: site, foundation, framing, roof, elevations, and details for buildable results.",
+              },
+              {
+                title: "Design & Remodeling Support",
+                href: "/design-remodeling",
+                image: "/sections/render.png",
+                blurb:
+                  "Concepts to permit-ready details — renovations, additions, as-builts, and coordination support.",
               },
             ].map((c) => (
-              <article
+              <Link
                 key={c.title}
-                className="overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10"
+                href={c.href}
+                className="group block overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition hover:bg-white/7.5 hover:ring-white/20"
               >
                 <div className="relative aspect-[16/10]">
                   <Image
                     src={c.image}
-                    alt=""
+                    alt={c.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
@@ -127,8 +146,14 @@ export default function HomeClient() {
                     {c.title}
                   </h4>
                   <p className="mt-3 text-sm text-white/80">{c.blurb}</p>
+                  <p className="mt-4 text-sm font-semibold text-white/90">
+                    Learn more{" "}
+                    <span className="inline-block transition group-hover:translate-x-1">
+                      →
+                    </span>
+                  </p>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
@@ -142,19 +167,20 @@ export default function HomeClient() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
             <h3 className="text-3xl font-bold md:text-4xl text-white">
-              Boutique Design Firm in Nashville, TN
+              Cabinetry-first. Plans when you need them.
             </h3>
             <p className="mt-4 text-white/80">
-              We specialize in permit-focused construction documents and
-              collaborate with clients, builders, and inspectors to create
-              clear, buildable plans. Through Dezenio Cabinetry, we deliver
-              premium kitchen & bath cabinetry with the same precision.
+              Dezenio Draft Design delivers permit-focused construction
+              documents and site planning — and through Dezenio Cabinetry, we
+              provide premium kitchen &amp; bath cabinetry with full
+              installation.
             </p>
           </div>
+
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-white/10">
             <Image
               src="/about/house-elevation.png"
-              alt="Design elevation"
+              alt="Residential elevation example"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -176,16 +202,18 @@ export default function HomeClient() {
             <p className="mt-3 text-white/80">
               Serving Nashville and the surrounding Middle Tennessee area.
             </p>
+
             <div className="mt-6 space-y-3 text-white/90">
               <p>(615) 474-2004</p>
               <p>info@dezeniodraftdesign.com</p>
               <p>Nashville, Tennessee</p>
             </div>
+
             <button
               onClick={() => setQuoteOpen(true)}
               className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-white/90"
             >
-              Open Quote Form
+              Get a Quote
             </button>
           </div>
 
@@ -201,7 +229,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      <Footer />
       <QuoteModal open={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </div>
   );

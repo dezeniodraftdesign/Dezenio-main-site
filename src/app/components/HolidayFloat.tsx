@@ -2,10 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 
-const KEY = "hideHolidayCTA_until";
-const SNOOZE_MS = 24 * 60 * 60 * 1000;
 const QR_V = 11;
 
 type PromoId = "cabinetry" | "referrals" | "remodel";
@@ -46,56 +43,112 @@ const PROMOS: Record<PromoId, Promo> = {
   },
 };
 
-// Match your homepage anchors
-const CHAPTERS: { selector: string; promoId: PromoId }[] = [
-  { selector: "#services", promoId: "cabinetry" },
-  { selector: "#about", promoId: "remodel" },
-  { selector: "#contact", promoId: "referrals" },
-];
+const ROTATE_MS = 4000;
 
-// What promo should show at the TOP of the page
-const TOP_PROMO: PromoId = "cabinetry";
-
-// Where we “focus” in the viewport to decide which section is active
-const FOCUS_Y = 0.4; // 40% down the viewport feels natural on mobile
-const TOP_RESET_PX = 140; // if scrollY < this, force TOP_PROMO
+/**
+ * "Docked" = footer is actually reached (not just barely visible).
+ * We consider it docked when footer's top is within the bottom ~22% of the viewport.
+ * Tune DOCK_PCT + DOCK_PX to taste.
+ */
+const DOCK_PCT = 0.78; // 78% down the viewport
+const DOCK_PX = 40; // extra cushion
 
 export default function HolidayFloat() {
-  const pathname = usePathname();
-  const hideOnThisRoute = pathname?.startsWith("/referrals") ?? false;
+  const [footerDocked, setFooterDocked] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [activePromoId, setActivePromoId] = useState<PromoId>(TOP_PROMO);
+  const order: PromoId[] = useMemo(
+    () => ["cabinetry", "remodel", "referrals"],
+    [],
+  );
+  const [idx, setIdx] = useState(0);
 
-  // Measure height (only needed if other UI wants to avoid it later)
   const mobileRef = useRef<HTMLElement | null>(null);
 
-  // Initial open/snooze
+  // Detect "footer pocket" (docked)
   useEffect(() => {
-    try {
-      const until = Number(localStorage.getItem(KEY) || "0");
-      setOpen(Date.now() > until);
-    } catch {
-      setOpen(true);
+    const footer =
+      (document.getElementById("site-footer") as HTMLElement | null) ??
+      (document.querySelector("footer") as HTMLElement | null);
+
+    if (!footer) {
+      setFooterDocked(false);
+      return;
     }
+
+    const computeDocked = () => {
+      const rect = footer.getBoundingClientRect();
+      const vh = window.innerHeight;
+
+      // Footer is on screen at all
+      const visible = rect.bottom > 0 && rect.top < vh;
+
+      // Footer top is low enough in viewport to feel "docked"
+      const dockLine = vh * DOCK_PCT - DOCK_PX;
+      const docked = visible && rect.top <= dockLine;
+
+      setFooterDocked(docked);
+    };
+
+    // IO just to know "something changed", then we compute precisely with rects
+    const io = new IntersectionObserver(() => {
+      requestAnimationFrame(computeDocked);
+    });
+
+    io.observe(footer);
+
+    // Also handle resize/scroll for consistent feel
+    window.addEventListener("scroll", computeDocked, { passive: true });
+    window.addEventListener("resize", computeDocked);
+    window.addEventListener("orientationchange", computeDocked);
+
+    // Initial
+    computeDocked();
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", computeDocked);
+      window.removeEventListener("resize", computeDocked);
+      window.removeEventListener("orientationchange", computeDocked);
+    };
   }, []);
 
-  const snooze = () => {
-    try {
-      localStorage.setItem(KEY, String(Date.now() + SNOOZE_MS));
-    } catch {}
-    setOpen(false);
-  };
+  const open = footerDocked && !dismissed;
 
-  // Expose dock height for other UI if desired (safe + no-any)
+  // Rotate promos only while open
+  useEffect(() => {
+    if (!open) return;
+
+    const t = window.setInterval(() => {
+      setIdx((n) => (n + 1) % order.length);
+    }, ROTATE_MS);
+
+    return () => window.clearInterval(t);
+  }, [open, order.length]);
+
+  // When leaving footer pocket, reset rotation so it starts consistent next time
+  useEffect(() => {
+    if (!footerDocked) setIdx(0);
+  }, [footerDocked]);
+
+  const promoId = order[idx] ?? "cabinetry";
+  const promo = PROMOS[promoId] ?? PROMOS.cabinetry;
+
+  const qrPath = promo.qrPath.startsWith("/")
+    ? promo.qrPath
+    : `/${promo.qrPath}`;
+
+  // Expose dock height var (so other fixed UI can offset if needed)
   useEffect(() => {
     const root = document.documentElement;
+
     const reset = () => root.style.setProperty("--holiday-float-dock", "0px");
 
-    if (!open || hideOnThisRoute) {
+    if (!open) {
       reset();
       return;
     }
+
     const el = mobileRef.current;
     if (!el) {
       reset();
@@ -120,80 +173,15 @@ export default function HolidayFloat() {
       window.removeEventListener("orientationchange", apply);
       reset();
     };
-  }, [open, hideOnThisRoute]);
+  }, [open]);
 
-  // ✅ Reliable “active promo” selection (no IntersectionObserver)
-  useEffect(() => {
-    if (!open || hideOnThisRoute) return;
-
-    const pickPromo = () => {
-      // Always reset at the very top
-      if (window.scrollY < TOP_RESET_PX) {
-        setActivePromoId(TOP_PROMO);
-        return;
-      }
-
-      const vh = window.innerHeight || 800;
-      const focus = vh * FOCUS_Y;
-
-      // Evaluate candidates
-      let best: { id: PromoId; score: number } | null = null;
-
-      for (const ch of CHAPTERS) {
-        const el = document.querySelector(ch.selector) as HTMLElement | null;
-        if (!el) continue;
-
-        const r = el.getBoundingClientRect();
-
-        // Only consider sections that are somewhat near the viewport
-        // (prevents random jumps)
-        const visibleBand = r.bottom > vh * 0.15 && r.top < vh * 0.85;
-        if (!visibleBand) continue;
-
-        // Score: distance from our focus line (lower is better)
-        const score = Math.abs(r.top - focus);
-
-        if (!best || score < best.score) best = { id: ch.promoId, score };
-      }
-
-      if (best) setActivePromoId(best.id);
-      // If no best found, don’t change — avoids flicker
-    };
-
-    // Run immediately and on scroll/resize
-    pickPromo();
-
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(pickPromo);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    window.addEventListener("orientationchange", onScroll);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      window.removeEventListener("orientationchange", onScroll);
-    };
-  }, [open, hideOnThisRoute]);
-
-  const promo = useMemo(
-    () => PROMOS[activePromoId] ?? PROMOS[TOP_PROMO],
-    [activePromoId],
-  );
-  const qrPath = promo.qrPath.startsWith("/")
-    ? promo.qrPath
-    : `/${promo.qrPath}`;
-
-  if (!open || hideOnThisRoute) return null;
+  if (!open) return null;
 
   // iOS safe-area + optional bottom band var
   const bottomOffset =
     "calc(env(safe-area-inset-bottom) + 14px + var(--bottom-band-height, 0px))";
+
+  const dismiss = () => setDismissed(true);
 
   return (
     <>
@@ -231,7 +219,7 @@ export default function HolidayFloat() {
                 </a>
 
                 <button
-                  onClick={snooze}
+                  onClick={dismiss}
                   className="ml-auto inline-flex items-center justify-center rounded-full px-2 py-1 text-[11px] text-white/70 hover:text-white/95"
                   type="button"
                 >
@@ -299,11 +287,11 @@ export default function HolidayFloat() {
           </div>
 
           <button
-            onClick={snooze}
+            onClick={dismiss}
             className="block w-full border-t border-white/10 px-4 py-2.5 text-center text-[11px] text-white/65 hover:text-white/85"
             type="button"
           >
-            Dismiss (snoozes)
+            Dismiss
           </button>
         </div>
       </aside>
