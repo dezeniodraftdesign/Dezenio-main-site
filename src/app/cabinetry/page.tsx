@@ -54,7 +54,7 @@ function CabinetryInner() {
           priority
           sizes="100vw"
           className="object-cover"
-          style={{ objectPosition: "50% 97.9%" }}
+          style={{ objectPosition: "50% 99.3%" }}
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>
