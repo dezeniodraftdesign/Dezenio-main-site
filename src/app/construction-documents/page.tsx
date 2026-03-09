@@ -31,14 +31,18 @@ function ConstructionDocumentsInner() {
     >
       <ScrollOffsets />
 
+      {/* Background (universal snippet) */}
       <div className="fixed inset-0 -z-20">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
           alt="Dezenio Draft Design background"
           fill
           priority
-          className="object-cover"
           sizes="100vw"
+          className="object-cover"
+          // ✅ Change ONLY this per page to select the stitch slice
+          // Frame refs: 7.1 | 21.4 | 35.7 | 50 | 64.3 | 78.6 | 92.9 (or 100)
+          style={{ objectPosition: "50% 97.9%" }}
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>

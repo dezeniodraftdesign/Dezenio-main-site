@@ -1,4 +1,4 @@
-// src/app/components/BottomBand.tsx
+/* FILE: src/app/components/BottomBand.tsx */
 "use client";
 
 import { CSSProperties, useEffect, useState } from "react";
@@ -11,32 +11,29 @@ const ITEMS = [
 ];
 
 const BAND_H = 48; // ribbon height
-const HIDE_EARLY = 8; // start hiding a hair before the contact ends
 
-export default function BottomBand() {
+type Props = {
+  /** Element id to hide the band when it enters the viewport. Defaults to site-footer. */
+  hideOnId?: string;
+};
+
+export default function BottomBand({ hideOnId = "site-footer" }: Props) {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const contact = document.getElementById("contact"); // your existing section id
-    const footer = document.getElementById("site-footer"); // fallback if contact is missing
+    const target = document.getElementById(hideOnId);
 
     const onScroll = () => {
       const doc = document.documentElement;
       let shouldHide = false;
 
-      if (contact) {
-        // Hide when the bottom of #contact is at (or above) the bottom of the viewport
-        // with a small early offset so it never clashes with the footer.
-        const rect = contact.getBoundingClientRect();
-        const threshold = window.innerHeight + HIDE_EARLY;
-        if (rect.bottom <= threshold) shouldHide = true;
-      } else if (footer) {
-        // Fallback: if we can see the footer at all, hide
-        const r = footer.getBoundingClientRect();
+      if (target) {
+        const r = target.getBoundingClientRect();
+        // If footer (or target) is visible at all, hide
         if (r.top < window.innerHeight) shouldHide = true;
       }
 
-      // Belt & suspenders: if we're truly at the bottom of the page, hide
+      // Also hide if we're truly at the bottom
       const atBottom = doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 2;
       if (atBottom) shouldHide = true;
 
@@ -50,7 +47,7 @@ export default function BottomBand() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [hideOnId]);
 
   const vars: CSSProperties & { ["--bottom-band-height"]?: string } = {
     ["--bottom-band-height"]: `${BAND_H}px`,
@@ -66,11 +63,9 @@ export default function BottomBand() {
     >
       <div className="pointer-events-auto w-full" style={vars}>
         <div className="relative mx-auto max-w-[2000px]">
-          {/* top/bottom hairlines */}
           <div className="absolute inset-x-0 top-0 h-px bg-white/55" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-white/55" />
 
-          {/* translucent body */}
           <div className="h-[48px] bg-white/10">
             <div className="mx-auto flex h-full max-w-7xl items-center justify-center px-6">
               <ul className="flex flex-wrap items-center text-[13px] tracking-wide text-white/90">

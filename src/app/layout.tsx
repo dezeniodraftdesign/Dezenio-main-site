@@ -3,8 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 import MobileMenuFab from "./components/MobileMenuFab";
-import HolidayFloat from "./components/HolidayFloat";
-import BottomBand from "./components/BottomBand";
+// import HolidayFloat from "./components/HolidayFloat";
+// import BottomBand from "./components/BottomBand";
 import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
@@ -77,9 +77,9 @@ export default function RootLayout({
           <Footer />
         </div>
 
-        {/* Fixed overlays live OUTSIDE the flow */}
-        <BottomBand />
-        <HolidayFloat />
+        {/* Fixed overlays disabled for now */}
+        {/* <BottomBand /> */}
+        {/* <HolidayFloat /> */}
       </body>
     </html>
   );

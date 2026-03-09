@@ -1,240 +1,472 @@
+/* FILE: src/app/home-client.tsx */
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import Header from "./components/Header";
 
+import Header from "./components/Header";
 import QuoteModal from "./components/QuoteModal";
-import ScrollOffsets from "./components/ScrollOffsets";
+import BottomBand from "./components/BottomBand";
+
+/** ✅ Universal background controls (change per page if you want) */
+const BG_SRC = "/backgrounds/Dezenio-HomeBG.png";
+/** Frame selector for the stitched image */
+const BG_POS = "50% 33.7%"; // <- dial this number per page later
 
 export default function HomeClient() {
-  return (
-    <Suspense fallback={null}>
-      <HomeClientInner />
-    </Suspense>
-  );
-}
-
-function HomeClientInner() {
   const [quoteOpen, setQuoteOpen] = useState(false);
-  const search = useSearchParams();
 
-  // Auto-open the modal if we arrive with ?quote=1
   useEffect(() => {
-    if (search.get("quote") === "1") setQuoteOpen(true);
-  }, [search]);
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("quote") === "1") setQuoteOpen(true);
+  }, []);
+
+  const serviceCards = useMemo(
+    () => [
+      {
+        title: "Cabinetry: Design & Install",
+        body: "Kith, Mouser, ProCraft (plus Bishop + Adornus on request) — design support, ordering, delivery coordination, and installation.",
+        href: "/cabinetry",
+        img: "/sections/cabinetry.png",
+      },
+      {
+        title: "Construction Documents",
+        body: "Permit-focused plan sets for remodel/addition scope — clear, buildable drawings that help approvals and reduce field surprises.",
+        href: "/services",
+        img: "/sections/plans.png",
+      },
+      {
+        title: "Design & Remodeling Support",
+        body: "Concepts to permit-ready details — renovations, additions, as-builts, and coordination support when you need it.",
+        href: "/design-remodeling",
+        img: "/sections/render.png",
+      },
+    ],
+    [],
+  );
 
   return (
-    <div
-      id="top"
-      className="relative text-white pb-[calc(var(--bottom-band-height,64px)+140px)]"
-    >
-      <ScrollOffsets />
-
-      {/* Static background image */}
+    <div className="relative min-h-dvh text-white">
+      {/* Background */}
       <div className="fixed inset-0 -z-20">
         <Image
-          src="/backgrounds/Dezenio-HomeBG.png"
+          src={BG_SRC}
           alt="Dezenio Draft Design background"
           fill
           priority
-          className="object-cover"
           sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: BG_POS }}
         />
-
-        {/* ✅ LIGHTER overlay (was bg-black/55). Keep it simple. */}
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-black/18" />
+        <div className="absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-black/45 via-black/15 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.30)_0%,rgba(0,0,0,0.10)_45%,rgba(0,0,0,0.00)_72%)]" />
       </div>
 
       <Header onQuote={() => setQuoteOpen(true)} />
 
       {/* HERO */}
-      <section className="min-h-[88vh] px-4 pt-24 md:pt-28 flex items-center">
-        <div className="mx-auto w-full max-w-5xl text-center">
-          <h1 className="text-white text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+      <section className="mx-auto max-w-7xl px-4 pt-28 md:pt-32">
+        <div className="mx-auto max-w-5xl text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl leading-tight">
             Custom Kitchen Cabinets &amp; Installation
             <br />
             in Nashville, TN
           </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl text-white/85 md:text-xl">
+          <p className="mx-auto mt-5 max-w-3xl text-center text-white/85 md:text-lg leading-relaxed">
             Authorized cabinetry access through Dezenio Cabinetry — including{" "}
-            <strong className="text-white">Kith</strong>,{" "}
-            <strong className="text-white">Mouser</strong>, and{" "}
-            <strong className="text-white">ProCraft</strong> (plus{" "}
-            <strong className="text-white">Bishop</strong> and{" "}
-            <strong className="text-white">Adornus</strong> on request). We
-            handle <strong className="text-white">design</strong>,{" "}
-            <strong className="text-white">ordering</strong>, and{" "}
-            <strong className="text-white">turnkey installation</strong> for
-            homeowners and builders across Nashville and Middle Tennessee.
-            <br className="hidden md:block" /> Hardware &amp; storage:{" "}
-            <strong className="text-white">Richelieu</strong> and{" "}
-            <strong className="text-white">Rev-A-Shelf</strong>. Need plans too?
-            We also provide{" "}
-            <strong className="text-white">
-              permit-focused construction documents
-            </strong>{" "}
-            and site planning for a clean, buildable result.
+            <b>Kith</b>, <b>Mouser</b>, and <b>ProCraft</b> (plus <b>Bishop</b>{" "}
+            and <b>Adornus</b> on request). We handle <b>design</b>,{" "}
+            <b>ordering</b>, and <b>turnkey installation</b> for homeowners and
+            builders across Nashville and Middle Tennessee.
           </p>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a
-              href="#services"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/#services"
+              className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
             >
               Explore Services
-            </a>
+            </Link>
+
             <button
+              type="button"
               onClick={() => setQuoteOpen(true)}
-              className="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
+              className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
             >
               Get a Quote
             </button>
+
+            <Link
+              href="/referrals"
+              className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+            >
+              Referral Rewards
+            </Link>
           </div>
         </div>
+
+        <div className="h-16 md:h-20" />
       </section>
 
       {/* SERVICES */}
-      <section
-        id="services"
-        className="section-anchor isolate-lg py-16 md:py-20 scroll-mt-28"
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-3xl font-bold md:text-4xl">
+      <section id="services" className="mx-auto max-w-7xl px-4 py-14 md:py-20">
+        <div className="mx-auto max-w-5xl text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
             Our Services
           </h2>
-          <p className="mx-auto mt-4 max-w-3xl text-center text-white/80">
+          <p className="mx-auto mt-4 max-w-3xl text-white/80 md:text-lg">
             Cabinetry-first delivery, with permit-ready documentation and
-            buildable planning when you need it.
+            buildable planning—when you need it.
           </p>
+        </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
-            {[
-              {
-                title: "Cabinetry: Design & Install",
-                href: "/cabinetry",
-                image: "/sections/cabinetry.png",
-                blurb:
-                  "Kith, Mouser, ProCraft (plus Bishop + Adornus on request) — design support, ordering, delivery, and full installation. Hardware: Richelieu + Rev-A-Shelf.",
-              },
-              {
-                title: "Construction Documents",
-                href: "/construction-documents",
-                image: "/sections/plans.png",
-                blurb:
-                  "Permit-focused plans: site, foundation, framing, roof, elevations, and details for buildable results.",
-              },
-              {
-                title: "Design & Remodeling Support",
-                href: "/design-remodeling",
-                image: "/sections/render.png",
-                blurb:
-                  "Concepts to permit-ready details — renovations, additions, as-builts, and coordination support.",
-              },
-            ].map((c) => (
-              <Link
-                key={c.title}
-                href={c.href}
-                className="group block overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition hover:bg-white/7.5 hover:ring-white/20"
-              >
-                <div className="relative aspect-[16/10]">
-                  <Image
-                    src={c.image}
-                    alt={c.title}
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {serviceCards.map((card) => (
+            <div
+              key={card.title}
+              className="overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15 backdrop-blur-md"
+            >
+              <div className="relative h-44 w-full">
+                <Image
+                  src={card.img}
+                  alt={card.title}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black/10" />
+              </div>
+
+              <div className="p-5">
+                <h3 className="text-base font-semibold">{card.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/80">
+                  {card.body}
+                </p>
+
+                <div className="mt-4">
+                  <Link
+                    href={card.href}
+                    className="text-sm font-semibold text-white/90 hover:text-white"
+                  >
+                    Learn more →
+                  </Link>
                 </div>
-                <div className="p-5">
-                  <h4 className="text-lg font-semibold text-white">
-                    {c.title}
-                  </h4>
-                  <p className="mt-3 text-sm text-white/80">{c.blurb}</p>
-                  <p className="mt-4 text-sm font-semibold text-white/90">
-                    Learn more{" "}
-                    <span className="inline-block transition group-hover:translate-x-1">
-                      →
-                    </span>
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/services"
+            className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+          >
+            View Full Services Page
+          </Link>
         </div>
       </section>
 
       {/* ABOUT */}
-      <section
-        id="about"
-        className="section-anchor isolate-xl py-16 md:py-20 scroll-mt-28"
-      >
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-14 md:py-20">
+        <div className="grid items-center gap-10 md:grid-cols-2">
           <div>
-            <h3 className="text-3xl font-bold md:text-4xl text-white">
-              Cabinetry-first. Plans when you need them.
-            </h3>
-            <p className="mt-4 text-white/80">
-              Dezenio Draft Design delivers permit-focused construction
-              documents and site planning — and through Dezenio Cabinetry, we
-              provide premium kitchen &amp; bath cabinetry with full
-              installation.
+            <p className="text-xs font-semibold tracking-[0.2em] text-white/70">
+              ABOUT DEZENIO
             </p>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">
+              Cabinetry-first. Plans when you need them.
+            </h2>
+            <p className="mt-4 text-white/80 leading-relaxed">
+              We help homeowners and builders move from concept to clean
+              execution — with factory-direct cabinetry support, professional
+              installation coordination, and permit-ready construction documents
+              when the scope requires it.
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                href="/about"
+                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
+              >
+                Read About Dezenio
+              </Link>
+              <Link
+                href="/services"
+                className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+              >
+                Services
+              </Link>
+            </div>
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-white/10">
-            <Image
-              src="/about/house-elevation.png"
-              alt="Residential elevation example"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+          <div className="relative overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15 backdrop-blur-md">
+            <div className="relative h-[260px] w-full">
+              <Image
+                src="/sections/render.png"
+                alt="Design and planning visual"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-black/15" />
+            </div>
+
+            <div className="grid gap-4 p-6 sm:grid-cols-2">
+              <div>
+                <h3 className="text-sm font-semibold text-white/90">
+                  What clients notice
+                </h3>
+                <ul className="mt-2 space-y-1 text-sm text-white/75">
+                  <li>• Fast, accurate takeoffs from plans</li>
+                  <li>• Clear communication & realistic timelines</li>
+                  <li>• Execution that matches the design intent</li>
+                </ul>
+              </div>
+
+              <div className="flex items-end justify-start gap-3 sm:justify-end">
+                <button
+                  type="button"
+                  onClick={() => setQuoteOpen(true)}
+                  className="rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15"
+                >
+                  Start a Project
+                </button>
+                <Link
+                  href="/cabinetry"
+                  className="rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/15"
+                >
+                  View Cabinetry
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CONTACT */}
-      <section
-        id="contact"
-        className="section-anchor isolate-xl py-16 md:py-20 scroll-mt-28"
-      >
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div>
-            <h3 className="text-3xl font-bold md:text-4xl text-white">
-              Contact
-            </h3>
-            <p className="mt-3 text-white/80">
+      <section id="contact" className="mx-auto max-w-7xl px-4 py-14 md:py-20">
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="rounded-2xl bg-white/10 p-7 ring-1 ring-white/15 backdrop-blur-md">
+            <p className="text-xs font-semibold tracking-[0.2em] text-white/70">
+              CONTACT
+            </p>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight">
+              Let’s talk about your project.
+            </h2>
+            <p className="mt-3 text-white/80 leading-relaxed">
               Serving Nashville and the surrounding Middle Tennessee area.
+              Remote quoting available when plans + selections are clear.
             </p>
 
-            <div className="mt-6 space-y-3 text-white/90">
-              <p>(615) 474-2004</p>
-              <p>info@dezeniodraftdesign.com</p>
-              <p>Nashville, Tennessee</p>
+            <div className="mt-6 space-y-2 text-sm text-white/85">
+              <div>
+                <a
+                  className="underline hover:text-white"
+                  href="tel:16154742004"
+                >
+                  (615) 474-2004
+                </a>
+              </div>
+              <div>
+                <a
+                  className="underline hover:text-white"
+                  href="mailto:info@dezeniodraftdesign.com"
+                >
+                  info@dezeniodraftdesign.com
+                </a>
+              </div>
+              <div className="text-white/70">Nashville, Tennessee</div>
             </div>
 
-            <button
-              onClick={() => setQuoteOpen(true)}
-              className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-white/90"
-            >
-              Get a Quote
-            </button>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
+              >
+                Contact Page
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => setQuoteOpen(true)}
+                className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+              >
+                Request a Quote
+              </button>
+            </div>
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-white/10">
-            <iframe
-              title="Service Area"
-              src="https://www.google.com/maps?q=Nashville%20TN&z=10&output=embed"
-              className="h-full w-full"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+          <div className="overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15 backdrop-blur-md">
+            <div className="p-4">
+              <h3 className="text-sm font-semibold text-white/90">
+                Service area
+              </h3>
+              <p className="mt-2 text-sm text-white/75">
+                Nashville + surrounding Middle Tennessee — Franklin, Brentwood,
+                Nolensville, Smyrna, Murfreesboro, Mount Juliet, Hendersonville,
+                and nearby areas.
+              </p>
+            </div>
+
+            <div className="px-4 pb-4">
+              <div className="relative overflow-hidden rounded-xl ring-1 ring-white/10">
+                <iframe
+                  title="Service area map"
+                  src="https://www.google.com/maps?q=Nashville%20TN&z=10&output=embed"
+                  className="h-[330px] w-full"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+
+              <p className="mt-3 text-xs text-white/60">
+                For fastest turnaround: send plans (PDF), inspiration, and your
+                desired timeline.
+              </p>
+            </div>
           </div>
         </div>
+      </section>
+
+      {/* CABINETRY */}
+      <section className="mx-auto max-w-7xl px-4 py-14 md:py-20">
+        <div className="rounded-2xl bg-white/10 p-7 ring-1 ring-white/15 backdrop-blur-md">
+          <div className="grid items-center gap-8 md:grid-cols-[1.25fr,1fr]">
+            <div>
+              <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
+                Cabinetry
+              </h2>
+              <p className="mt-3 text-white/80 leading-relaxed">
+                Kith • Mouser • ProCraft — with design support, ordering,
+                logistics, and install coordination.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  href="/cabinetry"
+                  className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
+                >
+                  Cabinetry Page
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setQuoteOpen(true)}
+                  className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+                >
+                  Get a Cabinet Quote
+                </button>
+              </div>
+            </div>
+
+            <div className="relative overflow-hidden rounded-xl ring-1 ring-white/10">
+              <div className="relative h-[220px] w-full">
+                <Image
+                  src="/sections/cabinetry.png"
+                  alt="Cabinetry"
+                  fill
+                  sizes="(min-width: 768px) 40vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black/10" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* REFERRALS - NO BIG FROSTED CARD */}
+      <section className="mx-auto max-w-7xl px-4 pb-28 pt-14 md:pt-20">
+        <div className="border-t border-white/10 pt-12">
+          <div className="grid items-start gap-10 md:grid-cols-[1.15fr,0.85fr]">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.2em] text-white/65">
+                REFERRAL REWARDS
+              </p>
+
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">
+                Send us a friend. Get rewarded.
+              </h2>
+
+              <p className="mt-4 max-w-2xl text-white/80 leading-relaxed">
+                Share Dezenio with a neighbor, builder, or friend. When they
+                book a qualifying project, you choose your reward.
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/referrals"
+                  className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
+                >
+                  View Referral Program
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => setQuoteOpen(true)}
+                  className="rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/15"
+                >
+                  Start a Project
+                </button>
+              </div>
+
+              <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                <div>
+                  <h3 className="text-sm font-semibold text-white/90">
+                    How it works
+                  </h3>
+                  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/72">
+                    <li>• Share your referral link or QR code</li>
+                    <li>
+                      • When they book a qualifying project, you earn a reward
+                    </li>
+                    <li>
+                      • Rewards are issued after contract signing and first
+                      invoice
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-semibold text-white/90">
+                    Rewards
+                  </h3>
+                  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/72">
+                    <li>• Cash or gift card for smaller projects</li>
+                    <li>• Credit toward your next project</li>
+                    <li>• Priority scheduling when available</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="md:pl-8">
+              <div className="mx-auto max-w-[340px]">
+                <div className="rounded-[28px] border border-white/12 bg-black/20 p-5 backdrop-blur-sm">
+                  <div className="rounded-2xl bg-white p-4 ring-1 ring-black/10">
+                    <img
+                      src={`/api/qr?data=${encodeURIComponent("/referrals")}&v=4`}
+                      alt="Referral QR"
+                      width={280}
+                      height={280}
+                      loading="eager"
+                      decoding="async"
+                      className="mx-auto block"
+                    />
+                  </div>
+
+                  <p className="mt-4 text-center text-xs text-white/60">
+                    Scan to open the referral page.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <BottomBand hideOnId="site-footer" />
       </section>
 
       <QuoteModal open={quoteOpen} onClose={() => setQuoteOpen(false)} />

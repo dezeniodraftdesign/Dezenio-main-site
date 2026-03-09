@@ -12,7 +12,8 @@ function siteOrigin() {
   const vercelUrl = process.env.VERCEL_URL;
   if (vercelUrl) return `https://${vercelUrl}`;
 
-  return "http://localhost:3000";
+  // dev fallback
+  return "http://127.0.0.1:3000";
 }
 
 function mimeFromUrl(absUrl: string) {
@@ -23,11 +24,10 @@ function mimeFromUrl(absUrl: string) {
   return "application/octet-stream";
 }
 
-// ✅ Edge-safe base64 (no Buffer)
 function arrayBufferToBase64(ab: ArrayBuffer) {
   const bytes = new Uint8Array(ab);
   let binary = "";
-  const chunkSize = 0x8000; // avoids call stack issues
+  const chunkSize = 0x8000;
   for (let i = 0; i < bytes.length; i += chunkSize) {
     binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
   }
@@ -41,21 +41,18 @@ async function toDataUrl(absUrl: string) {
   const ab = await res.arrayBuffer();
   const base64 = arrayBufferToBase64(ab);
   const mime = mimeFromUrl(absUrl);
-
   return `data:${mime};base64,${base64}`;
 }
 
 export default async function OpenGraphImage() {
   const origin = siteOrigin();
 
-  // ✅ Your real assets in /public
   const bgUrl = new URL("/backgrounds/Dezenio-HomeBG.png", origin).toString();
   const logoUrl = new URL(
     "/logos/ddd-logo-wht-trans-crop.png",
     origin,
   ).toString();
 
-  // ✅ Inline as data URLs so Vercel Edge is consistent
   const [bgData, logoData] = await Promise.all([
     toDataUrl(bgUrl),
     toDataUrl(logoUrl),
@@ -64,22 +61,19 @@ export default async function OpenGraphImage() {
   return new ImageResponse(
     <div
       style={{
-        width: "1200px",
-        height: "630px",
+        width: 1200,
+        height: 630,
         position: "relative",
         overflow: "hidden",
-
-        // ✅ required when multiple children
         display: "flex",
         alignItems: "stretch",
         justifyContent: "center",
-
         backgroundColor: "#000",
         fontFamily:
           'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"',
       }}
     >
-      {/* Background */}
+      {/* Background (less dark) */}
       <img
         alt="Dezenio Draft Design background"
         src={bgData}
@@ -88,21 +82,30 @@ export default async function OpenGraphImage() {
         style={{
           position: "absolute",
           inset: 0,
-          width: "1200px",
-          height: "630px",
+          width: 1200,
+          height: 630,
           objectFit: "cover",
-          opacity: 0.55,
+          opacity: 0.78, // ✅ was 0.55 (too dark)
         }}
       />
 
-      {/* Gradient overlay */}
+      {/* Light vignette (NOT heavy side bars) */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          display: "flex",
           background:
-            "linear-gradient(90deg, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.38) 48%, rgba(0,0,0,0.70) 100%)",
+            "radial-gradient(ellipse at center, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.22) 72%, rgba(0,0,0,0.35) 100%)",
+        }}
+      />
+
+      {/* Bottom fade so text reads cleanly */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.00) 55%, rgba(0,0,0,0.55) 100%)",
         }}
       />
 
@@ -110,16 +113,14 @@ export default async function OpenGraphImage() {
       <div
         style={{
           position: "relative",
-          zIndex: 2,
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
           width: "100%",
-          padding: "64px",
-          gap: "14px",
+          padding: 64,
+          gap: 14,
         }}
       >
-        {/* Logo */}
         <div style={{ display: "flex", alignItems: "flex-start" }}>
           <img
             alt="Dezenio Draft Design"
@@ -127,31 +128,30 @@ export default async function OpenGraphImage() {
             width={520}
             height={150}
             style={{
-              width: "520px",
-              height: "150px",
+              width: 520,
+              height: 150,
               objectFit: "contain",
-              filter: "drop-shadow(0 10px 24px rgba(0,0,0,0.55))",
+              filter: "drop-shadow(0 10px 24px rgba(0,0,0,0.60))",
             }}
           />
         </div>
 
-        {/* Text */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "6px",
-            maxWidth: "820px",
+            gap: 6,
+            maxWidth: 820,
           }}
         >
           <div
             style={{
               display: "flex",
-              fontSize: "34px",
+              fontSize: 34,
               lineHeight: 1.1,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.94)",
-              textShadow: "0 10px 24px rgba(0,0,0,0.55)",
+              fontWeight: 750,
+              color: "rgba(255,255,255,0.96)",
+              textShadow: "0 10px 24px rgba(0,0,0,0.70)",
             }}
           >
             Premium Design. Unmatched Execution.
@@ -160,11 +160,11 @@ export default async function OpenGraphImage() {
           <div
             style={{
               display: "flex",
-              fontSize: "20px",
+              fontSize: 20,
               lineHeight: 1.25,
-              fontWeight: 500,
-              color: "rgba(255,255,255,0.78)",
-              textShadow: "0 10px 24px rgba(0,0,0,0.55)",
+              fontWeight: 520,
+              color: "rgba(255,255,255,0.86)",
+              textShadow: "0 10px 24px rgba(0,0,0,0.70)",
             }}
           >
             Cabinetry • Construction Docs • Remodel Support
