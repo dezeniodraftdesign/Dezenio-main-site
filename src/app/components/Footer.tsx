@@ -13,7 +13,6 @@ export default function Footer() {
     >
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-4">
-          {/* Brand / SEO */}
           <div className="md:col-span-2">
             <h4 className="text-sm font-semibold text-white">
               Dezenio Draft Design, Inc.
@@ -84,7 +83,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h5 className="text-[11px] font-semibold uppercase tracking-wider text-white/85">
               Quick Links
@@ -112,16 +110,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/construction-documents"
-                  className="hover:text-white"
-                >
-                  Construction Documents
+                <Link href="/design-documents" className="hover:text-white">
+                  Design &amp; Documents
                 </Link>
               </li>
               <li>
-                <Link href="/design-remodeling" className="hover:text-white">
-                  Design &amp; Remodeling
+                <Link
+                  href="/construction-remodeling"
+                  className="hover:text-white"
+                >
+                  Construction &amp; Remodeling
                 </Link>
               </li>
               <li>
@@ -142,7 +140,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social + Legal */}
           <div>
             <h5 className="text-[11px] font-semibold uppercase tracking-wider text-white/85">
               Social

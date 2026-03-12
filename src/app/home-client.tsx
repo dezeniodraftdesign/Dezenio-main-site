@@ -1,4 +1,3 @@
-/* FILE: src/app/home-client.tsx */
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -9,10 +8,8 @@ import Header from "./components/Header";
 import QuoteModal from "./components/QuoteModal";
 import BottomBand from "./components/BottomBand";
 
-/** ✅ Universal background controls (change per page if you want) */
 const BG_SRC = "/backgrounds/Dezenio-HomeBG.png";
-/** Frame selector for the stitched image */
-const BG_POS = "50% 33.7%"; // <- dial this number per page later
+const BG_POS = "50% 33.7%";
 
 export default function HomeClient() {
   const [quoteOpen, setQuoteOpen] = useState(false);
@@ -25,21 +22,21 @@ export default function HomeClient() {
   const serviceCards = useMemo(
     () => [
       {
-        title: "Cabinetry: Design & Install",
+        title: "Cabinetry",
         body: "Kith, Mouser, ProCraft (plus Bishop + Adornus on request) — design support, ordering, delivery coordination, and installation.",
         href: "/cabinetry",
         img: "/sections/cabinetry.png",
       },
       {
-        title: "Construction Documents",
-        body: "Permit-focused plan sets for remodel/addition scope — clear, buildable drawings that help approvals and reduce field surprises.",
-        href: "/services",
+        title: "Design & Documents",
+        body: "Plans, blueprints, as-builts, concept development, and permit-focused drawing sets for clear, buildable project direction.",
+        href: "/design-documents",
         img: "/sections/plans.png",
       },
       {
-        title: "Design & Remodeling Support",
-        body: "Concepts to permit-ready details — renovations, additions, as-builts, and coordination support when you need it.",
-        href: "/design-remodeling",
+        title: "Construction & Remodeling",
+        body: "Renovations, additions, framing coordination, and build-phase support when your project moves beyond planning and into execution.",
+        href: "/construction-remodeling",
         img: "/sections/render.png",
       },
     ],
@@ -48,7 +45,6 @@ export default function HomeClient() {
 
   return (
     <div className="relative min-h-dvh text-white">
-      {/* Background */}
       <div className="fixed inset-0 -z-20">
         <Image
           src={BG_SRC}
@@ -66,7 +62,6 @@ export default function HomeClient() {
 
       <Header onQuote={() => setQuoteOpen(true)} />
 
-      {/* HERO */}
       <section className="mx-auto max-w-7xl px-4 pt-28 md:pt-32">
         <div className="mx-auto max-w-5xl text-center">
           <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl leading-tight">
@@ -85,7 +80,7 @@ export default function HomeClient() {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/#services"
+              href="/services"
               className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
             >
               Explore Services
@@ -111,7 +106,6 @@ export default function HomeClient() {
         <div className="h-16 md:h-20" />
       </section>
 
-      {/* SERVICES */}
       <section id="services" className="mx-auto max-w-7xl px-4 py-14 md:py-20">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">
@@ -119,7 +113,7 @@ export default function HomeClient() {
           </h2>
           <p className="mx-auto mt-4 max-w-3xl text-white/80 md:text-lg">
             Cabinetry-first delivery, with permit-ready documentation and
-            buildable planning—when you need it.
+            buildable planning when you need it.
           </p>
         </div>
 
@@ -169,7 +163,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* ABOUT */}
       <section className="mx-auto max-w-7xl px-4 py-14 md:py-20">
         <div className="grid items-center gap-10 md:grid-cols-2">
           <div>
@@ -246,7 +239,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* CONTACT */}
       <section id="contact" className="mx-auto max-w-7xl px-4 py-14 md:py-20">
         <div className="grid gap-8 md:grid-cols-2">
           <div className="rounded-2xl bg-white/10 p-7 ring-1 ring-white/15 backdrop-blur-md">
@@ -331,7 +323,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* CABINETRY */}
       <section className="mx-auto max-w-7xl px-4 py-14 md:py-20">
         <div className="rounded-2xl bg-white/10 p-7 ring-1 ring-white/15 backdrop-blur-md">
           <div className="grid items-center gap-8 md:grid-cols-[1.25fr,1fr]">
@@ -377,7 +368,6 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* REFERRALS - NO BIG FROSTED CARD */}
       <section className="mx-auto max-w-7xl px-4 pb-28 pt-14 md:pt-20">
         <div className="border-t border-white/10 pt-12">
           <div className="grid items-start gap-10 md:grid-cols-[1.15fr,0.85fr]">

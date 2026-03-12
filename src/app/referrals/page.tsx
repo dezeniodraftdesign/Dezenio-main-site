@@ -47,7 +47,7 @@ export default function ReferralsPage() {
           priority
           sizes="100vw"
           className="object-cover"
-          style={{ objectPosition: "50% 1.7%" }} // ✅ pick stitch frame here
+          style={{ objectPosition: "50% 83.2%" }} // ✅ pick stitch frame here
         />
         <div className="absolute inset-0 bg-black/69" />
       </div>

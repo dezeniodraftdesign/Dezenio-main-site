@@ -1,4 +1,3 @@
-/* FILE: src/app/components/Header.tsx */
 "use client";
 
 import Image from "next/image";
@@ -113,52 +112,14 @@ export default function Header({ onQuote }: HeaderProps) {
               <span className="text-white/50">▼</span>
             </button>
 
-            {/* invisible hover bridge */}
             <div className="absolute left-0 top-full h-5 w-full bg-transparent" />
 
             {cabinetryOpen && (
               <div className={dropdownBase}>
                 <Link href="/cabinetry" className={dropdownItem}>
-                  <div className={dropdownTitle}>View Cabinetry Services</div>
+                  <div className={dropdownTitle}>Cabinetry</div>
                   <div className={dropdownText}>
                     Design, supply, and installation support.
-                  </div>
-                </Link>
-
-                <div className="my-1 h-px bg-white/8" />
-
-                <Link href="/cabinetry#kith" className={dropdownItem}>
-                  <div className={dropdownTitle}>Kith Kitchens</div>
-                  <div className={dropdownText}>
-                    Painted finishes and built-to-order flexibility.
-                  </div>
-                </Link>
-
-                <Link href="/cabinetry#mouser" className={dropdownItem}>
-                  <div className={dropdownTitle}>Mouser Cabinetry</div>
-                  <div className={dropdownText}>
-                    Premium custom cabinetry with inset capability.
-                  </div>
-                </Link>
-
-                <Link href="/cabinetry#procraft" className={dropdownItem}>
-                  <div className={dropdownTitle}>ProCraft Cabinetry</div>
-                  <div className={dropdownText}>
-                    Fast-turn cabinetry with framed and frameless options.
-                  </div>
-                </Link>
-
-                <Link href="/cabinetry#bishop" className={dropdownItem}>
-                  <div className={dropdownTitle}>Bishop Cabinets</div>
-                  <div className={dropdownText}>
-                    Semi-custom flexibility with inset, framed, and frameless.
-                  </div>
-                </Link>
-
-                <Link href="/cabinetry#adornus" className={dropdownItem}>
-                  <div className={dropdownTitle}>Adornus Cabinetry</div>
-                  <div className={dropdownText}>
-                    Design-forward cabinetry with modern styling.
                   </div>
                 </Link>
               </div>
@@ -182,27 +143,30 @@ export default function Header({ onQuote }: HeaderProps) {
               <span className="text-white/50">▼</span>
             </button>
 
-            {/* invisible hover bridge */}
             <div className="absolute left-0 top-full h-5 w-full bg-transparent" />
 
             {servicesOpen && (
               <div className={dropdownBase}>
-                <Link href="/services#concept-design" className={dropdownItem}>
-                  <div className={dropdownTitle}>Concept Design</div>
+                <Link href="/services" className={dropdownItem}>
+                  <div className={dropdownTitle}>Services Overview</div>
                   <div className={dropdownText}>
-                    Floor plans, elevations, and construction drawings.
+                    Explore all Dezenio service categories.
                   </div>
                 </Link>
 
-                <Link
-                  href="/services#construction-remodeling"
-                  className={dropdownItem}
-                >
+                <Link href="/design-documents" className={dropdownItem}>
+                  <div className={dropdownTitle}>Design &amp; Documents</div>
+                  <div className={dropdownText}>
+                    Plans, as-builts, blueprints, and permit-focused drawings.
+                  </div>
+                </Link>
+
+                <Link href="/construction-remodeling" className={dropdownItem}>
                   <div className={dropdownTitle}>
                     Construction &amp; Remodeling
                   </div>
                   <div className={dropdownText}>
-                    Renovations, additions, framing, and carpentry.
+                    Renovations, additions, framing, and build-phase support.
                   </div>
                 </Link>
               </div>

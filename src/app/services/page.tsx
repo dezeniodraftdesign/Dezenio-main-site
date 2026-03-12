@@ -27,25 +27,25 @@ function ServicesInner() {
 
   const cards = [
     {
-      title: "Cabinetry: Design & Install",
+      title: "Cabinetry",
       href: "/cabinetry",
-      image: "/sections/cabinetry.png",
+      image: "/backgrounds/Dezenio-HomeBG.png",
       blurb:
         "Kith, Mouser, ProCraft (plus Bishop + Adornus on request) — design support, ordering, delivery, and full installation. Hardware: Richelieu + Rev-A-Shelf.",
     },
     {
-      title: "Construction Documents",
-      href: "/construction-documents",
+      title: "Design & Documents",
+      href: "/design-documents",
       image: "/sections/plans.png",
       blurb:
-        "Permit-focused plans: site, foundation, framing, roof, elevations, and details for buildable results.",
+        "Plans, blueprints, as-builts, concept development, and permit-focused construction documentation for clear, buildable results.",
     },
     {
-      title: "Design & Remodeling Support",
-      href: "/design-remodeling",
+      title: "Construction & Remodeling",
+      href: "/construction-remodeling",
       image: "/sections/render.png",
       blurb:
-        "Concepts to permit-ready details — renovations, additions, as-builts, and coordination support.",
+        "Renovations, additions, framing coordination, and build-phase support that helps move projects from concept into execution.",
     },
   ];
 
@@ -56,7 +56,6 @@ function ServicesInner() {
     >
       <ScrollOffsets />
 
-      {/* Background */}
       <div className="fixed inset-0 -z-20">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
@@ -65,9 +64,9 @@ function ServicesInner() {
           priority
           sizes="100vw"
           className="object-cover"
-          style={{ objectPosition: "50% 15.7%" }}
+          style={{ objectPosition: "50% 17.7%" }}
         />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-black/69" />
       </div>
 
       <Header onQuote={() => setQuoteOpen(true)} />
@@ -79,10 +78,9 @@ function ServicesInner() {
 
         <p className="mx-auto mt-4 max-w-[760px] text-center text-white/80 md:text-lg leading-7">
           Cabinetry-first delivery, with permit-ready documentation and
-          buildable planning—when you need it.
+          buildable planning when you need it.
         </p>
 
-        {/* ✅ MATCHES HOME (#services) IMAGE CARDS */}
         <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
           {cards.map((c) => (
             <Link
@@ -90,14 +88,26 @@ function ServicesInner() {
               href={c.href}
               className="group block overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition hover:bg-white/7.5 hover:ring-white/20"
             >
-              <div className="relative aspect-[16/10]">
-                <Image
-                  src={c.image}
-                  alt={c.title}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+              <div className="relative h-[170px] overflow-hidden md:h-[185px] lg:h-[195px]">
+                {c.title === "Cabinetry" ? (
+                  <div
+                    className="absolute inset-0 transition duration-500 group-hover:scale-[1.03]"
+                    style={{
+                      backgroundImage: `url(${c.image})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "50% 100%",
+                    }}
+                  />
+                ) : (
+                  <Image
+                    src={c.image}
+                    alt={c.title}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                )}
               </div>
 
               <div className="p-5">
@@ -114,7 +124,6 @@ function ServicesInner() {
           ))}
         </div>
 
-        {/* CTA row (keep your existing intent) */}
         <div className="mt-12 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => setQuoteOpen(true)}

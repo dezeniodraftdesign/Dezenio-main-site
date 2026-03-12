@@ -77,7 +77,7 @@ function AboutInner() {
           sizes="100vw"
           className="object-cover"
           // Dial stitch slice as needed for About
-          style={{ objectPosition: "50% 33.7%" }}
+          style={{ objectPosition: "50% 1.7%" }}
         />
 
         {/* Luxe scrim — readable, not heavy */}
