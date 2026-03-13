@@ -50,15 +50,14 @@ export default function Header({ onQuote }: HeaderProps) {
     "inline-flex h-10 items-center gap-1 text-sm font-semibold text-white/90 transition hover:text-white";
 
   const dropdownBase =
-    "absolute left-0 top-full z-[70] mt-1 w-[320px] rounded-2xl border border-white/15 bg-black/82 p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl ring-1 ring-white/10";
+    "absolute left-0 top-full z-[70] mt-1 w-[340px] rounded-2xl border border-white/15 bg-black/88 p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl ring-1 ring-white/10";
 
   const dropdownItem = "block rounded-xl px-3 py-3 transition hover:bg-white/8";
-
   const dropdownTitle = "text-sm font-semibold text-white";
   const dropdownText = "mt-1 text-xs leading-5 text-white/68";
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-gradient-to-b from-black/75 via-black/35 to-transparent backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full bg-gradient-to-b from-black/72 via-black/28 to-transparent backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex items-center justify-between py-3">
           <Link href="/" className="inline-flex items-center" aria-label="Home">
@@ -75,7 +74,7 @@ export default function Header({ onQuote }: HeaderProps) {
           <div className="hidden items-center gap-2 md:flex">
             <a
               href="tel:16154742004"
-              className="inline-flex h-10 items-center rounded-full border border-white/20 px-4 text-sm font-semibold text-white/90 hover:bg-white/10"
+              className="inline-flex h-10 items-center rounded-full border border-white/20 px-4 text-sm font-semibold text-white/90 transition hover:bg-white/10"
             >
               (615) 474-2004
             </a>
@@ -83,7 +82,7 @@ export default function Header({ onQuote }: HeaderProps) {
             <button
               type="button"
               onClick={handleQuote}
-              className="inline-flex h-10 items-center rounded-full bg-white px-4 text-sm font-semibold text-black hover:bg-white/90"
+              className="inline-flex h-10 items-center rounded-full bg-white px-4 text-sm font-semibold text-black transition hover:bg-white/90"
             >
               Get a Quote
             </button>
@@ -117,9 +116,55 @@ export default function Header({ onQuote }: HeaderProps) {
             {cabinetryOpen && (
               <div className={dropdownBase}>
                 <Link href="/cabinetry" className={dropdownItem}>
-                  <div className={dropdownTitle}>Cabinetry</div>
+                  <div className={dropdownTitle}>All Cabinet Lines</div>
                   <div className={dropdownText}>
-                    Design, supply, and installation support.
+                    Explore the cabinet brands, hardware, and support we offer.
+                  </div>
+                </Link>
+
+                <Link href="/cabinetry#kith-kitchens" className={dropdownItem}>
+                  <div className={dropdownTitle}>Kith Kitchens</div>
+                  <div className={dropdownText}>
+                    Primary line with strong style coverage and reliable value.
+                  </div>
+                </Link>
+
+                <Link
+                  href="/cabinetry#mouser-cabinetry"
+                  className={dropdownItem}
+                >
+                  <div className={dropdownTitle}>Mouser Cabinetry</div>
+                  <div className={dropdownText}>
+                    Premium American-made cabinetry with deeper customization.
+                  </div>
+                </Link>
+
+                <Link
+                  href="/cabinetry#procraft-cabinetry"
+                  className={dropdownItem}
+                >
+                  <div className={dropdownTitle}>ProCraft Cabinetry</div>
+                  <div className={dropdownText}>
+                    Practical, fast-turn cabinetry with strong accessory
+                    options.
+                  </div>
+                </Link>
+
+                <Link
+                  href="/cabinetry#bishop-cabinets"
+                  className={dropdownItem}
+                >
+                  <div className={dropdownTitle}>Bishop Cabinets</div>
+                  <div className={dropdownText}>
+                    Dependable construction and broad catalog flexibility.
+                  </div>
+                </Link>
+
+                <Link href="/cabinetry#adornus" className={dropdownItem}>
+                  <div className={dropdownTitle}>Adornus</div>
+                  <div className={dropdownText}>
+                    Quick-turn option with value positioning and practical
+                    selections.
                   </div>
                 </Link>
               </div>
@@ -155,9 +200,11 @@ export default function Header({ onQuote }: HeaderProps) {
                 </Link>
 
                 <Link href="/design-documents" className={dropdownItem}>
-                  <div className={dropdownTitle}>Design &amp; Documents</div>
+                  <div className={dropdownTitle}>
+                    Concept Design &amp; Construction Documents
+                  </div>
                   <div className={dropdownText}>
-                    Plans, as-builts, blueprints, and permit-focused drawings.
+                    Concept layouts, as-builts, and permit-focused drawings.
                   </div>
                 </Link>
 

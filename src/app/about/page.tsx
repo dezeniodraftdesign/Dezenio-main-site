@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Header from "../components/Header";
 
+import Header from "../components/Header";
 import QuoteModal from "../components/QuoteModal";
 import ScrollOffsets from "../components/ScrollOffsets";
 
@@ -58,7 +58,7 @@ function AboutInner() {
   return (
     <div
       id="top"
-      className="relative min-h-[100dvh] text-white pb-[calc(var(--bottom-band-height,52px)+240px)]"
+      className="relative min-h-screen pb-[calc(var(--bottom-band-height,64px)+110px)] text-white"
     >
       <ScrollOffsets />
 
@@ -67,7 +67,6 @@ function AboutInner() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Background */}
       <div className="fixed inset-0 -z-20">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
@@ -76,305 +75,276 @@ function AboutInner() {
           priority
           sizes="100vw"
           className="object-cover"
-          // Dial stitch slice as needed for About
-          style={{ objectPosition: "50% 1.7%" }}
+          style={{ objectPosition: "50% 99%" }}
         />
-
-        {/* Luxe scrim — readable, not heavy */}
-        <div className="absolute inset-0 bg-black/18" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/14 to-black/55" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.20)_0%,rgba(0,0,0,0.10)_45%,rgba(0,0,0,0.00)_72%)]" />
+        <div className="absolute inset-0 bg-black/28" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/36 via-black/14 to-black/42" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_40%)]" />
       </div>
 
       <Header onQuote={() => setQuoteOpen(true)} />
 
-      <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-28 md:pt-32">
-        {/* PAGE ID (make it obviously “About”) */}
-        <section className="max-w-4xl">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-white/80">
-            About
-          </p>
-          <p className="mt-2 text-[12px] font-medium tracking-wide text-white/60">
-            Dezenio Draft Design • Nashville, TN
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-5xl pt-16 text-center md:pt-20">
+          <p className="text-xs font-semibold tracking-[0.22em] text-white/72">
+            ABOUT • NASHVILLE, TN
           </p>
 
-          <h1 className="mt-5 text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.02] drop-shadow-[0_14px_40px_rgba(0,0,0,0.55)]">
+          <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl">
             Cabinetry-first.
             <br />
             Plans when you need them.
           </h1>
 
-          {/* WHO WE ARE / WHAT WE DO (strong + non-AI) */}
-          <div className="mt-7 space-y-4">
-            <p className="text-white/88 md:text-lg leading-7 drop-shadow-[0_10px_28px_rgba(0,0,0,0.45)]">
-              Dezenio is a cabinetry-first studio built around execution. We
-              help homeowners and builders make the key decisions early—layout,
-              appliance planning, trim, and hardware—then carry those decisions
-              through ordering and installation so the finished result matches
-              the intent.
-            </p>
-
-            <p className="text-white/84 md:text-lg leading-7">
-              When scope requires it, we also produce permit-ready construction
-              documents—clean, buildable drawings that reduce field confusion.
-            </p>
-
-            <p className="text-white/80 md:text-lg leading-7">
-              <span className="font-semibold text-white/90">Standard:</span> If
-              it won’t install clean, we don’t design it that way.
-            </p>
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              onClick={() => setQuoteOpen(true)}
-              className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-white/90"
-            >
-              Get a Quote
-            </button>
-
-            <Link
-              href="/services"
-              className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10"
-            >
-              View Services
-            </Link>
-
-            <Link
-              href="/cabinetry"
-              className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10"
-            >
-              Cabinetry
-            </Link>
-          </div>
+          <p className="mx-auto mt-8 max-w-4xl text-base leading-relaxed text-white/86 md:text-lg md:leading-8">
+            Dezenio Draft Design is built around clean execution — cabinetry
+            planning, ordering coordination, and installation support first,
+            with concept design and permit-ready construction documents when the
+            project needs a more complete path forward.
+          </p>
         </section>
 
-        {/* Divider */}
-        <div className="mt-12 h-px w-full bg-white/12" />
-
-        {/* WHAT WE DO (editorial columns, no cards) */}
-        <section className="mt-10">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/70">
-            What we do
-          </h2>
-
-          <div className="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-3">
-            <div>
-              <h3 className="text-xl font-semibold text-white">
+        <section className="mx-auto mt-12 max-w-7xl">
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md">
+              <h2 className="text-xl font-semibold text-white">
                 Cabinetry packages
-              </h3>
-              <p className="mt-2 text-sm text-white/80 leading-6">
-                Design support, quoting, ordering coordination, delivery
-                planning, and professional installation—built for clean
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-white/80">
+                Design guidance, quoting, ordering coordination, delivery
+                planning, and professional installation built for cleaner
                 timelines and fewer surprises.
               </p>
-              <ul className="mt-4 space-y-2 text-sm text-white/75 list-disc pl-5">
-                <li>Appliance planning + panels</li>
-                <li>Trim, fillers, moldings, and hardware</li>
-                <li>Builder coordination + punch support</li>
+              <ul className="mt-4 space-y-2 text-sm leading-relaxed text-white/74">
+                <li>• Appliance planning and panels</li>
+                <li>• Trim, fillers, moldings, and hardware</li>
+                <li>• Builder coordination and punch support</li>
               </ul>
             </div>
 
-            <div>
-              <h3 className="text-xl font-semibold text-white">
+            <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md">
+              <h2 className="text-xl font-semibold text-white">
                 Construction documents
-              </h3>
-              <p className="mt-2 text-sm text-white/80 leading-6">
-                Permit-ready plan sets for remodel/addition scope—clear,
-                buildable drawings that help approvals and reduce field
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-white/80">
+                Permit-ready drawings for remodel and addition scope — clear,
+                buildable plans that help approvals move faster and reduce field
                 confusion.
               </p>
-              <ul className="mt-4 space-y-2 text-sm text-white/75 list-disc pl-5">
-                <li>As-builts (when needed)</li>
-                <li>Floor plans, elevations, sections, details</li>
-                <li>Site planning + basic coordination</li>
+              <ul className="mt-4 space-y-2 text-sm leading-relaxed text-white/74">
+                <li>• As-builts when needed</li>
+                <li>• Floor plans, elevations, and sections</li>
+                <li>• Site planning and basic coordination</li>
               </ul>
             </div>
 
-            <div>
-              <h3 className="text-xl font-semibold text-white">Service area</h3>
-              <p className="mt-2 text-sm text-white/80 leading-6">
-                Nashville + surrounding Middle Tennessee—Franklin, Brentwood,
-                Nolensville, Smyrna, Murfreesboro, Mount Juliet, Hendersonville.
+            <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md">
+              <h2 className="text-xl font-semibold text-white">Service area</h2>
+              <p className="mt-3 text-sm leading-7 text-white/80">
+                Nashville and surrounding Middle Tennessee — including Franklin,
+                Brentwood, Nolensville, Smyrna, Murfreesboro, Mount Juliet, and
+                Hendersonville.
               </p>
-              <p className="mt-3 text-sm text-white/70 leading-6">
-                Remote quoting available when plans + selections are clear.
+              <p className="mt-4 text-sm leading-7 text-white/74">
+                Remote quoting can work when plans, measurements, and selections
+                are already clear.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Divider */}
-        <div className="mt-12 h-px w-full bg-white/12" />
+        <section className="mx-auto mt-32 max-w-7xl">
+          <div className="rounded-[28px] bg-black/18 p-5 ring-1 ring-white/10 backdrop-blur-md md:p-6">
+            <div className="grid gap-6 lg:grid-cols-[1.14fr_0.86fr] lg:items-start">
+              <div className="rounded-[22px] bg-white/[0.03] p-5 ring-1 ring-white/8 md:p-6">
+                <p className="text-xs font-semibold tracking-[0.20em] text-white/66">
+                  MEET THE OWNER
+                </p>
 
-        {/* MEET THE OWNER (simple, real, premium) */}
-        <section className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-          <div>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/70">
-              Meet the owner
-            </h2>
+                <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-[3rem] md:leading-[1.02]">
+                  Pime Hernandez
+                </h2>
 
-            <h3 className="mt-3 text-2xl md:text-3xl font-bold tracking-tight text-white">
-              Pime Hernandez
-            </h3>
+                <div className="mt-5 space-y-4">
+                  <p className="text-[14px] leading-7 text-white/84 md:text-[15px] md:leading-7">
+                    Pime leads Dezenio with a cabinetry-first standard:
+                    decisions that install clean, specs that are clear, and
+                    project flow that makes sense in the field.
+                  </p>
 
-            <p className="mt-3 text-sm md:text-base text-white/82 leading-7">
-              Pime leads Dezenio with a cabinetry-first standard: design
-              decisions that install clean. After relocating to Middle Tennessee
-              in 2013, he spent years building deep local experience in kitchen
-              + bath design and cabinetry execution—learning how projects move
-              here, how jobsites behave, and what it takes to deliver
-              consistently.
-            </p>
+                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
+                    After relocating to Middle Tennessee in 2013, he spent years
+                    building local experience in kitchen and bath design,
+                    cabinetry execution, remodel coordination, and the practical
+                    realities of how projects actually move from idea to
+                    installation.
+                  </p>
 
-            <p className="mt-4 text-sm md:text-base text-white/82 leading-7">
-              Dezenio is owner-led and hands-on—built for clear specs, real
-              timelines, and accountable delivery.
-            </p>
-          </div>
+                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
+                    Dezenio is owner-led, hands-on, and built for clients who
+                    want clear communication, realistic timelines, and a
+                    finished result that matches the design intent.
+                  </p>
 
-          <div className="rounded-2xl bg-black/14 ring-1 ring-white/10 backdrop-blur-xl p-6">
-            <h4 className="text-sm font-semibold text-white/90">
-              What clients notice
-            </h4>
-            <ul className="mt-4 space-y-2 text-sm text-white/78 list-disc pl-5">
-              <li>Fast, accurate takeoffs from plans</li>
-              <li>Appliance panels + trim/hardware dialed in</li>
-              <li>Clear communication and real timelines</li>
-              <li>Execution that matches the design intent</li>
-            </ul>
+                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
+                    The work is grounded in direct involvement — from early
+                    conversations and layout decisions to ordering coordination,
+                    field awareness, and keeping the final install aligned with
+                    the original intent.
+                  </p>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              <button
-                onClick={() => setQuoteOpen(true)}
-                className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90"
-              >
-                Start a Project
-              </button>
-              <Link
-                href="/cabinetry"
-                className="rounded-full border border-white/25 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                View Cabinetry
-              </Link>
+                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
+                    That hands-on approach helps reduce confusion, tighten
+                    communication, and create cleaner results across cabinetry,
+                    design support, and document-driven project scope.
+                  </p>
+
+                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
+                    The goal is simple: clear specs, real communication, cleaner
+                    installs, and fewer surprises in the field.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-[22px] bg-black/20 p-4 ring-1 ring-white/10 backdrop-blur-md">
+                <div className="overflow-hidden rounded-[18px] bg-black/25 ring-1 ring-white/8">
+                  <Image
+                    src="/about/pime.png"
+                    alt="Pime Hernandez"
+                    width={900}
+                    height={1400}
+                    priority
+                    className="h-[600px] w-full object-cover object-top"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Divider */}
-        <div className="mt-12 h-px w-full bg-white/12" />
+        <section className="mx-auto mt-32 max-w-7xl">
+          <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md md:p-8">
+            <div className="grid gap-8 lg:grid-cols-2">
+              <div>
+                <p className="text-xs font-semibold tracking-[0.20em] text-white/66">
+                  OUR PROCESS
+                </p>
 
-        {/* PROCESS + LINES (editorial, no card wall) */}
-        <section className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
-          <div>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/70">
-              Our process
-            </h2>
+                <ol className="mt-4 space-y-3 text-sm leading-relaxed text-white/80 md:text-base">
+                  <li>
+                    <span className="font-semibold text-white/92">
+                      1. Discovery:
+                    </span>{" "}
+                    goals, budget range, timeline, and site conditions.
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">
+                      2. Design + Specs:
+                    </span>{" "}
+                    layout, selections, appliance planning, trim, and hardware.
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">
+                      3. Quote + Order:
+                    </span>{" "}
+                    confirm scope, finalize lead times, and place orders.
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">
+                      4. Delivery + Install:
+                    </span>{" "}
+                    coordinate delivery, stage materials, install, and punch.
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">
+                      5. Docs if needed:
+                    </span>{" "}
+                    produce permit-ready plans for remodel or addition scope.
+                  </li>
+                </ol>
+              </div>
 
-            <ol className="mt-4 space-y-3 text-sm md:text-base text-white/82 list-decimal pl-5">
-              <li>
-                <span className="font-semibold text-white/92">Discovery:</span>{" "}
-                goals, budget band, timeline, site conditions.
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">
-                  Design + Specs:
-                </span>{" "}
-                layout, selections, appliance planning, trim/hardware.
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">
-                  Quote + Order:
-                </span>{" "}
-                confirm scope, lead times, place order.
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">
-                  Delivery + Install:
-                </span>{" "}
-                coordinate, stage, install, punch.
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">
-                  Docs (if needed):
-                </span>{" "}
-                permit-ready plans for remodel/addition scope.
-              </li>
-            </ol>
-          </div>
+              <div>
+                <p className="text-xs font-semibold tracking-[0.20em] text-white/66">
+                  CABINETRY LINES
+                </p>
 
-          <div>
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/70">
-              Cabinetry lines
-            </h2>
+                <p className="mt-4 text-sm leading-relaxed text-white/80 md:text-base">
+                  We help guide clients toward the right line based on budget,
+                  lead time, finish level, and how custom the project really
+                  needs to be.
+                </p>
 
-            <p className="mt-4 text-sm md:text-base text-white/82 leading-7">
-              We’ll guide you to the right line based on budget, lead time, and
-              finish needs.
-            </p>
+                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/80 md:text-base">
+                  <li>
+                    <span className="font-semibold text-white/92">
+                      Kith Kitchens
+                    </span>{" "}
+                    — primary line
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">Mouser</span>{" "}
+                    — premium / custom
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">
+                      ProCraft
+                    </span>{" "}
+                    — quick-ship options
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">Bishop</span>
+                  </li>
+                  <li>
+                    <span className="font-semibold text-white/92">Adornus</span>{" "}
+                    — available on request
+                  </li>
+                </ul>
 
-            <ul className="mt-4 space-y-2 text-sm md:text-base text-white/82 list-disc pl-5">
-              <li>
-                <span className="font-semibold text-white/92">
-                  Kith Kitchens
-                </span>{" "}
-                (primary)
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">Mouser</span>{" "}
-                (premium / custom)
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">ProCraft</span>{" "}
-                (quick-ship options)
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">Bishop</span>
-              </li>
-              <li>
-                <span className="font-semibold text-white/92">Adornus</span>{" "}
-                (available on request)
-              </li>
-            </ul>
-
-            <p className="mt-4 text-sm text-white/70">
-              Hardware + storage: Richelieu and Rev-A-Shelf.
-            </p>
+                <p className="mt-4 text-sm text-white/70">
+                  Hardware and storage support includes Richelieu and
+                  Rev-A-Shelf.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Bottom CTA band (simple + not conflicting) */}
-        <section className="mt-12 rounded-2xl bg-black/12 ring-1 ring-white/10 backdrop-blur-xl p-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h3 className="text-lg font-semibold text-white">
-                Ready to price a project?
-              </h3>
-              <p className="mt-1 text-sm text-white/75">
-                Fast quotes when plans are clear. We’ll help define scope when
-                they aren’t.
-              </p>
-            </div>
+        <section className="mx-auto mt-16 max-w-7xl">
+          <div className="rounded-2xl bg-black/20 p-6 ring-1 ring-white/10 backdrop-blur-md md:p-8">
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+                  Ready to price a project?
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-white/76 md:text-base">
+                  Fast quotes when plans are clear. We can also help define
+                  scope when they are not.
+                </p>
+              </div>
 
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={() => setQuoteOpen(true)}
-                className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-white/90"
-              >
-                Get a Quote
-              </button>
-              <Link
-                href="/cabinetry"
-                className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Cabinetry
-              </Link>
-              <Link
-                href="/services"
-                className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Services
-              </Link>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => setQuoteOpen(true)}
+                  className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90"
+                >
+                  Get a Quote
+                </button>
+
+                <Link
+                  href="/cabinetry"
+                  className="rounded-full border border-white/22 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/8"
+                >
+                  Cabinetry
+                </Link>
+
+                <Link
+                  href="/services"
+                  className="rounded-full border border-white/22 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/8"
+                >
+                  Services
+                </Link>
+              </div>
             </div>
           </div>
         </section>
