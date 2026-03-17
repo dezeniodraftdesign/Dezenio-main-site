@@ -8,13 +8,6 @@ import Header from "../components/Header";
 import QuoteModal from "../components/QuoteModal";
 import ScrollOffsets from "../components/ScrollOffsets";
 
-type FeatureImage = {
-  title: string;
-  text: string;
-  image: string;
-  imageStyle?: React.CSSProperties;
-};
-
 export default function ConstructionRemodelingPage() {
   return (
     <Suspense fallback={null}>
@@ -31,31 +24,10 @@ function ConstructionRemodelingInner() {
     if (search.get("quote") === "1") setQuoteOpen(true);
   }, [search]);
 
-  const featureImages: FeatureImage[] = [
-    {
-      title: "Remodel coordination and build-phase support",
-      text: "Use this area for a clean remodel-in-progress image, framing plus finish overlap, or a project visual that communicates organized field execution.",
-      image: "/sections/render.png",
-      imageStyle: { objectPosition: "50% 50%" },
-    },
-    {
-      title: "Cabinetry, layout, and field execution staying aligned",
-      text: "A strong placeholder for cabinetry-related planning, install awareness, and the point where design intent begins meeting real-world construction decisions.",
-      image: "/sections/render.png",
-      imageStyle: { objectPosition: "50% 50%" },
-    },
-    {
-      title: "Residential and select commercial interior build-out support",
-      text: "This can later be replaced with a light commercial or refined interior build-out image that still feels polished and on-brand.",
-      image: "/sections/render.png",
-      imageStyle: { objectPosition: "50% 50%" },
-    },
-  ];
-
   return (
     <div
       id="top"
-      className="relative pb-[calc(var(--bottom-band-height,64px)+140px)] text-white"
+      className="relative pb-[calc(var(--bottom-band-height,64px)+120px)] text-white"
     >
       <ScrollOffsets />
 
@@ -69,7 +41,7 @@ function ConstructionRemodelingInner() {
           className="object-cover"
           style={{ objectPosition: "50% 50%" }}
         />
-        <div className="absolute inset-0 bg-black/68" />
+        <div className="absolute inset-0 bg-black/15" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/34 via-black/12 to-black/34" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.05),transparent_34%)]" />
       </div>
@@ -128,82 +100,65 @@ function ConstructionRemodelingInner() {
           </div>
         </section>
 
-        <section className="mt-12 rounded-2xl bg-white/8 p-5 ring-1 ring-white/10 backdrop-blur-md md:p-6">
-          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                Built to stay aligned from planning through execution
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 md:text-base">
-                This work is especially useful when cabinetry, layout, framing,
-                finish decisions, field conditions, and construction sequencing
-                begin to affect one another. The goal is not just to move the
-                build forward, but to help it stay visually aligned, practically
-                coordinated, and easier to execute well.
-              </p>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/72 md:text-base">
-                Dezenio brings a cabinetry-first, construction-aware perspective
-                to projects that need more than product selection alone.
-              </p>
+        <section className="mx-auto mt-12 max-w-6xl">
+          <div className="rounded-2xl bg-white/8 p-6 ring-1 ring-white/10 backdrop-blur-md md:p-8">
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              Built to stay aligned from planning through execution
+            </h2>
+
+            <p className="mt-4 max-w-4xl text-sm leading-7 text-white/82 md:text-base">
+              This work is especially useful when cabinetry, layout, framing,
+              finish decisions, field conditions, and construction sequencing
+              begin to affect one another. The goal is not just to move the
+              build forward, but to help it stay visually aligned, practically
+              coordinated, and easier to execute well.
+            </p>
+
+            <p className="mt-4 max-w-4xl text-sm leading-7 text-white/78 md:text-base">
+              That applies not only to residential remodels and additions, but
+              also to select commercial interiors and build-out scope where
+              planning, coordination, and execution need to stay cleaner from
+              start to finish.
+            </p>
+
+            <p className="mt-4 max-w-4xl text-sm leading-7 text-white/74 md:text-base">
+              Dezenio brings a cabinetry-first, construction-aware perspective
+              to projects that need more than product selection alone.
+            </p>
+          </div>
+        </section>
+
+        <section className="mx-auto mt-12 max-w-6xl">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div className="rounded-2xl bg-white/8 p-6 ring-1 ring-white/10 backdrop-blur-md">
+              <h2 className="text-lg font-semibold">How this support helps</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-white/80">
+                <li>Clarifies scope before build-phase decisions multiply</li>
+                <li>Keeps cabinetry planning tied to real field conditions</li>
+                <li>Reduces disconnect between design intent and execution</li>
+                <li>Supports cleaner communication with builders and trades</li>
+                <li>
+                  Helps projects stay more coordinated through installation
+                </li>
+              </ul>
             </div>
 
-            <div className="overflow-hidden rounded-2xl bg-black/16 ring-1 ring-white/10">
-              <div className="relative h-[260px] overflow-hidden md:h-[320px]">
-                <Image
-                  src="/sections/render.png"
-                  alt="Construction support and field coordination"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                  style={{ objectPosition: "50% 50%" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/16 via-transparent to-transparent" />
-              </div>
+            <div className="rounded-2xl bg-white/8 p-6 ring-1 ring-white/10 backdrop-blur-md">
+              <h2 className="text-lg font-semibold">Typical overlap</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-white/80">
+                <li>Cabinetry planning plus remodel coordination</li>
+                <li>
+                  Layout revisions that affect framing or finish decisions
+                </li>
+                <li>Field verification before ordering or installation</li>
+                <li>Interior build-out scope requiring stronger alignment</li>
+                <li>Construction documents added where scope calls for them</li>
+              </ul>
             </div>
           </div>
         </section>
 
-        <section className="mt-12">
-          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-            Image Direction
-          </h2>
-          <p className="mt-3 max-w-3xl text-white/78 leading-relaxed">
-            For now, these can remain placeholders until stronger field images
-            are sourced. The ideal direction is clean remodels in progress,
-            framing plus finished interior overlap, plan-overlay imagery, and
-            refined build-phase visuals that still feel premium.
-          </p>
-
-          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-            {featureImages.map((item) => (
-              <div
-                key={item.title}
-                className="overflow-hidden rounded-2xl bg-white/8 ring-1 ring-white/10 backdrop-blur-md"
-              >
-                <div className="relative h-[210px] overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
-                    style={item.imageStyle}
-                  />
-                  <div className="absolute inset-0 bg-black/10" />
-                </div>
-
-                <div className="p-5">
-                  <h3 className="text-base font-semibold">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/78">
-                    {item.text}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-12">
+        <section className="mx-auto mt-12 max-w-6xl">
           <div className="rounded-2xl bg-white/8 px-6 py-8 ring-1 ring-white/10 backdrop-blur-md md:px-8 md:py-10">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
               <div>
