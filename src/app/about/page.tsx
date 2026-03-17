@@ -67,36 +67,44 @@ function AboutInner() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="fixed inset-0 -z-20">
+      <div className="fixed inset-0 -z-20 overflow-hidden">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
           alt="Dezenio Draft Design background"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "50% 99%" }}
+          className="object-cover scale-[3.15] object-[2%_128%] md:scale-100 md:object-[50%_99%]"
         />
-        <div className="absolute inset-0 bg-black/28" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/36 via-black/14 to-black/42" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_40%)]" />
+        <div className="absolute inset-0 bg-black/42 md:bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/34 via-black/18 to-black/44 md:from-black/24 md:via-black/10 md:to-black/30" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.18),transparent_34%)] md:bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.12),transparent_36%)]" />
       </div>
 
       <Header onQuote={() => setQuoteOpen(true)} />
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <section className="mx-auto max-w-5xl pt-16 text-center md:pt-20">
-          <p className="text-xs font-semibold tracking-[0.22em] text-white/72">
+        <section className="mx-auto max-w-5xl pt-14 text-center md:pt-20">
+          <p
+            className="text-xs font-semibold tracking-[0.22em] text-white/82"
+            style={{ textShadow: "0 4px 18px rgba(0,0,0,0.28)" }}
+          >
             ABOUT • NASHVILLE, TN
           </p>
 
-          <h1 className="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl">
+          <h1
+            className="mt-4 text-4xl font-extrabold tracking-tight leading-[1.04] text-white md:text-6xl"
+            style={{ textShadow: "0 10px 34px rgba(0,0,0,0.34)" }}
+          >
             Cabinetry-first.
             <br />
             Plans when you need them.
           </h1>
 
-          <p className="mx-auto mt-8 max-w-4xl text-base leading-relaxed text-white/86 md:text-lg md:leading-8">
+          <p
+            className="mx-auto mt-6 max-w-4xl text-base leading-7 text-white/92 md:mt-8 md:text-lg md:leading-8"
+            style={{ textShadow: "0 6px 24px rgba(0,0,0,0.22)" }}
+          >
             Dezenio Draft Design is built around clean execution — cabinetry
             planning, ordering coordination, and installation support first,
             with concept design and permit-ready construction documents when the
@@ -104,48 +112,48 @@ function AboutInner() {
           </p>
         </section>
 
-        <section className="mx-auto mt-12 max-w-7xl">
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md">
+        <section className="mx-auto mt-10 max-w-7xl md:mt-12">
+          <div className="grid gap-5 md:gap-6 lg:grid-cols-3">
+            <div className="rounded-2xl bg-black/28 p-5 ring-1 ring-white/12 backdrop-blur-md md:p-6">
               <h2 className="text-xl font-semibold text-white">
                 Cabinetry packages
               </h2>
-              <p className="mt-3 text-sm leading-7 text-white/80">
+              <p className="mt-3 text-sm leading-7 text-white/88">
                 Design guidance, quoting, ordering coordination, delivery
                 planning, and professional installation built for cleaner
                 timelines and fewer surprises.
               </p>
-              <ul className="mt-4 space-y-2 text-sm leading-relaxed text-white/74">
+              <ul className="mt-4 space-y-2 text-sm leading-relaxed text-white/80">
                 <li>• Appliance planning and panels</li>
                 <li>• Trim, fillers, moldings, and hardware</li>
                 <li>• Builder coordination and punch support</li>
               </ul>
             </div>
 
-            <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md">
+            <div className="rounded-2xl bg-black/28 p-5 ring-1 ring-white/12 backdrop-blur-md md:p-6">
               <h2 className="text-xl font-semibold text-white">
                 Construction documents
               </h2>
-              <p className="mt-3 text-sm leading-7 text-white/80">
+              <p className="mt-3 text-sm leading-7 text-white/88">
                 Permit-ready drawings for remodel and addition scope — clear,
                 buildable plans that help approvals move faster and reduce field
                 confusion.
               </p>
-              <ul className="mt-4 space-y-2 text-sm leading-relaxed text-white/74">
+              <ul className="mt-4 space-y-2 text-sm leading-relaxed text-white/80">
                 <li>• As-builts when needed</li>
                 <li>• Floor plans, elevations, and sections</li>
                 <li>• Site planning and basic coordination</li>
               </ul>
             </div>
 
-            <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md">
+            <div className="rounded-2xl bg-black/28 p-5 ring-1 ring-white/12 backdrop-blur-md md:p-6">
               <h2 className="text-xl font-semibold text-white">Service area</h2>
-              <p className="mt-3 text-sm leading-7 text-white/80">
+              <p className="mt-3 text-sm leading-7 text-white/88">
                 Nashville and surrounding Middle Tennessee — including Franklin,
                 Brentwood, Nolensville, Smyrna, Murfreesboro, Mount Juliet, and
                 Hendersonville.
               </p>
-              <p className="mt-4 text-sm leading-7 text-white/74">
+              <p className="mt-4 text-sm leading-7 text-white/80">
                 Remote quoting can work when plans, measurements, and selections
                 are already clear.
               </p>
@@ -153,76 +161,144 @@ function AboutInner() {
           </div>
         </section>
 
-        <section className="mx-auto mt-32 max-w-7xl">
-          <div className="rounded-[28px] bg-black/18 p-5 ring-1 ring-white/10 backdrop-blur-md md:p-6">
-            <div className="grid gap-6 lg:grid-cols-[1.14fr_0.86fr] lg:items-start">
-              <div className="rounded-[22px] bg-white/[0.03] p-5 ring-1 ring-white/8 md:p-6">
-                <p className="text-xs font-semibold tracking-[0.20em] text-white/66">
-                  MEET THE OWNER
-                </p>
+        <section className="mx-auto mt-16 max-w-7xl md:mt-24 lg:mt-28">
+          <div className="rounded-[28px] bg-black/18 p-4 ring-1 ring-white/10 backdrop-blur-md md:p-6">
+            <div className="rounded-[22px] bg-white/[0.03] p-5 ring-1 ring-white/8 md:p-6 lg:p-7">
+              <p className="text-xs font-semibold tracking-[0.20em] text-white/66">
+                MEET THE OWNER
+              </p>
 
-                <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-[3rem] md:leading-[1.02]">
-                  Pime Hernandez
-                </h2>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-tight leading-[1.04] md:text-[3rem] md:leading-[1.02]">
+                Pime Hernandez
+              </h2>
 
-                <div className="mt-5 space-y-4">
-                  <p className="text-[14px] leading-7 text-white/84 md:text-[15px] md:leading-7">
-                    Pime leads Dezenio with a cabinetry-first standard:
-                    decisions that install clean, specs that are clear, and
-                    project flow that makes sense in the field.
+              <div className="mt-5 md:hidden">
+                <div className="overflow-hidden">
+                  <p className="text-[14px] leading-7 text-white/84">
+                    Pime Hernandez leads Dezenio with a cabinetry-first standard
+                    shaped by decades of experience across construction, design,
+                    sales, and project coordination.
                   </p>
 
-                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
-                    After relocating to Middle Tennessee in 2013, he spent years
-                    building local experience in kitchen and bath design,
-                    cabinetry execution, remodel coordination, and the practical
-                    realities of how projects actually move from idea to
-                    installation.
+                  <p className="mt-4 text-[14px] leading-7 text-white/80">
+                    After relocating to Middle Tennessee in 2013, he built years
+                    of local experience in kitchen and bath design, cabinetry
+                    execution, remodel-related planning, and the practical side
+                    of how projects move from concept to completion.
                   </p>
 
-                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
+                  <div className="float-left mr-4 mt-5 mb-3">
+                    <div className="overflow-hidden rounded-[16px] bg-black/10 p-2 ring-1 ring-white/8">
+                      <Image
+                        src="/about/pime.png"
+                        alt="Pime Hernandez"
+                        width={900}
+                        height={1400}
+                        priority
+                        className="h-auto max-h-[184px] w-auto max-w-[132px] rounded-[12px] object-contain"
+                      />
+                    </div>
+                  </div>
+
+                  <p className="mt-4 text-[14px] leading-7 text-white/80">
+                    His background began in construction in his late teens and
+                    now spans nearly three decades across framing, interior
+                    millwork, finish work, flooring, tile, countertops,
+                    cabinetry, design, sales, project management, and showroom
+                    leadership.
+                  </p>
+
+                  <p className="mt-4 text-[14px] leading-7 text-white/80">
+                    That broader range of experience gives Dezenio a stronger
+                    perspective — one shaped not only by how a project looks on
+                    paper, but by how it comes together in the field. It
+                    continues to influence the company’s approach today, with
+                    careful attention to planning, product selection,
+                    coordination, installation awareness, and the belief that
+                    better decisions early in the process lead to better results
+                    at installation and completion.
+                  </p>
+
+                  <p className="mt-4 text-[14px] leading-7 text-white/80">
                     Dezenio is owner-led, hands-on, and built for clients who
-                    want clear communication, realistic timelines, and a
-                    finished result that matches the design intent.
+                    value clarity, communication, and direct involvement
+                    throughout the process. The work is grounded in practical
+                    understanding, cabinetry-forward thinking, and a commitment
+                    to delivering results that stay aligned with the original
+                    design intent.
                   </p>
 
-                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
-                    The work is grounded in direct involvement — from early
-                    conversations and layout decisions to ordering coordination,
-                    field awareness, and keeping the final install aligned with
-                    the original intent.
-                  </p>
-
-                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
-                    That hands-on approach helps reduce confusion, tighten
-                    communication, and create cleaner results across cabinetry,
-                    design support, and document-driven project scope.
-                  </p>
-
-                  <p className="text-[14px] leading-7 text-white/80 md:text-[15px] md:leading-7">
-                    The goal is simple: clear specs, real communication, cleaner
-                    installs, and fewer surprises in the field.
-                  </p>
+                  <div className="clear-both" />
                 </div>
               </div>
 
-              <div className="rounded-[22px] bg-black/20 p-4 ring-1 ring-white/10 backdrop-blur-md">
-                <div className="overflow-hidden rounded-[18px] bg-black/25 ring-1 ring-white/8">
-                  <Image
-                    src="/about/pime.png"
-                    alt="Pime Hernandez"
-                    width={900}
-                    height={1400}
-                    priority
-                    className="h-[600px] w-full object-cover object-top"
-                  />
+              <div className="mt-6 hidden md:block">
+                <div className="grid grid-cols-[150px_minmax(0,1fr)] gap-4 lg:grid-cols-[160px_minmax(0,1fr)] lg:gap-5 xl:grid-cols-[168px_minmax(0,1fr)]">
+                  <div className="self-start justify-self-start">
+                    <div className="overflow-hidden rounded-[18px] bg-black/10 p-2 ring-1 ring-white/8">
+                      <Image
+                        src="/about/pime.png"
+                        alt="Pime Hernandez"
+                        width={900}
+                        height={1400}
+                        priority
+                        className="h-auto max-h-[210px] w-auto max-w-[132px] rounded-[14px] object-contain lg:max-h-[220px] lg:max-w-[138px] xl:max-h-[228px] xl:max-w-[144px]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 text-[14px] leading-8 text-white/80 lg:text-[15px]">
+                    <p className="text-white/84">
+                      Pime Hernandez leads Dezenio with a cabinetry-first
+                      standard shaped by decades of experience across
+                      construction, design, sales, and project coordination.
+                    </p>
+
+                    <p>
+                      After relocating to Middle Tennessee in 2013, he built
+                      years of local experience in kitchen and bath design,
+                      cabinetry execution, remodel-related planning, and the
+                      practical side of how projects move from concept to
+                      completion.
+                    </p>
+
+                    <p>
+                      His background began in construction in his late teens and
+                      now spans nearly three decades across framing, interior
+                      millwork, finish work, flooring, tile, countertops,
+                      cabinetry, design, sales, project management, and showroom
+                      leadership.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 space-y-4 text-[14px] leading-8 text-white/80 lg:text-[15px]">
+                  <p>
+                    That broader range of experience gives Dezenio a stronger
+                    perspective — one shaped not only by how a project looks on
+                    paper, but by how it comes together in the field. It
+                    continues to influence the company’s approach today, with
+                    careful attention to planning, product selection,
+                    coordination, installation awareness, and the belief that
+                    better decisions early in the process lead to better results
+                    at installation and completion.
+                  </p>
+
+                  <p>
+                    Dezenio is owner-led, hands-on, and built for clients who
+                    value clarity, communication, and direct involvement
+                    throughout the process. The work is grounded in practical
+                    understanding, cabinetry-forward thinking, and a commitment
+                    to delivering results that stay aligned with the original
+                    design intent.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="mx-auto mt-32 max-w-7xl">
+        <section className="mx-auto mt-16 max-w-7xl md:mt-24 lg:mt-28">
           <div className="rounded-2xl bg-black/18 p-6 ring-1 ring-white/10 backdrop-blur-md md:p-8">
             <div className="grid gap-8 lg:grid-cols-2">
               <div>
@@ -310,7 +386,7 @@ function AboutInner() {
           </div>
         </section>
 
-        <section className="mx-auto mt-16 max-w-7xl">
+        <section className="mx-auto mt-14 max-w-7xl md:mt-16">
           <div className="rounded-2xl bg-black/20 p-6 ring-1 ring-white/10 backdrop-blur-md md:p-8">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
               <div>

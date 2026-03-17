@@ -18,16 +18,15 @@ export default function TermsPage() {
     >
       <ScrollOffsets />
 
-      {/* Background (admin/legal style) */}
-      <div className="fixed inset-0 -z-20">
+      {/* Background (admin/legal style with mobile crop fix) */}
+      <div className="fixed inset-0 -z-20 overflow-hidden">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
           alt="Dezenio Draft Design background"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "50% 1.7%" }}
+          className="object-cover scale-[3.15] object-[2%_-28%] md:scale-100 md:object-[50%_1.7%]"
         />
         <div className="absolute inset-0 bg-black/69" />
       </div>

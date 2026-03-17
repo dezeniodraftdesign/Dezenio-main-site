@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, type CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 import QuoteModal from "../components/QuoteModal";
@@ -24,11 +24,18 @@ function ServicesInner() {
     if (search.get("quote") === "1") setQuoteOpen(true);
   }, [search]);
 
-  const cards = [
+  const cards: {
+    title: string;
+    href: string;
+    image: string;
+    blurb: string;
+    imageStyle?: CSSProperties;
+  }[] = [
     {
       title: "Cabinetry: Sales, Design & Installation",
       href: "/cabinetry",
-      image: "/sections/cabinetry.png",
+      image: "/backgrounds/Dezenio-HomeBG.png",
+      imageStyle: { objectPosition: "50% 33.5%" },
       blurb:
         "Factory-direct cabinetry sales with design guidance, finish and product selection, ordering coordination, delivery planning, and installation support for kitchens, baths, and residential remodels.",
     },
@@ -42,7 +49,8 @@ function ServicesInner() {
     {
       title: "Construction & Remodeling",
       href: "/construction-remodeling",
-      image: "/sections/campbell.png",
+      image: "/sections/render.png",
+      imageStyle: { objectPosition: "50% 50%" },
       blurb:
         "Renovation planning, additions, framing coordination, and project support that helps move residential work from concept into execution.",
     },
@@ -102,9 +110,11 @@ function ServicesInner() {
                     src={c.image}
                     alt={c.title}
                     fill
-                    className="object-cover transition duration-700 group-hover:scale-[1.03]"
+                    className="object-cover scale-[1.08] transition duration-700 group-hover:scale-[1.11]"
+                    style={c.imageStyle}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
+
                   <div className="absolute inset-0 bg-gradient-to-t from-black/24 via-black/8 to-transparent" />
                 </div>
 

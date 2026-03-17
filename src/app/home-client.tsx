@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "./components/Header";
 import QuoteModal from "./components/QuoteModal";
@@ -13,6 +13,7 @@ type ServiceCard = {
   href: string;
   img: string;
   body: string;
+  imageStyle?: CSSProperties;
 };
 
 export default function HomeClient() {
@@ -27,7 +28,8 @@ export default function HomeClient() {
     {
       title: "Cabinetry: Sales, Design & Installation",
       href: "/cabinetry",
-      img: "/sections/cabinetry.png",
+      img: "/backgrounds/Dezenio-HomeBG.png",
+      imageStyle: { objectPosition: "50% 33.3%" },
       body: "Factory-direct cabinetry sales with design guidance, finish and product selection, ordering coordination, delivery planning, and installation support for kitchens, baths, and residential remodels.",
     },
     {
@@ -39,7 +41,8 @@ export default function HomeClient() {
     {
       title: "Construction & Remodeling",
       href: "/construction-remodeling",
-      img: "/sections/campbell.png",
+      img: "/sections/render.png",
+      imageStyle: { objectPosition: "50% 50%" },
       body: "Renovation planning, additions, framing coordination, and project support that helps move residential work from concept into execution.",
     },
   ];
@@ -117,7 +120,8 @@ export default function HomeClient() {
                   alt={card.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition duration-700 group-hover:scale-[1.03]"
+                  className="object-cover scale-[1.08] transition duration-700 group-hover:scale-[1.11]"
+                  style={card.imageStyle}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/24 via-black/8 to-transparent" />
               </div>

@@ -64,13 +64,13 @@ function getLogoImageClass(slug: string) {
     case "mouser":
       return "max-h-[58px] max-w-[220px]";
     case "bishop":
-      return "max-h-[62px] max-w-[260px]";
+      return "max-h-[98px] max-w-[260px]";
     case "procraft":
-      return "max-h-[58px] max-w-[245px]";
+      return "max-h-[88px] max-w-[245px]";
     case "adornus":
       return "max-h-[60px] max-w-[250px]";
     case "richelieu":
-      return "max-h-[34px] max-w-[175px]";
+      return "max-h-[64px] max-w-[260px]";
     default:
       return "max-h-[48px] max-w-[240px]";
   }
@@ -84,9 +84,8 @@ function getLogoStageClass(slug: string) {
     case "bishop":
     case "procraft":
     case "adornus":
-      return "bg-white/95 border-white/70";
     case "richelieu":
-      return "bg-white/[0.09] border-white/16";
+      return "bg-white/95 border-white/70";
     default:
       return "bg-white/[0.09] border-white/16";
   }
@@ -133,7 +132,7 @@ function LogoStage({ slug, name }: { slug: string; name: string }) {
   return (
     <div
       className={[
-        "inline-flex min-h-[96px] w-full max-w-[320px] items-center rounded-[20px] border",
+        "inline-flex min-h-[96px] w-full max-w-[320px] items-center justify-center rounded-[20px] border",
         getLogoStageClass(slug),
         getLogoWrapClass(slug),
       ].join(" ")}
@@ -143,9 +142,7 @@ function LogoStage({ slug, name }: { slug: string; name: string }) {
         alt={`${name} logo`}
         width={520}
         height={160}
-        className={`h-auto w-auto object-contain object-left ${getLogoImageClass(
-          slug,
-        )} ${getLogoGlowClass(slug)}`}
+        className={`h-auto w-auto object-contain ${getLogoImageClass(slug)} ${getLogoGlowClass(slug)}`}
         unoptimized
       />
     </div>
@@ -213,15 +210,14 @@ function CabinetryInner() {
     >
       <ScrollOffsets />
 
-      <div className="fixed inset-0 -z-20">
+      <div className="fixed inset-0 -z-20 overflow-hidden">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
           alt="Dezenio cabinetry background"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "50% 30%" }}
+          className="object-cover scale-[3.15] object-[02%_24%] md:scale-100 md:object-[50%_32.5%]"
         />
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.34),rgba(0,0,0,0.10)_24%,rgba(0,0,0,0.22)_100%)]" />
@@ -432,7 +428,7 @@ function CabinetryInner() {
             <div className={panelClass}>
               <h3 className="text-xl font-bold">How cabinetry design works</h3>
 
-              <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="mt-5 space-y-4">
                 <div className={sidePanelClass}>
                   <p className="text-base font-semibold text-white/92">
                     1. Budgetary quoting

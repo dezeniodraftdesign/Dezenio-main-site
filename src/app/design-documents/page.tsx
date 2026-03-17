@@ -56,37 +56,37 @@ function DesignDocumentsInner() {
   const residentialGallery: GalleryItem[] = [
     {
       title: "Lakeshore Residence",
-      text: "Preliminary concept study that informed a completed residential build, with refinements and field changes made during execution.",
+      text: "Preliminary residential concept study that helped establish overall form, massing, and design direction before the home moved into real-world construction.",
       image: "/sections/lakeshore.png",
       imageClass: "object-cover object-center",
       imageWrapClass: "bg-black/5",
       category: "Residential Concept",
-      detailsTitle: "Project context",
+      detailsTitle: "Residential concept context",
       detailsBody:
-        "This concept study helped communicate the initial residential design direction and overall architectural intent. The home was later built with modifications made during the real-world execution process.",
+        "This image represents an early residential concept study used to communicate architectural intent, exterior character, and overall project direction. The home was later built with refinements and field-driven modifications made during execution. It is shown here as part of the design-development and presentation process rather than as a final as-built record.",
     },
     {
       title: "Campbell Residence",
-      text: "Client-facing concept sketch developed to communicate architectural direction, exterior character, and overall design intent.",
+      text: "Client-facing residential concept rendering developed to communicate scale, proportion, and exterior design character before technical development.",
       image: "/sections/campbell.png",
       imageClass: "object-cover object-center",
       imageWrapClass: "bg-black/5",
       category: "Residential Concept",
-      detailsTitle: "Concept note",
+      detailsTitle: "Residential concept context",
       detailsBody:
-        "This image is presented as a design concept study rather than a completed built project. It is intended to show presentation quality, atmosphere, and early architectural communication.",
+        "This concept rendering was created to help communicate design intent clearly in the early stages of the project. Its purpose is presentation, alignment, and decision-making before the project advances into deeper drawing development, consultant coordination, or construction documentation.",
     },
     {
       title: "Modern Residence Concept",
-      text: "Early-stage residential concept visual created to explore massing, form, and presentation-ready design direction.",
+      text: "Early-stage residential study used to explore clean modern massing, presentation quality, and the overall visual language of the project.",
       image: "/sections/modern.png",
       imageClass: "object-cover",
       imageStyle: { objectPosition: "50% 0%" },
       imageWrapClass: "bg-[#d9d4cc]",
       category: "Residential Concept",
-      detailsTitle: "Concept note",
+      detailsTitle: "Residential concept context",
       detailsBody:
-        "This concept rendering represents an early design-direction study focused on clean massing, modern proportion, and presentation clarity before technical development.",
+        "This rendering reflects an early design-direction study rather than a completed build. It was used to explore massing, proportion, and presentation clarity while helping the client understand the overall architectural direction before technical drawings and construction-phase coordination.",
     },
   ];
 
@@ -132,7 +132,7 @@ function DesignDocumentsInner() {
   return (
     <div
       id="top"
-      className="relative text-white pb-[calc(var(--bottom-band-height,64px)+110px)]"
+      className="relative pb-[calc(var(--bottom-band-height,64px)+110px)] text-white"
     >
       <ScrollOffsets />
 
@@ -146,83 +146,97 @@ function DesignDocumentsInner() {
           className="object-cover"
           style={{ objectPosition: "50% 50%" }}
         />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/34 via-black/14 to-black/42" />
+        <div className="absolute inset-0 bg-black/52" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/34 via-black/12 to-black/44" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.06),transparent_34%)]" />
       </div>
 
       <Header onQuote={() => setQuoteOpen(true)} />
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 pb-10">
-        <section className="max-w-4xl">
+      <main className="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 md:pt-18 lg:px-8 lg:pt-20">
+        <section className="mx-auto max-w-6xl text-center">
           <p className="text-xs font-semibold tracking-[0.22em] text-white/72">
             CONCEPTS • AS-BUILTS • PERMIT SETS
           </p>
 
-          <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl">
+          <h1 className="mt-4 text-4xl font-extrabold tracking-tight leading-[1.02] md:text-6xl">
             Design &amp; Documents
           </h1>
 
-          <p className="mt-4 max-w-3xl text-white/86 md:text-lg leading-relaxed">
+          <p className="mx-auto mt-5 max-w-4xl text-base leading-7 text-white/86 md:text-lg md:leading-8">
             Concept development, as-builts, layout refinement, and
             permit-focused drawing support for residential and commercial
             projects across Nashville and Middle Tennessee.
           </p>
+        </section>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => setQuoteOpen(true)}
-              className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-white/90"
-            >
-              Get a Quote
-            </button>
+        <section className="mx-auto mt-10 max-w-7xl md:mt-12">
+          <div className="rounded-[28px] bg-white/6 p-5 ring-1 ring-white/10 backdrop-blur-md md:p-7">
+            <div className="mx-auto max-w-4xl text-center">
+              <p className="text-xs font-semibold tracking-[0.20em] text-white/66">
+                WHAT THIS PAGE COVERS
+              </p>
 
-            <Link
-              href="/services"
-              className="rounded-full border border-white/25 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10"
-            >
-              Back to Services
-            </Link>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">
+                Residential design support, commercial concept studies, and
+                documentation that helps projects move forward clearly.
+              </h2>
+
+              <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/80 md:text-base">
+                This work is built to help clients, builders, and project teams
+                make cleaner decisions earlier — whether that means testing a
+                concept, documenting existing conditions, refining a layout, or
+                creating permit-support drawings for the next step in the
+                process.
+              </p>
+            </div>
+
+            <div className="mt-8 grid gap-4 lg:grid-cols-2">
+              <div className="rounded-2xl bg-black/16 p-5 ring-1 ring-white/8">
+                <h3 className="text-sm font-semibold text-white/92">
+                  Typical support
+                </h3>
+                <ul className="mt-3 space-y-2 list-disc pl-5 text-sm leading-relaxed text-white/76">
+                  <li>Concept plans and layout refinement</li>
+                  <li>As-builts with design overlays</li>
+                  <li>Permit-ready drawing sets when needed</li>
+                  <li>Cabinetry planning integrated into the scope</li>
+                  <li>Builder and trade coordination support</li>
+                  <li>Commercial planning and documentation support</li>
+                </ul>
+              </div>
+
+              <div className="rounded-2xl bg-black/16 p-5 ring-1 ring-white/8">
+                <h3 className="text-sm font-semibold text-white/92">
+                  Best fit for
+                </h3>
+                <ul className="mt-3 space-y-2 list-disc pl-5 text-sm leading-relaxed text-white/76">
+                  <li>New homes, remodels, and additions</li>
+                  <li>Homeowners turning ideas into clear drawings</li>
+                  <li>Builders needing fast documentation help</li>
+                  <li>Tenant improvement and renovation planning</li>
+                  <li>Commercial clients exploring early direction</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <div className="rounded-2xl bg-white/6 p-6 ring-1 ring-white/10 backdrop-blur-md">
-            <h2 className="text-lg font-semibold">What we help with</h2>
-            <ul className="mt-4 space-y-2 list-disc pl-5 text-sm leading-relaxed text-white/82">
-              <li>Concept plans and layout refinement</li>
-              <li>As-builts with design overlays</li>
-              <li>Permit-ready drawing sets when needed</li>
-              <li>Cabinetry planning integrated into the design scope</li>
-              <li>Builder and trade coordination support</li>
-              <li>Commercial design, planning, and documentation support</li>
-            </ul>
+        <section className="mt-12 md:mt-14">
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+                Residential Project Visuals
+              </h2>
+              <p className="mt-3 max-w-3xl text-white/80 leading-relaxed">
+                Concept sketches, client-facing presentation visuals, and
+                residential design studies used to communicate direction clearly
+                before construction begins.
+              </p>
+            </div>
           </div>
 
-          <div className="rounded-2xl bg-white/6 p-6 ring-1 ring-white/10 backdrop-blur-md">
-            <h2 className="text-lg font-semibold">Best fit for</h2>
-            <ul className="mt-4 space-y-2 list-disc pl-5 text-sm leading-relaxed text-white/82">
-              <li>New homes, remodels, and additions</li>
-              <li>Homeowners needing help turning ideas into clear drawings</li>
-              <li>Builders who need fast, usable documentation support</li>
-              <li>Tenant improvement and renovation planning</li>
-              <li>Commercial clients exploring early design direction</li>
-            </ul>
-          </div>
-        </section>
-
-        <section className="mt-10">
-          <h2 className="text-2xl font-bold tracking-tight">
-            Residential Project Visuals
-          </h2>
-          <p className="mt-3 max-w-3xl text-white/80 leading-relaxed">
-            Concept sketches, presentation visuals, and residential design
-            studies that help communicate direction clearly before construction
-            begins.
-          </p>
-
-          <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             {residentialGallery.map((item) => (
               <button
                 key={item.title}
@@ -231,7 +245,7 @@ function DesignDocumentsInner() {
                 className="overflow-hidden rounded-2xl bg-white/6 text-left ring-1 ring-white/10 backdrop-blur-md transition hover:bg-white/8 hover:ring-white/16"
               >
                 <div
-                  className={`relative h-[195px] overflow-hidden ${item.imageWrapClass}`}
+                  className={`relative h-[210px] overflow-hidden ${item.imageWrapClass}`}
                 >
                   <Image
                     src={item.image}
@@ -241,16 +255,19 @@ function DesignDocumentsInner() {
                     className={item.imageClass}
                     style={item.imageStyle}
                   />
-                  <div className="absolute inset-0 bg-black/4" />
+                  <div className="absolute inset-0 bg-black/6" />
                 </div>
 
-                <div className="p-4">
-                  <h3 className="text-base font-semibold">{item.title}</h3>
+                <div className="p-4 md:p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/58">
+                    Residential concept
+                  </p>
+                  <h3 className="mt-2 text-base font-semibold">{item.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-white/80">
                     {item.text}
                   </p>
                   <p className="mt-4 text-sm font-semibold text-white/90">
-                    View larger →
+                    View project details →
                   </p>
                 </div>
               </button>
@@ -265,10 +282,10 @@ function DesignDocumentsInner() {
                 Built to communicate clearly
               </h2>
               <p className="mt-3 max-w-2xl text-white/82 leading-relaxed">
-                Whether you need early-stage concept visuals, a refined plan for
-                client approval, or documentation that supports the next step in
-                the project, the goal is clarity — visually, spatially, and in
-                execution.
+                Whether the project needs an early concept visual, a refined
+                plan for client approval, or documentation that supports the
+                next step in the process, the goal is clarity — visually,
+                spatially, and in execution.
               </p>
             </div>
 
@@ -297,8 +314,8 @@ function DesignDocumentsInner() {
           </div>
         </section>
 
-        <section className="mt-10">
-          <h2 className="text-2xl font-bold tracking-tight">
+        <section className="mt-12 md:mt-14">
+          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
             Commercial Concepts
           </h2>
           <p className="mt-3 max-w-3xl text-white/80 leading-relaxed">
@@ -307,7 +324,7 @@ function DesignDocumentsInner() {
             visuals across commercial project types.
           </p>
 
-          <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
             {commercialGallery.map((item) => (
               <button
                 key={item.title}
@@ -316,7 +333,7 @@ function DesignDocumentsInner() {
                 className="overflow-hidden rounded-2xl bg-white/6 text-left ring-1 ring-white/10 backdrop-blur-md transition hover:bg-white/8 hover:ring-white/16"
               >
                 <div
-                  className={`relative h-[195px] overflow-hidden ${item.imageWrapClass}`}
+                  className={`relative h-[210px] overflow-hidden ${item.imageWrapClass}`}
                 >
                   <Image
                     src={item.image}
@@ -326,11 +343,14 @@ function DesignDocumentsInner() {
                     className={item.imageClass}
                     style={item.imageStyle}
                   />
-                  <div className="absolute inset-0 bg-black/4" />
+                  <div className="absolute inset-0 bg-black/6" />
                 </div>
 
-                <div className="p-4">
-                  <h3 className="text-base font-semibold">{item.title}</h3>
+                <div className="p-4 md:p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/58">
+                    Commercial concept
+                  </p>
+                  <h3 className="mt-2 text-base font-semibold">{item.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-white/80">
                     {item.text}
                   </p>
@@ -537,6 +557,40 @@ function DesignDocumentsInner() {
             </div>
           </div>
         </section>
+
+        <section className="mt-10">
+          <div className="rounded-2xl bg-black/20 p-6 ring-1 ring-white/10 backdrop-blur-md md:p-8">
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+                  Need design support or permit-ready drawings?
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-white/76 md:text-base">
+                  We can help with concept development, existing-condition
+                  capture, layout refinement, and drawing packages built for the
+                  next step.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={() => setQuoteOpen(true)}
+                  className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
+                >
+                  Get a Quote
+                </button>
+
+                <Link
+                  href="/services"
+                  className="rounded-full border border-white/22 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/8"
+                >
+                  Back to Services
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {activeItem && (
@@ -546,7 +600,7 @@ function DesignDocumentsInner() {
         >
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6 lg:p-10">
             <div
-              className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#161616] ring-1 ring-white/12 shadow-[0_24px_90px_rgba(0,0,0,0.45)]"
+              className="relative max-h-[90vh] w-full max-w-6xl overflow-y-auto rounded-3xl bg-[#161616] shadow-[0_24px_90px_rgba(0,0,0,0.45)] ring-1 ring-white/12"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -606,7 +660,10 @@ function DesignDocumentsInner() {
 
                     <button
                       type="button"
-                      onClick={() => setQuoteOpen(true)}
+                      onClick={() => {
+                        setActiveItem(null);
+                        setQuoteOpen(true);
+                      }}
                       className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10"
                     >
                       Ask About Similar Work

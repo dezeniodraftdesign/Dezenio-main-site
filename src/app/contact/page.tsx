@@ -67,19 +67,18 @@ function ContactInner() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="fixed inset-0 -z-20">
+      <div className="fixed inset-0 -z-20 overflow-hidden">
         <Image
           src="/backgrounds/Dezenio-HomeBG.png"
           alt="Dezenio Draft Design background"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "50% 81%" }}
+          className="object-cover scale-[3.15] object-[2%_101%] md:scale-100 md:object-[50%_81%]"
         />
-        <div className="absolute inset-0 bg-black/28" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/34 via-black/14 to-black/44" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_40%)]" />
+        <div className="absolute inset-0 bg-black/42 md:bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/34 via-black/18 to-black/44 md:from-black/24 md:via-black/10 md:to-black/30" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.18),transparent_34%)] md:bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.12),transparent_36%)]" />
       </div>
 
       <Header onQuote={() => setQuoteOpen(true)} />
