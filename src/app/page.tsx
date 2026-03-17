@@ -1,32 +1,36 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import HomeClient from "./home-client"; // client component below
+import HomeClient from "./home-client";
 
-// ✅ SEO metadata for "/" (safe: does not affect runtime rendering)
 export const metadata: Metadata = {
   title:
-    "Custom Kitchen Cabinets & Installation in Nashville, TN | Dezenio Draft Design",
+    "Custom Kitchen Cabinets & Concept Design in Nashville, TN | Dezenio Draft Design",
   description:
-    "Custom kitchen cabinets and turnkey installation in Nashville, TN. Authorized dealer for Kith, Mouser, and ProCraft. Also offering permit-focused construction documents and site planning.",
+    "Cabinetry-first execution with design support, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
   alternates: {
     canonical: "https://dezeniodraftdesign.com/",
   },
   openGraph: {
-    title: "Custom Kitchen Cabinets & Installation in Nashville, TN",
+    title: "Custom Kitchen Cabinets & Concept Design in Nashville, TN",
     description:
-      "Authorized dealer for Kith, Mouser, and ProCraft — design, ordering, and turnkey installation.",
+      "Cabinetry-first execution with design support, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
     url: "https://dezeniodraftdesign.com/",
     siteName: "Dezenio Draft Design",
     images: [{ url: "/opengraph-image" }],
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Custom Kitchen Cabinets & Concept Design in Nashville, TN",
+    description:
+      "Cabinetry-first execution with design support, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
+    images: ["/opengraph-image"],
+  },
 };
 
-// Avoid static prerender of "/" since we read search params
 export const dynamic = "force-dynamic";
 
 export default function Page() {
-  // ✅ JSON-LD goes HERE (page-level). Do NOT put this in layout.tsx.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -55,7 +59,7 @@ export default function Page() {
       "https://www.tiktok.com/@dezenio.draft.design",
     ],
     description:
-      "Custom kitchen cabinetry, installation, as-built surveys, and permit-ready construction documents in Nashville, TN and surrounding Middle Tennessee.",
+      "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
   };
 
   return (

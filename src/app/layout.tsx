@@ -1,22 +1,19 @@
-// FILE: src/app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
 
 import MobileMenuFab from "./components/MobileMenuFab";
-// import HolidayFloat from "./components/HolidayFloat";
-// import BottomBand from "./components/BottomBand";
 import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dezeniodraftdesign.com"),
 
   title: {
-    default: "Dezenio Draft Design | Nashville Design + Construction Docs",
+    default: "Dezenio Draft Design | Cabinetry, Design & Construction Support",
     template: "%s | Dezenio Draft Design",
   },
 
   description:
-    "Dezenio Draft Design provides premium design, cabinetry support, as-builts, and construction documents in Nashville, Middle Tennessee, and surrounding areas. Premium Design. Unmatched Execution.",
+    "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
 
   alternates: { canonical: "/" },
 
@@ -29,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Dezenio Draft Design",
     description:
-      "Premium design, cabinetry support, as-builts, and construction documents in Nashville, Middle Tennessee, and surrounding areas.",
+      "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
     url: "https://dezeniodraftdesign.com",
     siteName: "Dezenio Draft Design",
     type: "website",
@@ -39,7 +36,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Dezenio Draft Design — Premium Design. Unmatched Execution.",
+        alt: "Dezenio Draft Design — Custom Kitchen Cabinets & Concept Design in Nashville, TN",
       },
     ],
   },
@@ -48,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dezenio Draft Design",
     description:
-      "Premium design, cabinetry support, as-builts, and construction documents in Nashville, Middle Tennessee, and surrounding areas.",
+      "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
     images: ["/opengraph-image"],
   },
 
@@ -66,20 +63,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-dvh bg-black text-white">
-        {/* App shell: footer lands at true bottom */}
         <div className="min-h-dvh flex flex-col">
           <MobileMenuFab />
-
-          {/* Page content */}
           <main className="flex-1">{children}</main>
-
-          {/* ONE footer only (global) */}
           <Footer />
         </div>
-
-        {/* Fixed overlays disabled for now */}
-        {/* <BottomBand /> */}
-        {/* <HolidayFloat /> */}
       </body>
     </html>
   );
