@@ -15,12 +15,17 @@ export const metadata: Metadata = {
   description:
     "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
 
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+  },
 
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
 
   openGraph: {
@@ -33,7 +38,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/opengraph-image",
+        url: "https://dezeniodraftdesign.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Dezenio Draft Design — Custom Kitchen Cabinets & Concept Design in Nashville, TN",
@@ -46,7 +51,7 @@ export const metadata: Metadata = {
     title: "Dezenio Draft Design",
     description:
       "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
-    images: ["/opengraph-image"],
+    images: ["https://dezeniodraftdesign.com/og-image.jpg"],
   },
 
   icons: {

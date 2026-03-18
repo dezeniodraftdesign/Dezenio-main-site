@@ -1,4 +1,3 @@
-// app/components/BrochureShelf.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -43,6 +42,13 @@ function toViewerUrl(url: string) {
   return url;
 }
 
+function isMobileViewport() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 767px)").matches
+  );
+}
+
 export default function BrochureShelf({
   brochures,
 }: {
@@ -54,16 +60,22 @@ export default function BrochureShelf({
   const [active, setActive] = useState<Brochure | null>(null);
   const [expanded, setExpanded] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [mobileViewer, setMobileViewer] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
-  // lock background scroll while modal is open
+  // lock background scroll while viewer is open
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
+    const prevBody = document.body.style.overflow;
+    const prevHtml = document.documentElement.style.overflow;
+
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevBody;
+      document.documentElement.style.overflow = prevHtml;
     };
   }, [open]);
 
@@ -86,17 +98,95 @@ export default function BrochureShelf({
       window.open(b.openUrl ?? b.url, "_blank", "noopener,noreferrer");
       return;
     }
+
+    const mobile = isMobileViewport();
     setActive(b);
-    setExpanded(true); // default = big/wide
+    setExpanded(!mobile);
+    setMobileViewer(mobile);
     setOpen(true);
   };
 
   const close = () => {
     setOpen(false);
     setActive(null);
+    setMobileViewer(false);
   };
 
   const viewerSrc = active ? toViewerUrl(active.url) : "";
+
+  const shellStyle: React.CSSProperties = mobileViewer
+    ? {
+        position: "relative",
+        width: "100vw",
+        height: "100dvh",
+        borderRadius: 0,
+        overflow: "hidden",
+        border: "none",
+        background: "rgba(8,8,10,0.98)",
+        boxShadow: "none",
+        display: "flex",
+        flexDirection: "column",
+      }
+    : {
+        position: "relative",
+        margin: "calc(var(--header-h, 92px) + 18px) auto 24px",
+        width: expanded ? "min(1400px, 96vw)" : "min(980px, 94vw)",
+        height: expanded ? "min(86vh, 900px)" : "min(72vh, 760px)",
+        borderRadius: 22,
+        overflow: "hidden",
+        border: "1px solid rgba(255,255,255,0.12)",
+        background: "rgba(10,10,12,0.55)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        boxShadow: "0 30px 90px rgba(0,0,0,0.55)",
+        display: "flex",
+        flexDirection: "column",
+      };
+
+  const topBarStyle: React.CSSProperties = mobileViewer
+    ? {
+        padding: "10px 12px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 8,
+        borderBottom: "1px solid rgba(255,255,255,0.10)",
+        background: "rgba(0,0,0,0.88)",
+        minHeight: 62,
+      }
+    : {
+        padding: "12px 14px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 10,
+        borderBottom: "1px solid rgba(255,255,255,0.10)",
+        background: "rgba(0,0,0,0.30)",
+      };
+
+  const buttonRowStyle: React.CSSProperties = mobileViewer
+    ? {
+        display: "flex",
+        gap: 8,
+        alignItems: "center",
+        flexShrink: 0,
+      }
+    : {
+        display: "flex",
+        gap: 8,
+        alignItems: "center",
+      };
+
+  const iframeWrapStyle: React.CSSProperties = mobileViewer
+    ? {
+        flex: 1,
+        minHeight: 0,
+        background: "rgba(0,0,0,1)",
+      }
+    : {
+        flex: 1,
+        background: "rgba(0,0,0,0.25)",
+      };
 
   const modal =
     open && active ? (
@@ -104,94 +194,84 @@ export default function BrochureShelf({
         style={{
           position: "fixed",
           inset: 0,
-          zIndex: 999999, // 🔥 beat EVERYTHING
+          zIndex: 999999,
+          background: mobileViewer ? "rgba(0,0,0,0.98)" : "transparent",
         }}
       >
-        {/* Backdrop */}
-        <button
-          aria-label="Close brochure"
-          onClick={close}
-          type="button"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "rgba(0,0,0,0.70)",
-            border: "none",
-            cursor: "pointer",
-          }}
-        />
-
-        {/* Modal shell */}
-        <div
-          style={{
-            position: "relative",
-            margin: "calc(var(--header-h, 92px) + 18px) auto 24px",
-            width: expanded ? "min(1400px, 96vw)" : "min(980px, 94vw)",
-            height: expanded ? "min(86vh, 900px)" : "min(72vh, 760px)",
-            borderRadius: 22,
-            overflow: "hidden",
-            border: "1px solid rgba(255,255,255,0.12)",
-            background: "rgba(10,10,12,0.55)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            boxShadow: "0 30px 90px rgba(0,0,0,0.55)",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {/* Top bar */}
-          <div
+        {!mobileViewer ? (
+          <button
+            aria-label="Close brochure"
+            onClick={close}
+            type="button"
             style={{
-              padding: "12px 14px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 10,
-              borderBottom: "1px solid rgba(255,255,255,0.10)",
-              background: "rgba(0,0,0,0.30)",
+              position: "absolute",
+              inset: 0,
+              background: "rgba(0,0,0,0.70)",
+              border: "none",
+              cursor: "pointer",
             }}
-          >
+          />
+        ) : null}
+
+        <div style={shellStyle}>
+          <div style={topBarStyle}>
             <div
               style={{
-                fontSize: 13,
+                fontSize: mobileViewer ? 12 : 13,
                 color: "rgba(255,255,255,0.9)",
                 overflow: "hidden",
                 whiteSpace: "nowrap",
                 textOverflow: "ellipsis",
                 paddingRight: 10,
+                minWidth: 0,
+                flex: 1,
               }}
               title={active.label}
             >
               {active.label}
             </div>
 
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <button
-                type="button"
-                onClick={() => setExpanded((v) => !v)}
-                style={pillBtnStyle}
-                title="Toggle size"
-              >
-                {expanded ? "Shrink" : "Expand"}
-              </button>
+            <div style={buttonRowStyle}>
+              {!mobileViewer ? (
+                <button
+                  type="button"
+                  onClick={() => setExpanded((v) => !v)}
+                  style={pillBtnStyle}
+                  title="Toggle size"
+                >
+                  {expanded ? "Shrink" : "Expand"}
+                </button>
+              ) : null}
 
               <a
                 href={active.openUrl ?? active.url}
                 target="_blank"
                 rel="noreferrer"
-                style={{ ...pillBtnStyle, textDecoration: "none" }}
+                style={{
+                  ...pillBtnStyle,
+                  textDecoration: "none",
+                  fontSize: mobileViewer ? 11 : 12,
+                  padding: mobileViewer ? "7px 9px" : "8px 10px",
+                }}
               >
                 Open Original
               </a>
 
-              <button type="button" onClick={close} style={pillBtnStyle}>
+              <button
+                type="button"
+                onClick={close}
+                style={{
+                  ...pillBtnStyle,
+                  fontSize: mobileViewer ? 11 : 12,
+                  padding: mobileViewer ? "7px 9px" : "8px 10px",
+                }}
+              >
                 Close
               </button>
             </div>
           </div>
 
-          {/* Viewer */}
-          <div style={{ flex: 1, background: "rgba(0,0,0,0.25)" }}>
+          <div style={iframeWrapStyle}>
             <iframe
               src={viewerSrc}
               title={active.label}
@@ -201,17 +281,19 @@ export default function BrochureShelf({
           </div>
         </div>
 
-        <div
-          style={{
-            position: "relative",
-            textAlign: "center",
-            fontSize: 12,
-            color: "rgba(255,255,255,0.65)",
-            marginTop: 10,
-          }}
-        >
-          If a provider blocks embedding, use “Open Original”.
-        </div>
+        {!mobileViewer ? (
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              fontSize: 12,
+              color: "rgba(255,255,255,0.65)",
+              marginTop: 10,
+            }}
+          >
+            If a provider blocks embedding, use “Open Original”.
+          </div>
+        ) : null}
       </div>
     ) : null;
 
@@ -232,7 +314,6 @@ export default function BrochureShelf({
         View online resources
       </div>
 
-      {/* Buttons with REAL TEXT */}
       <div
         style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 10 }}
       >
@@ -258,7 +339,6 @@ export default function BrochureShelf({
         ))}
       </div>
 
-      {/* PORTAL so it can’t get trapped behind your page layers */}
       {mounted && open && active ? createPortal(modal, document.body) : null}
     </div>
   );
