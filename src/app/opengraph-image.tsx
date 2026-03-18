@@ -75,8 +75,7 @@ export default async function OpenGraphImage() {
         overflow: "hidden",
         display: "flex",
         backgroundColor: "#000",
-        fontFamily:
-          'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"',
+        fontFamily: "Arial, Helvetica, sans-serif",
       }}
     >
       <img
@@ -91,7 +90,15 @@ export default async function OpenGraphImage() {
           height: 630,
           objectFit: "cover",
           objectPosition: "50% 50%",
-          opacity: 0.92,
+          opacity: 0.44,
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(0,0,0,0.56)",
         }}
       />
 
@@ -100,7 +107,7 @@ export default async function OpenGraphImage() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.18) 45%, rgba(0,0,0,0.58) 100%)",
+            "linear-gradient(180deg, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.14) 50%, rgba(0,0,0,0.40) 100%)",
         }}
       />
 
@@ -109,16 +116,7 @@ export default async function OpenGraphImage() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 34%)",
-        }}
-      />
-
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse at center, rgba(0,0,0,0.26) 0%, rgba(0,0,0,0.18) 28%, rgba(0,0,0,0.06) 52%, rgba(0,0,0,0.00) 72%)",
+            "radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 40%)",
         }}
       />
 
@@ -131,23 +129,36 @@ export default async function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          padding: "54px 62px",
-          transform: "translateY(-32px)",
+          padding: "108px 72px 78px",
+          textAlign: "center",
         }}
       >
         <img
           alt="Dezenio Draft Design"
           src={logoData}
-          width={430}
-          height={120}
+          width={380}
+          height={106}
           style={{
-            width: 430,
-            height: 120,
+            width: 380,
+            height: 106,
             objectFit: "contain",
-            marginBottom: 20,
-            filter: "drop-shadow(0 10px 24px rgba(0,0,0,0.52))",
+            marginBottom: 24,
           }}
         />
+
+        <div
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.76)",
+            marginBottom: 18,
+            fontFamily: "Arial, Helvetica, sans-serif",
+          }}
+        >
+          CABINETRY • DESIGN • CONSTRUCTION
+        </div>
 
         <div
           style={{
@@ -155,52 +166,56 @@ export default async function OpenGraphImage() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            color: "#ffffff",
+            marginBottom: 24,
             textAlign: "center",
-            maxWidth: 900,
+            maxWidth: 1000,
+            width: "100%",
           }}
         >
           <div
             style={{
-              fontSize: 16,
-              fontWeight: 650,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.84)",
-              marginBottom: 10,
-              textShadow: "0 8px 20px rgba(0,0,0,0.50)",
+              fontSize: 68,
+              lineHeight: 1.0,
+              fontWeight: 900,
+              letterSpacing: "-0.05em",
+              marginBottom: 2,
+              textShadow: "0 10px 24px rgba(0,0,0,0.40)",
+              fontFamily: "Arial, Helvetica, sans-serif",
             }}
           >
-            Cabinetry • Design • Construction
+            Custom Kitchen Cabinets
           </div>
 
           <div
             style={{
-              fontSize: 46,
-              lineHeight: 1.05,
-              fontWeight: 800,
-              color: "rgba(255,255,255,0.98)",
-              marginBottom: 12,
-              maxWidth: 980,
-              textShadow: "0 10px 24px rgba(0,0,0,0.60)",
+              fontSize: 68,
+              lineHeight: 1.0,
+              fontWeight: 900,
+              letterSpacing: "-0.05em",
+              textShadow: "0 10px 24px rgba(0,0,0,0.40)",
+              fontFamily: "Arial, Helvetica, sans-serif",
             }}
           >
-            Custom Kitchen Cabinets & Concept Design in Nashville, TN
+            &amp; Concept Design in Nashville, TN
           </div>
+        </div>
 
-          <div
-            style={{
-              fontSize: 22,
-              lineHeight: 1.3,
-              fontWeight: 520,
-              color: "rgba(255,255,255,0.90)",
-              maxWidth: 760,
-              textShadow: "0 10px 24px rgba(0,0,0,0.58)",
-            }}
-          >
-            Cabinetry-first execution with design support, construction
-            documents, and remodel coordination across Nashville and Middle
-            Tennessee.
-          </div>
+        <div
+          style={{
+            maxWidth: 820,
+            fontSize: 22,
+            lineHeight: 1.38,
+            fontWeight: 500,
+            color: "rgba(255,255,255,0.88)",
+            textAlign: "center",
+            textShadow: "0 8px 20px rgba(0,0,0,0.30)",
+            fontFamily: "Arial, Helvetica, sans-serif",
+          }}
+        >
+          Cabinetry-first execution with design support, as-builts, construction
+          documents, and remodel coordination across Nashville and Middle
+          Tennessee.
         </div>
       </div>
     </div>,

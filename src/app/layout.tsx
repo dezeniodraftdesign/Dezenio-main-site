@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "https://dezeniodraftdesign.com/og-image.jpg",
+        url: "https://dezeniodraftdesign.com/opengraph-image",
         width: 1200,
         height: 630,
         alt: "Dezenio Draft Design — Custom Kitchen Cabinets & Concept Design in Nashville, TN",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "Dezenio Draft Design",
     description:
       "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
-    images: ["https://dezeniodraftdesign.com/og-image.jpg"],
+    images: ["https://dezeniodraftdesign.com/opengraph-image"],
   },
 
   icons: {
