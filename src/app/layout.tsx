@@ -54,6 +54,10 @@ export const metadata: Metadata = {
     images: ["https://dezeniodraftdesign.com/opengraph-image"],
   },
 
+  verification: {
+    google: "zmdRj6GBjh9LspTOjOzH1cWEdYWabjBIKwD-Vfmsnjc",
+  },
+
   icons: {
     icon: "/icon.png",
     apple: "/icon.png",
