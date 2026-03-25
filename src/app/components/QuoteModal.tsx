@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function QuoteModal({
@@ -13,13 +15,14 @@ export default function QuoteModal({
   const [ok, setOk] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
-  // ✅ prevent background scroll on mobile when modal is open
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
+
+    const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
     return () => {
-      document.body.style.overflow = prev || "";
+      document.body.style.overflow = prevOverflow || "";
     };
   }, [open]);
 
@@ -28,26 +31,22 @@ export default function QuoteModal({
     setErr(null);
     setLoading(true);
 
-    // ✅ capture form now so reset is safe later
     const formEl = e.currentTarget;
-
     const fd = new FormData(formEl);
+
     const payload = {
       name: String(fd.get("name") || ""),
       email: String(fd.get("email") || ""),
       phone: String(fd.get("phone") || ""),
-
       service: String(fd.get("service") || ""),
       projectType: String(fd.get("projectType") || ""),
       projectAddress: String(fd.get("projectAddress") || ""),
       city: String(fd.get("city") || ""),
       state: String(fd.get("state") || ""),
       zip: String(fd.get("zip") || ""),
-
       desiredStart: String(fd.get("desiredStart") || ""),
       budgetRange: String(fd.get("budgetRange") || ""),
       heardFrom: String(fd.get("heardFrom") || ""),
-
       message: String(fd.get("message") || ""),
     };
 
@@ -57,6 +56,7 @@ export default function QuoteModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error("Send failed");
 
@@ -74,245 +74,316 @@ export default function QuoteModal({
     }
   }
 
+  function handleClose() {
+    setOk(false);
+    setErr(null);
+    onClose();
+  }
+
   if (!open) return null;
 
-  const input =
-    "rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder-white/50 outline-none focus:border-white/25";
-  const label = "text-[11px] uppercase tracking-wide text-white/60";
+  const inputBase =
+    "w-full rounded-[16px] border border-white/10 bg-[rgba(255,255,255,0.045)] px-4 py-3 text-[15px] text-white placeholder-white/36 outline-none transition focus:border-white/24 focus:bg-[rgba(255,255,255,0.07)]";
+
+  const sectionCard =
+    "rounded-[20px] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.02))] p-4 sm:p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]";
 
   return (
-    <div className="fixed inset-0 z-[70]">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-[140]">
       <button
         aria-label="Close quote modal"
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-        onClick={() => {
-          setOk(false);
-          setErr(null);
-          onClose();
-        }}
+        className="absolute inset-0 bg-black/72 backdrop-blur-md"
+        onClick={handleClose}
       />
 
-      {/* ✅ Bottom-sheet on mobile, centered on desktop */}
-      <div className="absolute inset-0 flex items-end sm:items-center justify-center p-3 sm:p-6">
+      <div className="absolute inset-0 flex items-end justify-center p-2 sm:items-center sm:p-5">
         <div
-          className="w-full sm:w-[720px] max-w-[92vw] rounded-2xl bg-black/65 text-white shadow-2xl ring-1 ring-white/15 backdrop-blur-md overflow-hidden"
-          style={{
-            // ✅ Fit inside any phone viewport (including iOS Safari)
-            maxHeight: "calc(100dvh - env(safe-area-inset-top) - 16px)",
-          }}
+          className="relative flex w-full max-w-[96vw] flex-col overflow-hidden rounded-[28px] border border-white/12 bg-[rgba(8,10,14,0.70)] text-white shadow-[0_28px_90px_rgba(0,0,0,0.48)] backdrop-blur-2xl sm:w-[760px] lg:w-[820px]"
+          style={{ height: "min(92dvh, 980px)" }}
         >
-          {/* Header */}
-          <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-            <div>
-              <h2 className="text-lg font-semibold">Get a Quote</h2>
-              <p className="mt-1 text-xs text-white/70">
-                Tell us a bit about the project — we’ll follow up quickly.
-              </p>
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.10),transparent_34%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.04),transparent_26%,rgba(255,255,255,0.015))]" />
+
+          <div className="relative shrink-0 border-b border-white/10 px-5 py-4 sm:px-6 sm:py-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <div className="mb-3">
+                  <Image
+                    src="/logos/ddd-logo-wht-trans-crop.png"
+                    alt="Dezenio Draft Design"
+                    width={220}
+                    height={52}
+                    className="h-auto w-[165px] sm:w-[180px]"
+                    priority
+                  />
+                </div>
+
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/52">
+                  Cabinetry inquiry
+                </p>
+
+                <h2 className="mt-2 text-[1.95rem] font-extrabold tracking-tight leading-none sm:text-[2rem]">
+                  Get a Quote
+                </h2>
+
+                <p className="mt-3 max-w-[34rem] text-sm leading-6 text-white/70">
+                  Tell us a bit about the project and we’ll follow up with the
+                  right next step.
+                </p>
+              </div>
+
+              <button
+                onClick={handleClose}
+                type="button"
+                className="shrink-0 rounded-full border border-white/12 bg-white/[0.035] px-4 py-2 text-sm text-white/78 transition hover:bg-white/10 hover:text-white"
+              >
+                Close
+              </button>
             </div>
-            <button
-              onClick={() => {
-                setOk(false);
-                setErr(null);
-                onClose();
-              }}
-              className="rounded-full px-3 py-1 text-sm text-white/70 hover:bg-white/10"
-              type="button"
-            >
-              Close
-            </button>
           </div>
 
-          {/* ✅ Scroll area (THIS fixes the cutoff) */}
-          <div
-            className="px-6 py-4 overflow-y-auto"
-            style={{
-              // keep last field + button above iPhone home bar
-              paddingBottom: "calc(env(safe-area-inset-bottom) + 18px)",
-              // panel height minus header
-              maxHeight: "calc(100dvh - env(safe-area-inset-top) - 120px)",
-            }}
+          <form
+            onSubmit={onSubmit}
+            className="relative flex min-h-0 flex-1 flex-col"
           >
-            <form onSubmit={onSubmit}>
-              {/* Contact */}
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div>
-                  <div className={label}>Full Name</div>
-                  <input
-                    name="name"
-                    placeholder="Jane Doe"
-                    required
-                    className={input}
-                  />
+            <div
+              className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-5"
+              style={{
+                paddingBottom: "calc(env(safe-area-inset-bottom) + 18px)",
+              }}
+            >
+              <div className="space-y-4">
+                <div className={sectionCard}>
+                  <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/48">
+                    Contact
+                  </p>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <Field label="Full Name">
+                      <input
+                        name="name"
+                        placeholder="Jane Doe"
+                        required
+                        className={inputBase}
+                      />
+                    </Field>
+
+                    <Field label="Email">
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required
+                        className={inputBase}
+                      />
+                    </Field>
+
+                    <Field label="Phone (optional)">
+                      <input
+                        name="phone"
+                        placeholder="(615) 555-1234"
+                        className={inputBase}
+                      />
+                    </Field>
+
+                    <Field label="Service">
+                      <SelectField name="service" defaultValue="Cabinetry">
+                        <option>Cabinetry</option>
+                        <option>Construction Documents</option>
+                        <option>As-Builts / Existing Conditions</option>
+                        <option>Remodel / Design Support</option>
+                        <option>Structural Framing</option>
+                        <option>Not Sure</option>
+                      </SelectField>
+                    </Field>
+                  </div>
                 </div>
 
-                <div>
-                  <div className={label}>Email</div>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="you@example.com"
-                    required
-                    className={input}
-                  />
+                <div className={sectionCard}>
+                  <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/48">
+                    Project
+                  </p>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="sm:col-span-2">
+                      <Field label="Project Address">
+                        <input
+                          name="projectAddress"
+                          placeholder="1234 Oak St"
+                          className={inputBase}
+                        />
+                      </Field>
+                    </div>
+
+                    <Field label="City">
+                      <input
+                        name="city"
+                        placeholder="Nashville"
+                        className={inputBase}
+                      />
+                    </Field>
+
+                    <Field label="State">
+                      <input
+                        name="state"
+                        placeholder="TN"
+                        className={inputBase}
+                      />
+                    </Field>
+
+                    <Field label="ZIP">
+                      <input
+                        name="zip"
+                        placeholder="37211"
+                        className={inputBase}
+                      />
+                    </Field>
+
+                    <Field label="Project Type">
+                      <SelectField name="projectType" defaultValue="Kitchen">
+                        <option>Kitchen</option>
+                        <option>Bath</option>
+                        <option>Whole Home</option>
+                        <option>Addition</option>
+                        <option>New Build</option>
+                        <option>Other</option>
+                      </SelectField>
+                    </Field>
+                  </div>
                 </div>
 
-                <div>
-                  <div className={label}>Phone (optional)</div>
-                  <input
-                    name="phone"
-                    placeholder="(615) 555-1234"
-                    className={input}
-                  />
+                <div className={sectionCard}>
+                  <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/48">
+                    Timing & Budget
+                  </p>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <Field label="Desired Start">
+                      <SelectField name="desiredStart" defaultValue="ASAP">
+                        <option>ASAP</option>
+                        <option>2–4 weeks</option>
+                        <option>1–3 months</option>
+                        <option>3–6 months</option>
+                        <option>6+ months</option>
+                        <option>Not sure</option>
+                      </SelectField>
+                    </Field>
+
+                    <Field label="Budget Range">
+                      <SelectField name="budgetRange" defaultValue="$10–25k">
+                        <option>$5–10k</option>
+                        <option>$10–25k</option>
+                        <option>$25–50k</option>
+                        <option>$50–100k</option>
+                        <option>$100k+</option>
+                        <option>Not Sure</option>
+                      </SelectField>
+                    </Field>
+
+                    <Field label="How did you hear about us?">
+                      <SelectField name="heardFrom" defaultValue="Referral">
+                        <option>Referral</option>
+                        <option>Google</option>
+                        <option>Facebook / Instagram</option>
+                        <option>Builder / Contractor</option>
+                        <option>Past Client</option>
+                        <option>Other</option>
+                      </SelectField>
+                    </Field>
+                  </div>
                 </div>
 
-                <div>
-                  <div className={label}>Service</div>
-                  <select
-                    name="service"
-                    className={input}
-                    defaultValue="Cabinetry"
-                  >
-                    <option>Cabinetry</option>
-                    <option>Construction Documents</option>
-                    <option>As-Builts / Existing Conditions</option>
-                    <option>Remodel / Design Support</option>
-                    <option>Structural Framing</option>
-                    <option>Not Sure</option>
-                  </select>
+                <div className={sectionCard}>
+                  <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/48">
+                    Details
+                  </p>
+
+                  <Field label="Project Details">
+                    <textarea
+                      name="message"
+                      placeholder="Layout info, scope, finishes, timeline, and what you need help with..."
+                      rows={5}
+                      className={`${inputBase} min-h-[150px] resize-y`}
+                    />
+                  </Field>
                 </div>
               </div>
+            </div>
 
-              {/* Project */}
-              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div className="sm:col-span-2">
-                  <div className={label}>Project Address</div>
-                  <input
-                    name="projectAddress"
-                    placeholder="1234 Oak St"
-                    className={input}
-                  />
-                </div>
-
-                <div>
-                  <div className={label}>City</div>
-                  <input
-                    name="city"
-                    placeholder="Nashville"
-                    className={input}
-                  />
-                </div>
-
-                <div>
-                  <div className={label}>State</div>
-                  <input name="state" placeholder="TN" className={input} />
-                </div>
-
-                <div>
-                  <div className={label}>ZIP</div>
-                  <input name="zip" placeholder="37211" className={input} />
-                </div>
-
-                <div>
-                  <div className={label}>Project Type</div>
-                  <select
-                    name="projectType"
-                    className={input}
-                    defaultValue="Kitchen"
-                  >
-                    <option>Kitchen</option>
-                    <option>Bath</option>
-                    <option>Whole Home</option>
-                    <option>Addition</option>
-                    <option>New Build</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Timing & budget */}
-              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                <div>
-                  <div className={label}>Desired Start</div>
-                  <select
-                    name="desiredStart"
-                    className={input}
-                    defaultValue="ASAP"
-                  >
-                    <option>ASAP</option>
-                    <option>2–4 weeks</option>
-                    <option>1–3 months</option>
-                    <option>3–6 months</option>
-                    <option>6+ months</option>
-                    <option>Not sure</option>
-                  </select>
-                </div>
-
-                <div>
-                  <div className={label}>Budget Range</div>
-                  <select
-                    name="budgetRange"
-                    className={input}
-                    defaultValue="$10–25k"
-                  >
-                    <option>$5–10k</option>
-                    <option>$10–25k</option>
-                    <option>$25–50k</option>
-                    <option>$50–100k</option>
-                    <option>$100k+</option>
-                    <option>Not Sure</option>
-                  </select>
-                </div>
-
-                <div>
-                  <div className={label}>How did you hear about us?</div>
-                  <select
-                    name="heardFrom"
-                    className={input}
-                    defaultValue="Referral"
-                  >
-                    <option>Referral</option>
-                    <option>Google</option>
-                    <option>Facebook / Instagram</option>
-                    <option>Builder / Contractor</option>
-                    <option>Past Client</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Details */}
-              <div className="mt-5">
-                <div className={label}>Project Details</div>
-                <textarea
-                  name="message"
-                  placeholder="Layout info, scope, finishes, timeline, what you need help with..."
-                  rows={5}
-                  className={`w-full ${input}`}
-                />
-              </div>
-
-              <div className="mt-4 flex items-center justify-between">
-                <div className="text-sm">
-                  {ok && (
+            <div className="relative shrink-0 border-t border-white/10 bg-[rgba(8,10,14,0.72)] px-4 py-3 backdrop-blur-xl sm:px-6">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-h-[20px] text-sm">
+                  {ok ? (
                     <span className="text-emerald-400">
                       Thank you — request sent. We’ll be in touch shortly.
                     </span>
+                  ) : err ? (
+                    <span className="text-red-300">{err}</span>
+                  ) : (
+                    <span className="text-white/45">
+                      We’ll review it and follow up.
+                    </span>
                   )}
-                  {!ok && err && <span className="text-red-300">{err}</span>}
                 </div>
 
                 <button
+                  type="submit"
                   disabled={loading}
-                  className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-white/90 disabled:opacity-50"
+                  className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/92 disabled:opacity-50"
                 >
                   {loading ? "Sending…" : "Send Request"}
                 </button>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.16em] text-white/58">
+        {label}
+      </span>
+      {children}
+    </label>
+  );
+}
+
+function SelectField({
+  name,
+  defaultValue,
+  children,
+}: {
+  name: string;
+  defaultValue?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="relative">
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        className="w-full rounded-[16px] border border-white/10 bg-[rgba(255,255,255,0.045)] px-4 py-3 pr-11 text-[15px] text-white outline-none transition focus:border-white/24 focus:bg-[rgba(255,255,255,0.07)]"
+        style={{
+          appearance: "none",
+          WebkitAppearance: "none",
+          MozAppearance: "none",
+        }}
+      >
+        {children}
+      </select>
+
+      <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/55" />
     </div>
   );
 }

@@ -59,8 +59,8 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/icon.png",
-    apple: "/icon.png",
+    icon: [{ url: "/favicon.ico" }, { url: "/icon.png", type: "image/png" }],
+    apple: "/apple-icon.png",
   },
 };
 
@@ -75,7 +75,11 @@ export default function RootLayout({
         <div className="min-h-dvh flex flex-col">
           <MobileMenuFab />
           <main className="flex-1">{children}</main>
-          <Footer />
+
+          {/* Desktop footer only */}
+          <div className="hidden md:block">
+            <Footer />
+          </div>
         </div>
       </body>
     </html>
