@@ -9,9 +9,8 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Header from "../components/Header";
-import QuoteModal from "../components/QuoteModal";
 import ScrollOffsets from "../components/ScrollOffsets";
 
 type GalleryItem = {
@@ -135,18 +134,13 @@ export default function DesignDocumentsClient() {
 }
 
 function DesignDocumentsInner() {
-  const [quoteOpen, setQuoteOpen] = useState(false);
+  const router = useRouter();
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
   const [activeMobileSection, setActiveMobileSection] =
     useState<MobileSectionKey | null>(null);
 
-  const search = useSearchParams();
   const mobileSelectorTopRef = useRef<HTMLDivElement | null>(null);
   const mobileDetailRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (search.get("quote") === "1") setQuoteOpen(true);
-  }, [search]);
 
   useEffect(() => {
     if (!activeItem) return;
@@ -553,7 +547,7 @@ function DesignDocumentsInner() {
   return (
     <div
       id="top"
-      className="relative pb-[calc(var(--bottom-band-height,64px)+110px)] text-white"
+      className="relative pb-[calc(var(--bottom-band-height,64px)+68px)] text-white md:pb-[calc(var(--bottom-band-height,64px)+110px)]"
     >
       <ScrollOffsets />
 
@@ -572,9 +566,9 @@ function DesignDocumentsInner() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.06),transparent_34%)]" />
       </div>
 
-      <Header onQuote={() => setQuoteOpen(true)} />
+      <Header />
 
-      <main className="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 md:pt-18 lg:px-8 lg:pt-20">
+      <main className="mx-auto max-w-7xl px-4 pb-8 pt-12 sm:px-6 md:pb-10 md:pt-18 lg:px-8 lg:pt-20">
         <section className="mx-auto max-w-6xl text-center">
           <p className="text-xs font-semibold tracking-[0.22em] text-white/72">
             CONCEPTS • AS-BUILTS • PERMIT SETS
@@ -584,16 +578,16 @@ function DesignDocumentsInner() {
             Design &amp; Documents
           </h1>
 
-          <p className="mx-auto mt-5 max-w-4xl text-base leading-7 text-white/86 md:text-lg md:leading-8">
+          <p className="mx-auto mt-4 max-w-4xl text-[15px] leading-7 text-white/86 md:mt-5 md:text-lg md:leading-8">
             Concept development, as-builts, layout refinement, and
             permit-focused drawing support for residential and commercial
             projects across Nashville and Middle Tennessee.
           </p>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center md:hidden">
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center md:hidden">
             <button
               type="button"
-              onClick={() => setQuoteOpen(true)}
+              onClick={() => router.push("/quote")}
               className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
             >
               Get a Quote
@@ -609,7 +603,7 @@ function DesignDocumentsInner() {
 
         <section
           id="mobile-design-selector"
-          className="mx-auto mt-10 max-w-6xl md:hidden"
+          className="mx-auto mt-8 max-w-6xl md:hidden"
         >
           {!activeMobileSection ? (
             <div ref={mobileSelectorTopRef}>
@@ -621,7 +615,7 @@ function DesignDocumentsInner() {
                 Tap a section to open details without the long-scroll overload.
               </p>
 
-              <div className="mt-5 grid grid-cols-1 gap-3">
+              <div className="mt-4 grid grid-cols-1 gap-3">
                 <MobileSectionCard
                   label="Overview"
                   title="What this page covers"
@@ -1012,7 +1006,7 @@ function DesignDocumentsInner() {
               <div className="flex flex-wrap gap-3">
                 <button
                   type="button"
-                  onClick={() => setQuoteOpen(true)}
+                  onClick={() => router.push("/quote")}
                   className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black hover:bg-white/90"
                 >
                   Get a Quote
@@ -1099,7 +1093,7 @@ function DesignDocumentsInner() {
                       type="button"
                       onClick={() => {
                         setActiveItem(null);
-                        setQuoteOpen(true);
+                        router.push("/quote");
                       }}
                       className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10"
                     >
@@ -1112,8 +1106,6 @@ function DesignDocumentsInner() {
           </div>
         </div>
       )}
-
-      <QuoteModal open={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </div>
   );
 }

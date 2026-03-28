@@ -19,11 +19,13 @@
 * {
   box-sizing: border-box;
 }
+
 html,
 body {
   margin: 0;
   padding: 0;
 }
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -42,13 +44,13 @@ html {
   scroll-margin-top: calc(var(--header, 96px) - 48px);
 }
 
-/* --- NEW: invisible spacer AFTER every section with .section-anchor --- */
-/* This prevents the next section from peeking into view when you jump */
+/* DESKTOP / DEFAULT spacing stays the same */
 .section-anchor::after {
   content: "";
   display: block;
   height: clamp(180px, 18vh, 280px);
 }
+
 /* EXTRA spacer for About */
 .section-anchor.isolate-md::after {
   height: clamp(140px, 14vh, 220px);
@@ -58,6 +60,7 @@ html {
 .section-anchor.isolate-lg::after {
   height: clamp(160px, 16vh, 260px);
 }
+
 /* NEW: extra-heavy buffer (use for sections that still peek) */
 .section-anchor.isolate-xl::after {
   height: clamp(220px, 22vh, 360px);
@@ -66,4 +69,35 @@ html {
 /* OPTIONAL: if Contact still shows the footer peeking, use this */
 .section-anchor.isolate-xxl::after {
   height: clamp(260px, 26vh, 420px);
+}
+
+/* MOBILE-ONLY tightening */
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: calc(var(--header, 96px) - 8px);
+  }
+
+  .section-anchor {
+    scroll-margin-top: calc(var(--header, 96px) - 36px);
+  }
+
+  .section-anchor::after {
+    height: clamp(64px, 8vh, 110px);
+  }
+
+  .section-anchor.isolate-md::after {
+    height: clamp(72px, 9vh, 120px);
+  }
+
+  .section-anchor.isolate-lg::after {
+    height: clamp(88px, 10vh, 136px);
+  }
+
+  .section-anchor.isolate-xl::after {
+    height: clamp(104px, 12vh, 160px);
+  }
+
+  .section-anchor.isolate-xxl::after {
+    height: clamp(120px, 14vh, 184px);
+  }
 }

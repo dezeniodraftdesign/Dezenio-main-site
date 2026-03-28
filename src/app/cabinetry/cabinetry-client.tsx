@@ -10,7 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import Header from "../components/Header";
 import QuoteModal from "../components/QuoteModal";
@@ -236,6 +236,7 @@ export default function CabinetryClient() {
 }
 
 function CabinetryInner() {
+  const router = useRouter();
   const [quoteOpen, setQuoteOpen] = useState(false);
   const [activeMobileSlug, setActiveMobileSlug] = useState<string | null>(null);
   const search = useSearchParams();
@@ -360,7 +361,7 @@ function CabinetryInner() {
   return (
     <div
       id="top"
-      className="relative pb-[calc(var(--bottom-band-height,64px)+120px)] text-white md:pb-[calc(var(--bottom-band-height,64px)+140px)]"
+      className="relative pb-[calc(var(--bottom-band-height,64px)+72px)] text-white md:pb-[calc(var(--bottom-band-height,64px)+140px)]"
     >
       <ScrollOffsets />
 
@@ -378,9 +379,9 @@ function CabinetryInner() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.05),transparent_38%)]" />
       </div>
 
-      <Header onQuote={() => setQuoteOpen(true)} />
+      <Header />
 
-      <main className="mx-auto max-w-7xl px-4 pb-14 pt-20 sm:px-6 md:pb-16 md:pt-28 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-14 pt-18 sm:px-6 md:pb-16 md:pt-28 lg:px-8">
         <section className="mx-auto max-w-5xl text-center">
           <Eyebrow>Cabinetry division</Eyebrow>
 
@@ -396,7 +397,7 @@ function CabinetryInner() {
 
           <div className="mt-5 flex flex-col gap-2.5 sm:flex-row sm:justify-center md:hidden">
             <button
-              onClick={() => setQuoteOpen(true)}
+              onClick={() => router.push("/quote")}
               className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
             >
               Get a Cabinetry Quote
@@ -493,7 +494,7 @@ function CabinetryInner() {
 
         <section
           id="mobile-brand-selector"
-          className="relative mx-auto mt-10 max-w-6xl pb-[calc(env(safe-area-inset-bottom)+150px)] md:hidden"
+          className="relative mx-auto mt-9 max-w-6xl pb-[calc(env(safe-area-inset-bottom)+84px)] md:hidden"
         >
           {!activeMobileOption ? (
             <div ref={mobileSelectorTopRef}>
@@ -552,8 +553,6 @@ function CabinetryInner() {
               />
             </div>
           )}
-
-          <div className="pointer-events-none absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+76px)] z-[2] h-24 bg-[linear-gradient(to_top,rgba(12,13,17,0.78),rgba(12,13,17,0.36),transparent)]" />
         </section>
 
         <section
@@ -757,7 +756,7 @@ function CabinetryInner() {
 
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row md:mt-7">
               <button
-                onClick={() => setQuoteOpen(true)}
+                onClick={() => router.push("/quote")}
                 className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
               >
                 Get a Cabinetry Quote

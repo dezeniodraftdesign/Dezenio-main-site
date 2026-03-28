@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, useEffect, useState, type CSSProperties } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, type CSSProperties } from "react";
+import { useRouter } from "next/navigation";
 import Header from "../components/Header";
-import QuoteModal from "../components/QuoteModal";
 import ScrollOffsets from "../components/ScrollOffsets";
 
 export default function ServicesPage() {
@@ -17,12 +16,7 @@ export default function ServicesPage() {
 }
 
 function ServicesInner() {
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const search = useSearchParams();
-
-  useEffect(() => {
-    if (search.get("quote") === "1") setQuoteOpen(true);
-  }, [search]);
+  const router = useRouter();
 
   const cards: {
     title: string;
@@ -59,7 +53,7 @@ function ServicesInner() {
   return (
     <div
       id="top"
-      className="relative min-h-screen pb-[calc(var(--bottom-band-height,64px)+160px)] text-white"
+      className="relative min-h-screen pb-[calc(var(--bottom-band-height,64px)+76px)] text-white md:pb-[calc(var(--bottom-band-height,64px)+160px)]"
     >
       <ScrollOffsets />
 
@@ -78,34 +72,50 @@ function ServicesInner() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.07),transparent_40%)]" />
       </div>
 
-      <Header onQuote={() => setQuoteOpen(true)} />
+      <Header />
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <section className="mx-auto max-w-4xl pt-18 text-center md:pt-20">
-          <p className="text-xs font-semibold tracking-[0.22em] text-white/72">
+      <main className="mx-auto max-w-7xl px-4 pt-1 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-4xl pt-16 text-center md:pt-20">
+          <p className="text-[11px] font-semibold tracking-[0.22em] text-white/72 md:text-xs">
             CABINETRY • DESIGN • CONSTRUCTION
           </p>
 
-          <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-6xl">
+          <h1 className="mt-3 text-[2.2rem] font-extrabold tracking-tight leading-[1.02] md:text-6xl">
             Services
           </h1>
 
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-white/84 md:text-lg">
+          <p className="mx-auto mt-4 max-w-3xl text-[15px] leading-7 text-white/84 md:mt-5 md:text-lg">
             Cabinetry-first services supported by concept design, construction
             documents, and remodel coordination across Nashville and Middle
             Tennessee.
           </p>
+
+          <div className="mt-5 flex flex-col gap-3 md:hidden">
+            <button
+              onClick={() => router.push("/quote")}
+              className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
+            >
+              Get a Quote
+            </button>
+
+            <Link
+              href="/cabinetry"
+              className="rounded-full border border-white/22 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/8"
+            >
+              View Cabinetry
+            </Link>
+          </div>
         </section>
 
-        <section className="mx-auto mt-6 max-w-7xl">
-          <div className="mt-4 grid grid-cols-1 gap-8 md:grid-cols-3">
+        <section className="mx-auto mt-7 max-w-7xl md:mt-10">
+          <div className="grid grid-cols-1 gap-4 md:gap-8 md:grid-cols-3">
             {cards.map((c) => (
               <Link
                 key={c.title}
                 href={c.href}
                 className="group overflow-hidden rounded-2xl bg-white/5 text-left ring-1 ring-white/8 backdrop-blur-sm transition hover:bg-white/7 hover:ring-white/14"
               >
-                <div className="relative h-[220px] overflow-hidden">
+                <div className="relative h-[200px] overflow-hidden md:h-[220px]">
                   <Image
                     src={c.image}
                     alt={c.title}
@@ -118,14 +128,14 @@ function ServicesInner() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/24 via-black/8 to-transparent" />
                 </div>
 
-                <div className="flex min-h-[240px] flex-col p-6">
-                  <h3 className="text-[1.08rem] font-semibold leading-snug text-white">
+                <div className="flex min-h-[210px] flex-col p-5 md:min-h-[240px] md:p-6">
+                  <h3 className="text-[1.02rem] font-semibold leading-snug text-white md:text-[1.08rem]">
                     {c.title}
                   </h3>
-                  <p className="mt-4 text-sm leading-7 text-white/80">
+                  <p className="mt-3 text-sm leading-6 text-white/80 md:mt-4 md:leading-7">
                     {c.blurb}
                   </p>
-                  <p className="mt-auto pt-6 text-sm font-semibold text-white/90">
+                  <p className="mt-auto pt-5 text-sm font-semibold text-white/90 md:pt-6">
                     Explore service{" "}
                     <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                       →
@@ -137,28 +147,28 @@ function ServicesInner() {
           </div>
         </section>
 
-        <section className="mx-auto mt-16 max-w-6xl">
-          <div className="rounded-2xl bg-white/5 px-6 py-8 ring-1 ring-white/8 backdrop-blur-sm text-center md:px-8 md:py-10">
+        <section className="mx-auto mt-10 max-w-6xl md:mt-16">
+          <div className="rounded-2xl bg-white/5 px-5 py-7 ring-1 ring-white/8 text-center backdrop-blur-sm md:px-8 md:py-10">
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
               Have a project in mind?
             </h2>
-            <p className="mx-auto mt-5 max-w-3xl leading-relaxed text-white/80 md:text-lg">
+            <p className="mx-auto mt-4 max-w-3xl text-[15px] leading-7 text-white/80 md:mt-5 md:text-lg md:leading-relaxed">
               Whether you are planning cabinetry, concept work, construction
               documents, or a remodel, we can help point you in the right
               direction.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-6 flex flex-col gap-3 md:mt-8 md:flex-row md:flex-wrap md:items-center md:justify-center">
               <button
-                onClick={() => setQuoteOpen(true)}
-                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90"
+                onClick={() => router.push("/quote")}
+                className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90 md:py-2.5"
               >
                 Get a Quote
               </button>
 
               <Link
                 href="/cabinetry"
-                className="rounded-full border border-white/22 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/8"
+                className="rounded-full border border-white/22 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/8 md:py-2.5"
               >
                 View Cabinetry
               </Link>
@@ -166,8 +176,6 @@ function ServicesInner() {
           </div>
         </section>
       </main>
-
-      <QuoteModal open={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </div>
   );
 }

@@ -5,11 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-type HeaderProps = {
-  onQuote?: () => void;
-};
-
-export default function Header({ onQuote }: HeaderProps) {
+export default function Header() {
   const router = useRouter();
 
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -19,10 +15,6 @@ export default function Header({ onQuote }: HeaderProps) {
   const cabinetryRef = useRef<HTMLDivElement | null>(null);
 
   const handleQuote = () => {
-    if (onQuote) {
-      onQuote();
-      return;
-    }
     router.push("/quote");
   };
 

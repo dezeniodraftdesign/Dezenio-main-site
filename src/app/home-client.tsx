@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, type CSSProperties } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ArrowRight, Hammer, House, PencilRuler } from "lucide-react";
+import { type CSSProperties } from "react";
 
 import Header from "./components/Header";
-import QuoteModal from "./components/QuoteModal";
 import ScrollOffsets from "./components/ScrollOffsets";
 
 type ServiceCard = {
@@ -19,12 +18,7 @@ type ServiceCard = {
 };
 
 export default function HomeClient() {
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const search = useSearchParams();
-
-  useEffect(() => {
-    if (search.get("quote") === "1") setQuoteOpen(true);
-  }, [search]);
+  const router = useRouter();
 
   const serviceCards: ServiceCard[] = [
     {
@@ -50,7 +44,7 @@ export default function HomeClient() {
   ];
 
   return (
-    <main id="top" className="relative min-h-screen pb-28 text-white md:pb-24">
+    <main id="top" className="relative min-h-screen pb-20 text-white md:pb-24">
       <ScrollOffsets />
 
       <div className="fixed inset-0 -z-20">
@@ -68,22 +62,22 @@ export default function HomeClient() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.07),transparent_40%)]" />
       </div>
 
-      <Header onQuote={() => setQuoteOpen(true)} />
+      <Header />
 
       {/* MOBILE */}
-      <div className="md:hidden px-5 pt-6 pb-28">
+      <div className="md:hidden px-5 pt-5 pb-16">
         <section className="text-center">
           <p className="text-[11px] font-semibold tracking-[0.22em] text-white/72">
             CABINETRY • DESIGN • CONSTRUCTION
           </p>
 
-          <h1 className="mt-4 text-[2.35rem] font-extrabold leading-[1.04] tracking-tight">
+          <h1 className="mt-4 text-[2.2rem] font-extrabold leading-[1.04] tracking-tight">
             Custom Kitchen Cabinets
             <br />
             &amp; Concept Design in Nashville, TN
           </h1>
 
-          <p className="mt-5 text-[15px] leading-7 text-white/84">
+          <p className="mt-4 text-[15px] leading-7 text-white/84">
             Cabinetry-first execution with design support, as-builts,
             permit-ready construction documents, and remodel coordination.
           </p>
@@ -91,7 +85,7 @@ export default function HomeClient() {
           <div className="mt-6 space-y-3">
             <button
               type="button"
-              onClick={() => setQuoteOpen(true)}
+              onClick={() => router.push("/quote")}
               className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black transition hover:bg-white/90"
             >
               Start a Project
@@ -115,8 +109,7 @@ export default function HomeClient() {
           </div>
         </section>
 
-        {/* CONDENSED MOBILE SERVICE SELECTOR */}
-        <section className="mt-10">
+        <section className="mt-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold tracking-tight">Core Services</h2>
             <p className="mx-auto mt-3 max-w-md text-[15px] leading-7 text-white/80">
@@ -191,8 +184,8 @@ export default function HomeClient() {
           </div>
         </section>
 
-        <section className="mt-10 rounded-[28px] bg-[rgba(20,22,28,0.65)] px-5 py-6 text-center ring-1 ring-white/8 backdrop-blur-md">
-          <h2 className="text-[2rem] font-bold tracking-tight leading-tight">
+        <section className="mt-8 rounded-[28px] bg-[rgba(20,22,28,0.65)] px-5 py-6 text-center ring-1 ring-white/8 backdrop-blur-md">
+          <h2 className="text-[1.85rem] font-bold leading-tight tracking-tight">
             Ready to move your project forward?
           </h2>
           <p className="mt-4 text-[15px] leading-7 text-white/82">
@@ -204,7 +197,7 @@ export default function HomeClient() {
           <div className="mt-6 space-y-3">
             <button
               type="button"
-              onClick={() => setQuoteOpen(true)}
+              onClick={() => router.push("/quote")}
               className="w-full rounded-full bg-white py-3 text-sm font-semibold text-black transition hover:bg-white/90"
             >
               Get a Quote
@@ -377,7 +370,7 @@ export default function HomeClient() {
               <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <button
                   type="button"
-                  onClick={() => setQuoteOpen(true)}
+                  onClick={() => router.push("/quote")}
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/90"
                 >
                   Get a Quote
@@ -401,8 +394,6 @@ export default function HomeClient() {
           </div>
         </section>
       </div>
-
-      <QuoteModal open={quoteOpen} onClose={() => setQuoteOpen(false)} />
     </main>
   );
 }

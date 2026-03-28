@@ -16,6 +16,7 @@ export const metadata: Metadata = {
       "Cabinetry-first execution with design support, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
     url: "https://dezeniodraftdesign.com/",
     siteName: "Dezenio Draft Design",
+    type: "website",
     images: [
       {
         url: "https://dezeniodraftdesign.com/opengraph-image",
@@ -24,7 +25,6 @@ export const metadata: Metadata = {
         alt: "Dezenio Draft Design — Custom Kitchen Cabinets & Concept Design in Nashville, TN",
       },
     ],
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
@@ -37,38 +37,38 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function Page() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "Dezenio Draft Design, Inc.",
-    url: "https://dezeniodraftdesign.com",
-    telephone: "+16154742004",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Nashville",
-      addressRegion: "TN",
-      addressCountry: "US",
-    },
-    areaServed: [
-      "Nashville, TN",
-      "Franklin, TN",
-      "Brentwood, TN",
-      "Nolensville, TN",
-      "Smyrna, TN",
-      "Murfreesboro, TN",
-      "Mount Juliet, TN",
-      "Hendersonville, TN",
-    ],
-    sameAs: [
-      "https://www.facebook.com/dezeniodraftdesign",
-      "https://www.instagram.com/dezeniodraftdesign",
-      "https://www.tiktok.com/@dezenio.draft.design",
-    ],
-    description:
-      "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
-  };
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Dezenio Draft Design, Inc.",
+  url: "https://dezeniodraftdesign.com",
+  telephone: "+16154742004",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Nashville",
+    addressRegion: "TN",
+    addressCountry: "US",
+  },
+  areaServed: [
+    "Nashville, TN",
+    "Franklin, TN",
+    "Brentwood, TN",
+    "Nolensville, TN",
+    "Smyrna, TN",
+    "Murfreesboro, TN",
+    "Mount Juliet, TN",
+    "Hendersonville, TN",
+  ],
+  sameAs: [
+    "https://www.facebook.com/dezeniodraftdesign",
+    "https://www.instagram.com/dezeniodraftdesign",
+    "https://www.tiktok.com/@dezenio.draft.design",
+  ],
+  description:
+    "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
+};
 
+export default function Page() {
   return (
     <>
       <script
