@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import MobileMenuFab from "./components/MobileMenuFab";
 import Footer from "./components/Footer";
@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     default: "Dezenio Draft Design | Cabinetry, Design & Construction Support",
     template: "%s | Dezenio Draft Design",
   },
+
+  applicationName: "Dezenio",
 
   description:
     "Cabinetry-first execution with design support, as-builts, construction documents, and remodel coordination across Nashville and Middle Tennessee.",
@@ -58,10 +60,20 @@ export const metadata: Metadata = {
     google: "zmdRj6GBjh9LspTOjOzH1cWEdYWabjBIKwD-Vfmsnjc",
   },
 
+  appleWebApp: {
+    capable: true,
+    title: "Dezenio",
+    statusBarStyle: "black-translucent",
+  },
+
   icons: {
     icon: [{ url: "/favicon.ico" }, { url: "/icon.png", type: "image/png" }],
-    apple: "/apple-icon.png",
+    apple: [{ url: "/apple-icon.png" }],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -76,7 +88,6 @@ export default function RootLayout({
           <MobileMenuFab />
           <main className="flex-1">{children}</main>
 
-          {/* Desktop footer only */}
           <div className="hidden md:block">
             <Footer />
           </div>
